@@ -8,13 +8,21 @@ import org.dwolf19.jdaextra.commands.UserCommand;
 public class CommandClientBuilder {
 
     protected String prefix;
+    protected boolean useMention = false;
 
     public CommandClient build() {
-        return new CommandClient(prefix);
+        return new CommandClient(prefix, useMention);
     }
 
     public CommandClientBuilder setPrefix(String prefix) {
         this.prefix = prefix;
+
+        return this;
+    }
+
+    public CommandClientBuilder setWhenMentionedOr(String prefix) {
+        this.prefix = prefix;
+        this.useMention = true;
 
         return this;
     }
