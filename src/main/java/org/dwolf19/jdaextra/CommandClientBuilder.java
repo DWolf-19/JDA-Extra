@@ -1,17 +1,26 @@
 package org.dwolf19.jdaextra;
 
-import org.dwolf19.jdaextra.commands.MessageCommand;
-import org.dwolf19.jdaextra.commands.PrefixCommand;
-import org.dwolf19.jdaextra.commands.SlashCommand;
-import org.dwolf19.jdaextra.commands.UserCommand;
+import org.dwolf19.jdaextra.commands.*;
+
+import java.util.Arrays;
+import java.util.LinkedList;
 
 public class CommandClientBuilder {
 
-    protected String prefix;
-    protected boolean useMention = false;
+    private String prefix;
+    private boolean useMention = false;
+
+    private final LinkedList<Command> hybridCommands = new LinkedList<>();
+    private final LinkedList<PrefixCommand> prefixCommands = new LinkedList<>();
+    private final LinkedList<SlashCommand> slashCommands = new LinkedList<>();
 
     public CommandClient build() {
-        return new CommandClient(prefix, useMention);
+        return new CommandClient(
+                prefix,
+                useMention,
+                hybridCommands,
+                prefixCommands,
+                slashCommands);
     }
 
     public CommandClientBuilder setPrefix(String prefix) {
@@ -27,22 +36,30 @@ public class CommandClientBuilder {
         return this;
     }
 
-    public CommandClientBuilder addPrefixCommands(PrefixCommand... command) {
+    public CommandClientBuilder addHybridCommands(Command... commands) {
+        hybridCommands.addAll(Arrays.asList(commands));
+
+        return this;
+    }
+
+    public CommandClientBuilder addPrefixCommands(PrefixCommand... commands) {
+        prefixCommands.addAll(Arrays.asList(commands));
+
+        return this;
+    }
+
+    public CommandClientBuilder addSlashCommands(SlashCommand... commands) {
+        slashCommands.addAll(Arrays.asList(commands));
+
+        return this;
+    }
+
+    public CommandClientBuilder addUserCommands(UserCommand... commands) {
         // TODO: add logic
         return this;
     }
 
-    public CommandClientBuilder addSlashCommands(SlashCommand... command) {
-        // TODO: add logic
-        return this;
-    }
-
-    public CommandClientBuilder addUserCommands(UserCommand... command) {
-        // TODO: add logic
-        return this;
-    }
-
-    public CommandClientBuilder addMessageCommands(MessageCommand... command) {
+    public CommandClientBuilder addMessageCommands(MessageCommand... commands) {
         // TODO: add logic
         return this;
     }
