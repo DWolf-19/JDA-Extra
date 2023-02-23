@@ -1,6 +1,9 @@
 package org.dwolf19.jdaextra;
 
-import org.dwolf19.jdaextra.events.CommandEvent;
+import org.dwolf19.jdaextra.commands.Command;
+import org.dwolf19.jdaextra.commands.PrefixCommand;
+import org.dwolf19.jdaextra.commands.SlashCommand;
+import org.dwolf19.jdaextra.events.SlashCommandEvent;
 
 import net.dv8tion.jda.api.events.GenericEvent;
 import net.dv8tion.jda.api.events.interaction.command.MessageContextInteractionEvent;
@@ -9,18 +12,32 @@ import net.dv8tion.jda.api.events.interaction.command.UserContextInteractionEven
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.EventListener;
 
+import java.util.LinkedList;
 import java.util.Optional;
 
 import org.jetbrains.annotations.NotNull;
 
 public class CommandClient implements EventListener {
 
-    protected String prefix;
-    protected boolean useMention;
+    private final String prefix;
+    private final boolean useMention;
 
-    CommandClient(String prefix, boolean useMention) {
+    private final LinkedList<Command> hybridCommands;
+    private final LinkedList<PrefixCommand> prefixCommands;
+    private final LinkedList<SlashCommand> slashCommands;
+
+    CommandClient(String prefix,
+                  boolean useMention,
+                  LinkedList<Command> hybridCommands,
+                  LinkedList<PrefixCommand> prefixCommands,
+                  LinkedList<SlashCommand> slashCommands) {
         this.prefix = prefix;
         this.useMention = useMention;
+
+        // Bind commands
+        this.hybridCommands = hybridCommands;
+        this.prefixCommands = prefixCommands;
+        this.slashCommands = slashCommands;
     }
 
     @Override
@@ -91,13 +108,15 @@ public class CommandClient implements EventListener {
     }
 
     private void onSlashCommandInteractionEvent(SlashCommandInteractionEvent event) {
-
+        // TODO: add logic
     }
 
     private void onUserContextInteractionEvent(UserContextInteractionEvent event) {
+        // TODO: add logic
     }
 
     private void onMessageContextInteractionEvent(MessageContextInteractionEvent event) {
+        // TODO: add logic
     }
 
 }
