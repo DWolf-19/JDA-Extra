@@ -1,21 +1,23 @@
 package org.dwolf19.jdaextra;
 
-import org.dwolf19.jdaextra.commands.Command;
-import org.dwolf19.jdaextra.commands.PrefixCommand;
-import org.dwolf19.jdaextra.commands.SlashCommand;
-import org.dwolf19.jdaextra.events.SlashCommandEvent;
-
+import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.events.GenericEvent;
 import net.dv8tion.jda.api.events.interaction.command.MessageContextInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.command.UserContextInteractionEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.api.events.session.ReadyEvent;
 import net.dv8tion.jda.api.hooks.EventListener;
+
+import org.dwolf19.jdaextra.commands.Command;
+import org.dwolf19.jdaextra.commands.PrefixCommand;
+import org.dwolf19.jdaextra.commands.SlashCommand;
+import org.dwolf19.jdaextra.events.SlashCommandEvent;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.LinkedList;
 import java.util.Optional;
-
-import org.jetbrains.annotations.NotNull;
 
 public class CommandClient implements EventListener {
 
@@ -42,7 +44,10 @@ public class CommandClient implements EventListener {
 
     @Override
     public void onEvent(@NotNull GenericEvent event) {
-        if (event instanceof MessageReceivedEvent)
+        if (event instanceof ReadyEvent)
+            onReadyEvent((ReadyEvent)event);
+
+        else if (event instanceof MessageReceivedEvent)
             onMessageReceivedEvent((MessageReceivedEvent)event);
 
         else if (event instanceof SlashCommandInteractionEvent)
@@ -53,6 +58,15 @@ public class CommandClient implements EventListener {
 
         else if (event instanceof MessageContextInteractionEvent)
             onMessageContextInteractionEvent((MessageContextInteractionEvent)event);
+    }
+
+    private void onReadyEvent(ReadyEvent event) {
+        // TODO: add logging of the start of the wrapper
+        bindInteractionsToJDA(event.getJDA());
+    }
+
+    private void bindInteractionsToJDA(JDA jda) {
+        // TODO: write logic
     }
 
     private void onMessageReceivedEvent(MessageReceivedEvent event) {
@@ -108,6 +122,7 @@ public class CommandClient implements EventListener {
     }
 
     private void onSlashCommandInteractionEvent(SlashCommandInteractionEvent event) {
+        final SlashCommandEvent commandEvent = new SlashCommandEvent(event);
         // TODO: add logic
     }
 
