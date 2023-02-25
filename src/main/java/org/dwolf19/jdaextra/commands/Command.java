@@ -25,6 +25,4 @@ public abstract class Command extends Interaction {
         return nsfwOnly;
     }
 
-    protected abstract void logic();
-
 }
