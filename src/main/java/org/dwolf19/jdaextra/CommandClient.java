@@ -9,14 +9,14 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.events.session.ReadyEvent;
 import net.dv8tion.jda.api.hooks.EventListener;
 
-import org.dwolf19.jdaextra.commands.Command;
+import org.dwolf19.jdaextra.commands.HybridCommand;
 import org.dwolf19.jdaextra.commands.PrefixCommand;
 import org.dwolf19.jdaextra.commands.SlashCommand;
 import org.dwolf19.jdaextra.events.SlashCommandEvent;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.LinkedList;
+import java.util.List;
 import java.util.Optional;
 
 public class CommandClient implements EventListener {
@@ -24,15 +24,15 @@ public class CommandClient implements EventListener {
     private final String prefix;
     private final boolean useMention;
 
-    private final LinkedList<Command> hybridCommands;
-    private final LinkedList<PrefixCommand> prefixCommands;
-    private final LinkedList<SlashCommand> slashCommands;
+    private final List<HybridCommand> hybridCommands;
+    private final List<PrefixCommand> prefixCommands;
+    private final List<SlashCommand> slashCommands;
 
     CommandClient(String prefix,
                   boolean useMention,
-                  LinkedList<Command> hybridCommands,
-                  LinkedList<PrefixCommand> prefixCommands,
-                  LinkedList<SlashCommand> slashCommands) {
+                  List<HybridCommand> hybridCommands,
+                  List<PrefixCommand> prefixCommands,
+                  List<SlashCommand> slashCommands) {
         this.prefix = prefix;
         this.useMention = useMention;
 
@@ -40,6 +40,26 @@ public class CommandClient implements EventListener {
         this.hybridCommands = hybridCommands;
         this.prefixCommands = prefixCommands;
         this.slashCommands = slashCommands;
+    }
+
+    public String getPrefix() {
+        return prefix;
+    }
+
+    public boolean isUseMention() {
+        return useMention;
+    }
+
+    public List<HybridCommand> getHybridCommands() {
+        return hybridCommands;
+    }
+
+    public List<SlashCommand> getSlashCommands() {
+        return slashCommands;
+    }
+
+    public List<PrefixCommand> getPrefixCommands() {
+        return prefixCommands;
     }
 
     @Override
@@ -122,7 +142,7 @@ public class CommandClient implements EventListener {
     }
 
     private void onSlashCommandInteractionEvent(SlashCommandInteractionEvent event) {
-        final SlashCommandEvent commandEvent = new SlashCommandEvent(event);
+        final SlashCommandEvent commandEvent = new SlashCommandEvent(event, this);
         // TODO: add logic
     }
 
