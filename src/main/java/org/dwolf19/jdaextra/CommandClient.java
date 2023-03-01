@@ -15,6 +15,7 @@ import org.dwolf19.jdaextra.commands.SlashCommand;
 import org.dwolf19.jdaextra.events.SlashCommandEvent;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.Optional;
@@ -28,20 +29,20 @@ public class CommandClient implements EventListener {
     private final List<PrefixCommand> prefixCommands;
     private final List<SlashCommand> slashCommands;
 
-    CommandClient(String prefix,
+    CommandClient(@NotNull String prefix,
                   boolean useMention,
-                  List<HybridCommand> hybridCommands,
-                  List<PrefixCommand> prefixCommands,
-                  List<SlashCommand> slashCommands) {
+                  @NotNull List<HybridCommand> hybridCommands,
+                  @NotNull List<PrefixCommand> prefixCommands,
+                  @NotNull List<SlashCommand> slashCommands) {
         this.prefix = prefix;
         this.useMention = useMention;
 
-        // Bind commands
         this.hybridCommands = hybridCommands;
         this.prefixCommands = prefixCommands;
         this.slashCommands = slashCommands;
     }
 
+    @NotNull
     public String getPrefix() {
         return prefix;
     }
@@ -50,14 +51,17 @@ public class CommandClient implements EventListener {
         return useMention;
     }
 
+    @NotNull
     public List<HybridCommand> getHybridCommands() {
         return hybridCommands;
     }
 
+    @NotNull
     public List<SlashCommand> getSlashCommands() {
         return slashCommands;
     }
 
+    @NotNull
     public List<PrefixCommand> getPrefixCommands() {
         return prefixCommands;
     }
@@ -80,16 +84,16 @@ public class CommandClient implements EventListener {
             onMessageContextInteractionEvent((MessageContextInteractionEvent)event);
     }
 
-    private void onReadyEvent(ReadyEvent event) {
+    private void onReadyEvent(@NotNull ReadyEvent event) {
         // TODO: add logging of the start of the wrapper
         bindInteractionsToJDA(event.getJDA());
     }
 
-    private void bindInteractionsToJDA(JDA jda) {
+    private void bindInteractionsToJDA(@NotNull JDA jda) {
         // TODO: write logic
     }
 
-    private void onMessageReceivedEvent(MessageReceivedEvent event) {
+    private void onMessageReceivedEvent(@NotNull MessageReceivedEvent event) {
         Optional<PrefixCommandStructure> command = Optional.ofNullable(parseMessage(event));
 
         // If the message is not a command
@@ -97,13 +101,14 @@ public class CommandClient implements EventListener {
             return;
     }
 
-    private PrefixCommandStructure parseMessage(MessageReceivedEvent event) {
+    @Nullable
+    private PrefixCommandStructure parseMessage(@NotNull MessageReceivedEvent event) {
         String rawContent = event.getMessage().getContentRaw();
         PrefixCommandStructure command = new PrefixCommandStructure();
 
-        command.setPrefix(prefix);
-
         if (rawContent.startsWith(prefix)) {
+            command.setPrefix(prefix);
+
             for (int symbol = prefix.length(); symbol < rawContent.length(); symbol++)
                 if (Character.isWhitespace(rawContent.charAt(symbol))) {
                     command.setName(rawContent.substring(prefix.length(), symbol));
@@ -116,33 +121,39 @@ public class CommandClient implements EventListener {
     }
 
     private static class PrefixCommandStructure {
-        String prefix;
-        String name;
 
-        PrefixCommandStructure setPrefix(String prefix) {
+        private String prefix;
+        private String name;
+
+        @NotNull
+        public PrefixCommandStructure setPrefix(@NotNull String prefix) {
             this.prefix = prefix;
 
             return this;
         }
 
-        String getPrefix() {
-            return this.prefix;
+        @NotNull
+        public String getPrefix() {
+            return prefix;
         }
 
-        PrefixCommandStructure setName(String name) {
+        @NotNull
+        public PrefixCommandStructure setName(@NotNull String name) {
             this.name = name;
 
             return this;
         }
 
-        String getName() {
-            return this.name;
+        @NotNull
+        public String getName() {
+            return name;
         }
 
     }
 
     private void onSlashCommandInteractionEvent(SlashCommandInteractionEvent event) {
         final SlashCommandEvent commandEvent = new SlashCommandEvent(event, this);
+
         // TODO: add logic
     }
 
