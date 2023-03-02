@@ -17,7 +17,7 @@ import org.dwolf19.jdaextra.events.SlashCommandEvent;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.List;
+import java.util.HashMap;
 import java.util.Optional;
 
 public class CommandClient implements EventListener {
@@ -25,15 +25,15 @@ public class CommandClient implements EventListener {
     private final String prefix;
     private final boolean useMention;
 
-    private final List<HybridCommand> hybridCommands;
-    private final List<PrefixCommand> prefixCommands;
-    private final List<SlashCommand> slashCommands;
+    private final HashMap<String, HybridCommand> hybridCommands;
+    private final HashMap<String, PrefixCommand> prefixCommands;
+    private final HashMap<String, SlashCommand> slashCommands;
 
     CommandClient(@NotNull String prefix,
                   boolean useMention,
-                  @NotNull List<HybridCommand> hybridCommands,
-                  @NotNull List<PrefixCommand> prefixCommands,
-                  @NotNull List<SlashCommand> slashCommands) {
+                  @NotNull HashMap<String, HybridCommand> hybridCommands,
+                  @NotNull HashMap<String, PrefixCommand> prefixCommands,
+                  @NotNull HashMap<String, SlashCommand> slashCommands) {
         this.prefix = prefix;
         this.useMention = useMention;
 
@@ -52,17 +52,17 @@ public class CommandClient implements EventListener {
     }
 
     @NotNull
-    public List<HybridCommand> getHybridCommands() {
+    public HashMap<String, HybridCommand> getHybridCommands() {
         return hybridCommands;
     }
 
     @NotNull
-    public List<SlashCommand> getSlashCommands() {
+    public HashMap<String, SlashCommand> getSlashCommands() {
         return slashCommands;
     }
 
     @NotNull
-    public List<PrefixCommand> getPrefixCommands() {
+    public HashMap<String, PrefixCommand> getPrefixCommands() {
         return prefixCommands;
     }
 

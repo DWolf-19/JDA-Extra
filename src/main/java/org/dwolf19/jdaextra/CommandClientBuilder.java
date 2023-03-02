@@ -3,16 +3,16 @@ package org.dwolf19.jdaextra;
 import org.dwolf19.jdaextra.commands.*;
 
 import java.util.Arrays;
-import java.util.LinkedList;
+import java.util.HashMap;
 
 public class CommandClientBuilder {
 
     private String prefix;
     private boolean useMention = false;
 
-    private final LinkedList<Command> hybridCommands = new LinkedList<>();
-    private final LinkedList<PrefixCommand> prefixCommands = new LinkedList<>();
-    private final LinkedList<SlashCommand> slashCommands = new LinkedList<>();
+    private final HashMap<String, HybridCommand> hybridCommands = new HashMap<>();
+    private final HashMap<String, PrefixCommand> prefixCommands = new HashMap<>();
+    private final HashMap<String, SlashCommand> slashCommands = new HashMap<>();
 
     public CommandClient build() {
         return new CommandClient(
