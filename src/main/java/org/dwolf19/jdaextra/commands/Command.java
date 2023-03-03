@@ -9,19 +9,19 @@ public abstract class Command extends Interaction {
     protected String[] aliases;
     protected boolean nsfwOnly = false;
 
-    protected String getName() {
+    public String getName() {
         return name;
     }
 
-    protected String getDescription() {
+    public String getDescription() {
         return description;
     }
 
-    protected String[] getAliases() {
+    public String[] getAliases() {
         return aliases;
     }
 
-    protected boolean isNsfwOnly() {
+    public boolean isNsfwOnly() {
         return nsfwOnly;
     }
 
