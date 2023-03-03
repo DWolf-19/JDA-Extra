@@ -154,7 +154,13 @@ public class CommandClient implements EventListener {
     private void onSlashCommandInteractionEvent(SlashCommandInteractionEvent event) {
         final SlashCommandEvent commandEvent = new SlashCommandEvent(event, this);
 
-        // TODO: add logic
+        parseSlashCommand(event.getFullCommandName()).logic(commandEvent);
+    }
+
+    @NotNull
+    private SlashCommand parseSlashCommand(String fullName) {
+        // TODO: Add support for subcommands/groups
+        return getSlashCommands().get(fullName);
     }
 
     private void onUserContextInteractionEvent(UserContextInteractionEvent event) {
