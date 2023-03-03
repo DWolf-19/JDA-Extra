@@ -2,7 +2,6 @@ package org.dwolf19.jdaextra;
 
 import org.dwolf19.jdaextra.commands.*;
 
-import java.util.Arrays;
 import java.util.HashMap;
 
 public class CommandClientBuilder {
@@ -36,20 +35,23 @@ public class CommandClientBuilder {
         return this;
     }
 
-    public CommandClientBuilder addHybridCommands(Command... commands) {
-        hybridCommands.addAll(Arrays.asList(commands));
+    public CommandClientBuilder addHybridCommands(HybridCommand... commands) {
+        for (HybridCommand command : commands)
+            hybridCommands.put(command.getName(), command);
 
         return this;
     }
 
     public CommandClientBuilder addPrefixCommands(PrefixCommand... commands) {
-        prefixCommands.addAll(Arrays.asList(commands));
+        for (PrefixCommand command : commands)
+            prefixCommands.put(command.getName(), command);
 
         return this;
     }
 
     public CommandClientBuilder addSlashCommands(SlashCommand... commands) {
-        slashCommands.addAll(Arrays.asList(commands));
+        for (SlashCommand command : commands)
+            slashCommands.put(command.getName(), command);
 
         return this;
     }
