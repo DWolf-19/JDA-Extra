@@ -163,12 +163,4 @@ public class CommandClient implements EventListener {
         return getSlashCommands().get(fullName);
     }
 
-    private void onUserContextInteractionEvent(UserContextInteractionEvent event) {
-        // TODO: add logic
-    }
-
-    private void onMessageContextInteractionEvent(MessageContextInteractionEvent event) {
-        // TODO: add logic
-    }
-
 }

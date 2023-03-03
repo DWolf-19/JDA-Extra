@@ -56,14 +56,4 @@ public class CommandClientBuilder {
         return this;
     }
 
-    public CommandClientBuilder addUserCommands(UserCommand... commands) {
-        // TODO: add logic
-        return this;
-    }
-
-    public CommandClientBuilder addMessageCommands(MessageCommand... commands) {
-        // TODO: add logic
-        return this;
-    }
-
 }
