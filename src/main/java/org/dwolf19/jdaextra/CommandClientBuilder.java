@@ -2,6 +2,8 @@ package org.dwolf19.jdaextra;
 
 import org.dwolf19.jdaextra.commands.*;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.HashMap;
 
 public class CommandClientBuilder {
@@ -22,34 +24,39 @@ public class CommandClientBuilder {
                 slashCommands);
     }
 
-    public CommandClientBuilder setPrefix(String prefix) {
+    @NotNull
+    public CommandClientBuilder setPrefix(@NotNull String prefix) {
         this.prefix = prefix;
 
         return this;
     }
 
-    public CommandClientBuilder setWhenMentionedOr(String prefix) {
+    @NotNull
+    public CommandClientBuilder setWhenMentionedOr(@NotNull String prefix) {
         this.prefix = prefix;
         this.useMention = true;
 
         return this;
     }
 
-    public CommandClientBuilder addHybridCommands(HybridCommand... commands) {
+    @NotNull
+    public CommandClientBuilder addHybridCommands(@NotNull HybridCommand... commands) {
         for (HybridCommand command : commands)
             hybridCommands.put(command.getName(), command);
 
         return this;
     }
 
-    public CommandClientBuilder addPrefixCommands(PrefixCommand... commands) {
+    @NotNull
+    public CommandClientBuilder addPrefixCommands(@NotNull PrefixCommand... commands) {
         for (PrefixCommand command : commands)
             prefixCommands.put(command.getName(), command);
 
         return this;
     }
 
-    public CommandClientBuilder addSlashCommands(SlashCommand... commands) {
+    @NotNull
+    public CommandClientBuilder addSlashCommands(@NotNull SlashCommand... commands) {
         for (SlashCommand command : commands)
             slashCommands.put(command.getName(), command);
 
