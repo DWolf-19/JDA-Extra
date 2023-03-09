@@ -10,5 +10,5 @@ repositories {
 }
 
 dependencies {
-    implementation("net.dv8tion:JDA:5.0.0-beta.4")
+    implementation("net.dv8tion:JDA:5.0.0-beta.5")
 }
