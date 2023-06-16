@@ -1,0 +1,6 @@
+# Gradle Cache
+/.gradle/
+# Gradle Build Output
+/build/
+# IDE Settings
+/.idea/
