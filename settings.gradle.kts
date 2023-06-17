@@ -3,3 +3,5 @@ plugins {
 }
 
 rootProject.name = "JDA-Extra"
+
+include("examples")
