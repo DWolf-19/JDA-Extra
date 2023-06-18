@@ -12,13 +12,13 @@ public class CommandClient implements EventListener {
     @Override
     public void onEvent(@NotNull GenericEvent event) {
         if (event instanceof ReadyEvent)
-            onReadyEvent((ReadyEvent)event);
+            onReadyEvent((ReadyEvent) event);
 
         else if (event instanceof MessageReceivedEvent)
-            onMessageReceivedEvent((MessageReceivedEvent)event);
+            onMessageReceivedEvent((MessageReceivedEvent) event);
 
         else if (event instanceof SlashCommandInteractionEvent)
-            onSlashCommandInteractionEvent((SlashCommandInteractionEvent)event);
+            onSlashCommandInteractionEvent((SlashCommandInteractionEvent) event);
     }
 
     private void onReadyEvent(@NotNull ReadyEvent event) {
