@@ -6,7 +6,7 @@ import org.dwolf19.jdaextra.CommandClient;
 
 import org.jetbrains.annotations.NotNull;
 
-public class HybridCommandEvent {
+public class HybridCommandEvent implements CommandEvent {
     private final GenericEvent event;
     private final CommandClient client;
 

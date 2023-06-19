@@ -6,7 +6,7 @@ import org.dwolf19.jdaextra.CommandClient;
 
 import org.jetbrains.annotations.NotNull;
 
-public class SlashCommandEvent extends SlashCommandInteractionEvent {
+public class SlashCommandEvent extends SlashCommandInteractionEvent implements CommandEvent {
     private final CommandClient client;
 
     public SlashCommandEvent(@NotNull SlashCommandInteractionEvent event, @NotNull CommandClient client) {
