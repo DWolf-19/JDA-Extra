@@ -6,7 +6,7 @@ import org.dwolf19.jdaextra.CommandClient;
 
 import org.jetbrains.annotations.NotNull;
 
-public class PrefixCommandEvent extends MessageReceivedEvent {
+public class PrefixCommandEvent extends MessageReceivedEvent implements CommandEvent {
     private final CommandClient client;
 
     public PrefixCommandEvent(@NotNull MessageReceivedEvent event, @NotNull CommandClient client) {
