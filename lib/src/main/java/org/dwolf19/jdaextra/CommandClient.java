@@ -4,6 +4,8 @@ import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEve
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.events.session.ReadyEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
+import net.dv8tion.jda.api.interactions.commands.build.Commands;
+import net.dv8tion.jda.api.interactions.commands.build.SlashCommandData;
 
 import org.dwolf19.jdaextra.commands.HybridCommand;
 import org.dwolf19.jdaextra.commands.PrefixCommand;
@@ -11,6 +13,7 @@ import org.dwolf19.jdaextra.commands.SlashCommand;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class CommandClient extends ListenerAdapter {
@@ -36,7 +39,21 @@ public class CommandClient extends ListenerAdapter {
 
     @Override
     public void onReady(@NotNull ReadyEvent event) {
-        // TODO: add logic
+        ArrayList<SlashCommandData> data = new ArrayList<>();
+
+        for (HybridCommand command : hybridCommands.values())
+            data.add(Commands.slash(command.getName(), command.getDescription())
+                    .setDefaultPermissions(command.getDefaultMemberPermissions())
+                    .setGuildOnly(command.isGuildOnly())
+                    .setNSFW(command.isNsfw()));
+
+        for (SlashCommand command : slashCommands.values())
+            data.add(Commands.slash(command.getName(), command.getDescription())
+                    .setDefaultPermissions(command.getDefaultMemberPermissions())
+                    .setGuildOnly(command.isGuildOnly())
+                    .setNSFW(command.isNsfw()));
+
+        event.getJDA().updateCommands().addCommands(data).queue();
     }
 
     @Override
