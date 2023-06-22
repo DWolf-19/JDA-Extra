@@ -24,4 +24,15 @@ public class HybridCommandEvent implements CommandEvent {
     public CommandClient getClient() {
         return client;
     }
+
+    @NotNull
+    public String getName() {
+        if (event instanceof SlashCommandEvent)
+            return ((SlashCommandEvent) event).getName();
+
+//        else if (event instanceof PrefixCommandEvent)
+//            return ((PrefixCommandEvent) event).getName();
+
+        throw new RuntimeException();
+    }
 }
