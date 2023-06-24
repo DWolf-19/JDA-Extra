@@ -1,3 +1,7 @@
 plugins {
-    java
+    application
+}
+
+application {
+    mainClass.set("org.dwolf19.examplebot.ExampleBot")
 }
