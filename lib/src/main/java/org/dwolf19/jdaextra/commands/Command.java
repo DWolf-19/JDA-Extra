@@ -25,7 +25,7 @@ public abstract class Command {
         return guildOnly;
     }
 
-    public boolean isNsfw() {
+    public boolean isNSFW() {
         return nsfw;
     }
 
