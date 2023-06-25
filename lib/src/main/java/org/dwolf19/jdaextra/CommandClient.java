@@ -37,6 +37,30 @@ public class CommandClient extends ListenerAdapter {
         this.slashCommands = slashCommands;
     }
 
+    @NotNull
+    public String getPrefix() {
+        return prefix;
+    }
+
+    public boolean isWhenMention() {
+        return whenMention;
+    }
+
+    @NotNull
+    public HashMap<String, HybridCommand> getHybridCommands() {
+        return hybridCommands;
+    }
+
+    @NotNull
+    public HashMap<String, PrefixCommand> getPrefixCommands() {
+        return prefixCommands;
+    }
+
+    @NotNull
+    public HashMap<String, SlashCommand> getSlashCommands() {
+        return slashCommands;
+    }
+
     @Override
     public void onReady(@NotNull ReadyEvent event) {
         ArrayList<SlashCommandData> data = new ArrayList<>();
