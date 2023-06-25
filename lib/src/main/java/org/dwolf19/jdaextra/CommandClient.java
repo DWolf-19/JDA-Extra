@@ -45,13 +45,13 @@ public class CommandClient extends ListenerAdapter {
             data.add(Commands.slash(command.getName(), command.getDescription())
                     .setDefaultPermissions(command.getDefaultMemberPermissions())
                     .setGuildOnly(command.isGuildOnly())
-                    .setNSFW(command.isNsfw()));
+                    .setNSFW(command.isNSFW()));
 
         for (SlashCommand command : slashCommands.values())
             data.add(Commands.slash(command.getName(), command.getDescription())
                     .setDefaultPermissions(command.getDefaultMemberPermissions())
                     .setGuildOnly(command.isGuildOnly())
-                    .setNSFW(command.isNsfw()));
+                    .setNSFW(command.isNSFW()));
 
         event.getJDA().updateCommands().addCommands(data).queue();
     }
