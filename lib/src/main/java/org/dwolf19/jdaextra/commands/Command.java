@@ -28,6 +28,4 @@ public abstract class Command {
     public boolean isNSFW() {
         return nsfw;
     }
-
-    public abstract void executeLogic();
 }
