@@ -1,2 +1,2 @@
 # JDA-Extra
-Modern and evolving framework for commands and components under JDA.
+A modern and evolving commands & components framework for JDA. Inspired by JDA-Utilities.
