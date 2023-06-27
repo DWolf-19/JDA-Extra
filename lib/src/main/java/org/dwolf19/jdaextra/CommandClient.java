@@ -10,6 +10,9 @@ import net.dv8tion.jda.api.interactions.commands.build.SlashCommandData;
 import org.dwolf19.jdaextra.commands.HybridCommand;
 import org.dwolf19.jdaextra.commands.PrefixCommand;
 import org.dwolf19.jdaextra.commands.SlashCommand;
+import org.dwolf19.jdaextra.events.PrefixCommandEvent;
+import org.dwolf19.jdaextra.models.PrefixCommandModel;
+import org.dwolf19.jdaextra.parsers.PrefixCommandParser;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -82,7 +85,16 @@ public class CommandClient extends ListenerAdapter {
 
     @Override
     public void onMessageReceived(@NotNull MessageReceivedEvent event) {
-        // TODO: add logic
+        PrefixCommandModel model = new PrefixCommandParser(event, this).buildModel();
+
+        if (model == null) {
+            return;  // It's just a message
+        }
+
+        PrefixCommand command = prefixCommands.get(model.getName());
+
+        // WARNING: null if the command not found
+        command.executePrefixLogic(new PrefixCommandEvent(event, this));  // Done
     }
 
     @Override
