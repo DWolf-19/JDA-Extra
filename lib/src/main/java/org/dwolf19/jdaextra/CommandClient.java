@@ -72,12 +72,14 @@ public class CommandClient extends ListenerAdapter {
 
         for (HybridCommand command : hybridCommands.values())
             data.add(Commands.slash(command.getName(), command.getDescription())
+                    .addOptions(command.getOptions().build())
                     .setDefaultPermissions(command.getDefaultMemberPermissions())
                     .setGuildOnly(command.isGuildOnly())
                     .setNSFW(command.isNSFW()));
 
         for (SlashCommand command : slashCommands.values())
             data.add(Commands.slash(command.getName(), command.getDescription())
+                    .addOptions(command.getOptions().build())
                     .setDefaultPermissions(command.getDefaultMemberPermissions())
                     .setGuildOnly(command.isGuildOnly())
                     .setNSFW(command.isNSFW()));
