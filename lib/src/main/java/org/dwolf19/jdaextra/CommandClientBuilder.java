@@ -62,6 +62,7 @@ public class CommandClientBuilder {
                 whenMention,
                 hybridCommands,
                 prefixCommands,
-                slashCommands);
+                slashCommands
+        );
     }
 }
