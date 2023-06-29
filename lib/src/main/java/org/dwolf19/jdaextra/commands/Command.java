@@ -5,6 +5,7 @@ import net.dv8tion.jda.api.interactions.commands.DefaultMemberPermissions;
 public abstract class Command {
     protected String name;
     protected String description;
+    protected Options options;
     protected DefaultMemberPermissions defaultMemberPermissions;
     protected boolean guildOnly;
     protected boolean nsfw;
@@ -15,6 +16,10 @@ public abstract class Command {
 
     public String getDescription() {
         return description;
+    }
+
+    public Options getOptions() {
+        return options;
     }
 
     public DefaultMemberPermissions getDefaultMemberPermissions() {
