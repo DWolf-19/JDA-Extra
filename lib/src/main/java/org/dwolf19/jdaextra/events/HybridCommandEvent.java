@@ -2,17 +2,17 @@ package org.dwolf19.jdaextra.events;
 
 import net.dv8tion.jda.api.events.GenericEvent;
 
-import org.dwolf19.jdaextra.CommandClient;
+import org.dwolf19.jdaextra.JDAExtra;
 
 import org.jetbrains.annotations.NotNull;
 
 public class HybridCommandEvent implements CommandEvent {
     private final GenericEvent event;
-    private final CommandClient client;
+    private final JDAExtra jdaExtra;
 
-    public HybridCommandEvent(@NotNull GenericEvent event, @NotNull CommandClient client) {
+    public HybridCommandEvent(@NotNull GenericEvent event, @NotNull JDAExtra jdaExtra) {
         this.event = event;
-        this.client = client;
+        this.jdaExtra = jdaExtra;
     }
 
     @NotNull
@@ -21,8 +21,8 @@ public class HybridCommandEvent implements CommandEvent {
     }
 
     @NotNull
-    public CommandClient getClient() {
-        return client;
+    public JDAExtra getJDAExtra() {
+        return jdaExtra;
     }
 
     @NotNull

@@ -1,7 +1,7 @@
 package org.dwolf19.jdaextra.events;
 
-import org.dwolf19.jdaextra.CommandClient;
+import org.dwolf19.jdaextra.JDAExtra;
 
 public interface CommandEvent {
-    CommandClient getClient();
+    JDAExtra getJDAExtra();
 }
