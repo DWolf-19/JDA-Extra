@@ -2,7 +2,7 @@ package org.dwolf19.jdaextra.parsers;
 
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
-import org.dwolf19.jdaextra.CommandClient;
+import org.dwolf19.jdaextra.JDAExtra;
 import org.dwolf19.jdaextra.models.PrefixCommandModel;
 
 import org.jetbrains.annotations.NotNull;
@@ -13,17 +13,17 @@ import java.util.Arrays;
 import java.util.Collections;
 
 public class PrefixCommandParser {
-    private final CommandClient client;
+    private final JDAExtra jdaExtra;
     private final MessageReceivedEvent event;
 
-    public PrefixCommandParser(@NotNull MessageReceivedEvent event, @NotNull CommandClient client) {
+    public PrefixCommandParser(@NotNull MessageReceivedEvent event, @NotNull JDAExtra jdaExtra) {
         this.event = event;
-        this.client = client;
+        this.jdaExtra = jdaExtra;
     }
 
     @NotNull
-    public CommandClient getClient() {
-        return client;
+    public JDAExtra getJDAExtra() {
+        return jdaExtra;
     }
 
     @NotNull
@@ -36,7 +36,7 @@ public class PrefixCommandParser {
         PrefixCommandModel model = new PrefixCommandModel();
         String content = event.getMessage().getContentRaw();
 
-        final String prefix = client.getPrefix();
+        final String prefix = jdaExtra.getPrefix();
 
         if (content.startsWith(prefix)) {
             model.setPrefix(prefix);

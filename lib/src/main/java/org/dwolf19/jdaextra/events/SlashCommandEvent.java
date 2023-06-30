@@ -2,21 +2,21 @@ package org.dwolf19.jdaextra.events;
 
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 
-import org.dwolf19.jdaextra.CommandClient;
+import org.dwolf19.jdaextra.JDAExtra;
 
 import org.jetbrains.annotations.NotNull;
 
 public class SlashCommandEvent extends SlashCommandInteractionEvent implements CommandEvent {
-    private final CommandClient client;
+    private final JDAExtra jdaExtra;
 
-    public SlashCommandEvent(@NotNull SlashCommandInteractionEvent event, @NotNull CommandClient client) {
+    public SlashCommandEvent(@NotNull SlashCommandInteractionEvent event, @NotNull JDAExtra jdaExtra) {
         super(event.getJDA(), event.getResponseNumber(), event.getInteraction());
 
-        this.client = client;
+        this.jdaExtra = jdaExtra;
     }
 
     @NotNull
-    public CommandClient getClient() {
-        return client;
+    public JDAExtra getJDAExtra() {
+        return jdaExtra;
     }
 }

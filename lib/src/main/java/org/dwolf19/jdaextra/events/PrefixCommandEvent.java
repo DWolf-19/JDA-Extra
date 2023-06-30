@@ -2,21 +2,21 @@ package org.dwolf19.jdaextra.events;
 
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
-import org.dwolf19.jdaextra.CommandClient;
+import org.dwolf19.jdaextra.JDAExtra;
 
 import org.jetbrains.annotations.NotNull;
 
 public class PrefixCommandEvent extends MessageReceivedEvent implements CommandEvent {
-    private final CommandClient client;
+    private final JDAExtra jdaExtra;
 
-    public PrefixCommandEvent(@NotNull MessageReceivedEvent event, @NotNull CommandClient client) {
+    public PrefixCommandEvent(@NotNull MessageReceivedEvent event, @NotNull JDAExtra jdaExtra) {
         super(event.getJDA(), event.getResponseNumber(), event.getMessage());
 
-        this.client = client;
+        this.jdaExtra = jdaExtra;
     }
 
     @NotNull
-    public CommandClient getClient() {
-        return client;
+    public JDAExtra getJDAExtra() {
+        return jdaExtra;
     }
 }
