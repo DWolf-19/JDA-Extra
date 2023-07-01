@@ -8,7 +8,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 
-public class CommandClientBuilder {
+public class JDAExtraBuilder {
     private String prefix;
     private boolean whenMention = false;
 
@@ -17,14 +17,14 @@ public class CommandClientBuilder {
     private final HashMap<String, SlashCommand> slashCommands = new HashMap<>();
 
     @NotNull
-    public CommandClientBuilder setPrefix(@NotNull String prefix) {
+    public JDAExtraBuilder setPrefix(@NotNull String prefix) {
         this.prefix = prefix;
 
         return this;
     }
 
     @NotNull
-    public CommandClientBuilder setWhenMentionOr(@NotNull String prefix) {
+    public JDAExtraBuilder setWhenMentionOr(@NotNull String prefix) {
         this.prefix = prefix;
         whenMention = true;
 
@@ -32,7 +32,7 @@ public class CommandClientBuilder {
     }
 
     @NotNull
-    public CommandClientBuilder addHybridCommands(@NotNull HybridCommand... commands) {
+    public JDAExtraBuilder addHybridCommands(@NotNull HybridCommand... commands) {
         for (HybridCommand command : commands)
             hybridCommands.put(command.getName(), command);
 
@@ -40,7 +40,7 @@ public class CommandClientBuilder {
     }
 
     @NotNull
-    public CommandClientBuilder addPrefixCommands(@NotNull PrefixCommand... commands) {
+    public JDAExtraBuilder addPrefixCommands(@NotNull PrefixCommand... commands) {
         for (PrefixCommand command : commands)
             prefixCommands.put(command.getName(), command);
 
@@ -48,7 +48,7 @@ public class CommandClientBuilder {
     }
 
     @NotNull
-    public CommandClientBuilder addSlashCommands(@NotNull SlashCommand... commands) {
+    public JDAExtraBuilder addSlashCommands(@NotNull SlashCommand... commands) {
         for (SlashCommand command : commands)
             slashCommands.put(command.getName(), command);
 
@@ -56,8 +56,8 @@ public class CommandClientBuilder {
     }
 
     @NotNull
-    public CommandClient build() {
-        return new CommandClient(
+    public JDAExtra build() {
+        return new JDAExtra(
                 prefix,
                 whenMention,
                 hybridCommands,
