@@ -19,7 +19,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class CommandClient extends ListenerAdapter {
+public class JDAExtra extends ListenerAdapter {
     private final String prefix;
     private final boolean whenMention;
 
@@ -27,7 +27,7 @@ public class CommandClient extends ListenerAdapter {
     private final HashMap<String, PrefixCommand> prefixCommands;
     private final HashMap<String, SlashCommand> slashCommands;
 
-    public CommandClient(
+    public JDAExtra(
             @NotNull String prefix,
             boolean whenMention,
             @NotNull HashMap<String, HybridCommand> hybridCommands,
