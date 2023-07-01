@@ -37,11 +37,16 @@ public class PrefixCommandParser {
         String content = event.getMessage().getContentRaw();
 
         final String prefix = jdaExtra.getPrefix();
+        final String mention = event.getJDA().getSelfUser().getAsMention();
 
-        if (content.startsWith(prefix)) {
-            model.setPrefix(prefix);
+        final boolean whenMention = jdaExtra.isWhenMention();
 
-            String[] parts = content.substring(prefix.length()).split(" ");
+        if (content.startsWith(prefix) || (whenMention && content.startsWith(mention))) {
+            final String trigger = content.startsWith(prefix) ? prefix : mention + " ";
+
+            model.setPrefix(trigger);
+
+            String[] parts = content.substring(trigger.length()).split(" ");
 
             model.setName(parts[0]);
 
