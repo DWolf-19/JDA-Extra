@@ -1,2 +1,3 @@
+* linguist-detectable
 *.bat text eol=crlf
 /gradlew text eol=lf
