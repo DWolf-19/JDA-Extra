@@ -62,7 +62,6 @@ public class JDAExtraBuilder {
                 whenMention,
                 hybridCommands,
                 prefixCommands,
-                slashCommands
-        );
+                slashCommands);
     }
 }
