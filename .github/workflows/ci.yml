@@ -3,9 +3,9 @@ name: CI
 on:
   pull_request:
     branches:
-      - bug/*
-      - enhancement/*
-      - dependabot/*
+      - bug/**
+      - enhancement/**
+      - dependabot/**
     types: 
       - opened
       - reopened
