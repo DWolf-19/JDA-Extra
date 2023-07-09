@@ -11,6 +11,7 @@ import org.dwolf19.jdaextra.commands.HybridCommand;
 import org.dwolf19.jdaextra.commands.PrefixCommand;
 import org.dwolf19.jdaextra.commands.SlashCommand;
 import org.dwolf19.jdaextra.events.PrefixCommandEvent;
+import org.dwolf19.jdaextra.exceptions.CommandNotFoundException;
 import org.dwolf19.jdaextra.models.PrefixCommandModel;
 import org.dwolf19.jdaextra.parsers.PrefixCommandParser;
 
@@ -97,7 +98,10 @@ public class JDAExtra extends ListenerAdapter {
 
         PrefixCommand command = prefixCommands.get(model.getName());
 
-        // WARNING: null if the command not found
+        if (command == null) {
+            throw new CommandNotFoundException(model.getName());
+        }
+
         command.executePrefixLogic(new PrefixCommandEvent(event, this));  // Done
     }
 
