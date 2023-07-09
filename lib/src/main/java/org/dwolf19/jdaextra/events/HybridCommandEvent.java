@@ -3,6 +3,7 @@ package org.dwolf19.jdaextra.events;
 import net.dv8tion.jda.api.events.GenericEvent;
 
 import org.dwolf19.jdaextra.JDAExtra;
+import org.dwolf19.jdaextra.exceptions.InvalidHybridEventException;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -33,6 +34,6 @@ public class HybridCommandEvent implements CommandEvent {
 //        else if (event instanceof PrefixCommandEvent)
 //            return ((PrefixCommandEvent) event).getName();
 
-        throw new RuntimeException();
+        throw new InvalidHybridEventException();
     }
 }
