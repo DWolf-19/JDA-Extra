@@ -28,13 +28,11 @@ public class JDAExtra extends ListenerAdapter {
     private final HashMap<String, PrefixCommand> prefixCommands;
     private final HashMap<String, SlashCommand> slashCommands;
 
-    public JDAExtra(
-            @NotNull String prefix,
-            boolean whenMention,
-            @NotNull HashMap<String, HybridCommand> hybridCommands,
-            @NotNull HashMap<String, PrefixCommand> prefixCommands,
-            @NotNull HashMap<String, SlashCommand> slashCommands
-    ) {
+    public JDAExtra(@NotNull String prefix,
+                    boolean whenMention,
+                    @NotNull HashMap<String, HybridCommand> hybridCommands,
+                    @NotNull HashMap<String, PrefixCommand> prefixCommands,
+                    @NotNull HashMap<String, SlashCommand> slashCommands) {
         this.prefix = prefix;
         this.whenMention = whenMention;
 
