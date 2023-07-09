@@ -2,13 +2,12 @@ name: CI
 
 on:
   pull_request:
-    branches:
-      - bug/**
-      - enhancement/**
-      - dependabot/**
-    types: 
+    types:
       - opened
       - reopened
+    paths:
+      - "**.java"
+      - "**.kts"
 
 jobs:
   build:
