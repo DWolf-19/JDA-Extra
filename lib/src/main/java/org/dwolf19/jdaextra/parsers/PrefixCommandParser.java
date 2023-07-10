@@ -3,7 +3,7 @@ package org.dwolf19.jdaextra.parsers;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 import org.dwolf19.jdaextra.JDAExtra;
-import org.dwolf19.jdaextra.models.PrefixCommandModel;
+import org.dwolf19.jdaextra.entities.PrefixCommandEntity;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -32,8 +32,8 @@ public class PrefixCommandParser {
     }
 
     @Nullable
-    public PrefixCommandModel buildModel() {
-        PrefixCommandModel model = new PrefixCommandModel();
+    public PrefixCommandEntity buildEntity() {
+        PrefixCommandEntity model = new PrefixCommandEntity();
         String content = event.getMessage().getContentRaw();
 
         final String prefix = jdaExtra.getPrefix();
