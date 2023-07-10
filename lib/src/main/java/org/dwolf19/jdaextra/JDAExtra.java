@@ -12,7 +12,7 @@ import org.dwolf19.jdaextra.commands.PrefixCommand;
 import org.dwolf19.jdaextra.commands.SlashCommand;
 import org.dwolf19.jdaextra.events.PrefixCommandEvent;
 import org.dwolf19.jdaextra.exceptions.CommandNotFoundException;
-import org.dwolf19.jdaextra.models.PrefixCommandModel;
+import org.dwolf19.jdaextra.entities.PrefixCommandEntity;
 import org.dwolf19.jdaextra.parsers.PrefixCommandParser;
 
 import org.jetbrains.annotations.NotNull;
@@ -88,16 +88,16 @@ public class JDAExtra extends ListenerAdapter {
 
     @Override
     public void onMessageReceived(@NotNull MessageReceivedEvent event) {
-        PrefixCommandModel model = new PrefixCommandParser(event, this).buildModel();
+        PrefixCommandEntity entity = new PrefixCommandParser(event, this).buildEntity();
 
-        if (model == null) {
+        if (entity == null) {
             return;  // It's just a message
         }
 
-        PrefixCommand command = prefixCommands.get(model.getName());
+        PrefixCommand command = prefixCommands.get(entity.getName());
 
         if (command == null) {
-            throw new CommandNotFoundException(model.getName());
+            throw new CommandNotFoundException(entity.getName());
         }
 
         command.executePrefixLogic(new PrefixCommandEvent(event, this));  // Done

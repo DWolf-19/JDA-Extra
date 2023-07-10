@@ -1,10 +1,10 @@
-package org.dwolf19.jdaextra.models;
+package org.dwolf19.jdaextra.entities;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
-public class PrefixCommandModel {
+public class PrefixCommandEntity {
     private String prefix;
     private String name;
     private ArrayList<String> args;
