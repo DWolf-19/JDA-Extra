@@ -22,6 +22,25 @@ public class PrefixCommandBuilder implements CommandBuilder {
     public PrefixCommandModel buildModel() {
         PrefixCommandModel model = new PrefixCommandModel();
 
+        model.setCommand(command);
+
+        for (Method method : command.getClass().getDeclaredMethods()) {
+            if (method.isAnnotationPresent(ExtraMainCommand.class)) {
+                model.setMain(method);
+
+                if (command.getClass().isAnnotationPresent(ExtraCommand.class)) {
+                    ExtraCommand classAnnotation = command.getClass().getAnnotation(ExtraCommand.class);
+
+                    if (classAnnotation.name().isEmpty())
+                        model.setName(method.getName());
+                    else
+                        model.setName(classAnnotation.name());
+                }
+
+                break;
+            }
+        }
+
         return model;
     }
 }
