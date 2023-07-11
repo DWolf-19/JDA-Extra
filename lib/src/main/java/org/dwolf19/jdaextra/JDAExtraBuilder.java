@@ -6,15 +6,16 @@ import org.dwolf19.jdaextra.commands.SlashCommand;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class JDAExtraBuilder {
     private String prefix;
     private boolean whenMention = false;
 
-    private final HashMap<String, HybridCommand> hybridCommands = new HashMap<>();
-    private final HashMap<String, PrefixCommand> prefixCommands = new HashMap<>();
-    private final HashMap<String, SlashCommand> slashCommands = new HashMap<>();
+    private final ArrayList<HybridCommand> hybridCommands = new ArrayList<>();
+    private final ArrayList<PrefixCommand> prefixCommands = new ArrayList<>();
+    private final ArrayList<SlashCommand> slashCommands = new ArrayList<>();
 
     @NotNull
     public JDAExtraBuilder setPrefix(@NotNull String prefix) {
@@ -33,24 +34,21 @@ public class JDAExtraBuilder {
 
     @NotNull
     public JDAExtraBuilder addHybridCommands(@NotNull HybridCommand... commands) {
-        for (HybridCommand command : commands)
-            hybridCommands.put(command.getName(), command);
+        hybridCommands.addAll(Arrays.asList(commands));
 
         return this;
     }
 
     @NotNull
     public JDAExtraBuilder addPrefixCommands(@NotNull PrefixCommand... commands) {
-        for (PrefixCommand command : commands)
-            prefixCommands.put(command.getName(), command);
+        prefixCommands.addAll(Arrays.asList(commands));
 
         return this;
     }
 
     @NotNull
     public JDAExtraBuilder addSlashCommands(@NotNull SlashCommand... commands) {
-        for (SlashCommand command : commands)
-            slashCommands.put(command.getName(), command);
+        slashCommands.addAll(Arrays.asList(commands));
 
         return this;
     }

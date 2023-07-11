@@ -7,15 +7,23 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.interactions.commands.build.Commands;
 import net.dv8tion.jda.api.interactions.commands.build.SlashCommandData;
 
+import org.dwolf19.jdaextra.builders.HybridCommandBuilder;
+import org.dwolf19.jdaextra.builders.PrefixCommandBuilder;
+import org.dwolf19.jdaextra.builders.SlashCommandBuilder;
 import org.dwolf19.jdaextra.commands.HybridCommand;
 import org.dwolf19.jdaextra.commands.PrefixCommand;
 import org.dwolf19.jdaextra.commands.SlashCommand;
 import org.dwolf19.jdaextra.events.PrefixCommandEvent;
 import org.dwolf19.jdaextra.exceptions.CommandNotFoundException;
 import org.dwolf19.jdaextra.entities.PrefixCommandEntity;
+import org.dwolf19.jdaextra.models.HybridCommandModel;
+import org.dwolf19.jdaextra.models.PrefixCommandModel;
+import org.dwolf19.jdaextra.models.SlashCommandModel;
 import org.dwolf19.jdaextra.parsers.PrefixCommandParser;
 
 import org.jetbrains.annotations.NotNull;
+
+import java.lang.reflect.InvocationTargetException;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,21 +32,42 @@ public class JDAExtra extends ListenerAdapter {
     private final String prefix;
     private final boolean whenMention;
 
-    private final HashMap<String, HybridCommand> hybridCommands;
-    private final HashMap<String, PrefixCommand> prefixCommands;
-    private final HashMap<String, SlashCommand> slashCommands;
+    private final HashMap<String, HybridCommandModel> hybridCommandsModels;
+    private final HashMap<String, PrefixCommandModel> prefixCommandsModels;
+    private final HashMap<String, SlashCommandModel> slashCommandsModels;
 
     public JDAExtra(@NotNull String prefix,
                     boolean whenMention,
-                    @NotNull HashMap<String, HybridCommand> hybridCommands,
-                    @NotNull HashMap<String, PrefixCommand> prefixCommands,
-                    @NotNull HashMap<String, SlashCommand> slashCommands) {
+                    @NotNull ArrayList<HybridCommand> hybridCommands,
+                    @NotNull ArrayList<PrefixCommand> prefixCommands,
+                    @NotNull ArrayList<SlashCommand> slashCommands) {
         this.prefix = prefix;
         this.whenMention = whenMention;
 
-        this.hybridCommands = hybridCommands;
-        this.prefixCommands = prefixCommands;
-        this.slashCommands = slashCommands;
+        HashMap<String, HybridCommandModel> hybridCommandModels = new HashMap<>();
+
+        for (HybridCommand hybridCommand : hybridCommands) {
+            HybridCommandModel hybridModel = new HybridCommandBuilder(hybridCommand).buildModel();
+            hybridCommandModels.put(hybridModel.getName(), hybridModel);
+        }
+
+        HashMap<String, PrefixCommandModel> prefixCommandModels = new HashMap<>();
+
+        for (PrefixCommand prefixCommand : prefixCommands) {
+            PrefixCommandModel prefixModel = new PrefixCommandBuilder(prefixCommand).buildModel();
+            prefixCommandModels.put(prefixModel.getName(), prefixModel);
+        }
+
+        HashMap<String, SlashCommandModel> slashCommandModels = new HashMap<>();
+
+        for (SlashCommand slashCommand : slashCommands) {
+            SlashCommandModel slashModel = new SlashCommandBuilder(slashCommand).buildModel();
+            slashCommandModels.put(slashModel.getName(), slashModel);
+        }
+
+        this.hybridCommandsModels = hybridCommandModels;
+        this.prefixCommandsModels = prefixCommandModels;
+        this.slashCommandsModels = slashCommandModels;
     }
 
     @NotNull
@@ -51,35 +80,35 @@ public class JDAExtra extends ListenerAdapter {
     }
 
     @NotNull
-    public HashMap<String, HybridCommand> getHybridCommands() {
-        return hybridCommands;
+    public HashMap<String, HybridCommandModel> getHybridCommandsModels() {
+        return hybridCommandsModels;
     }
 
     @NotNull
-    public HashMap<String, PrefixCommand> getPrefixCommands() {
-        return prefixCommands;
+    public HashMap<String, PrefixCommandModel> getPrefixCommandsModels() {
+        return prefixCommandsModels;
     }
 
     @NotNull
-    public HashMap<String, SlashCommand> getSlashCommands() {
-        return slashCommands;
+    public HashMap<String, SlashCommandModel> getSlashCommandsModels() {
+        return slashCommandsModels;
     }
 
     @Override
     public void onReady(@NotNull ReadyEvent event) {
         ArrayList<SlashCommandData> data = new ArrayList<>();
 
-        for (HybridCommand command : hybridCommands.values())
+        for (HybridCommandModel command : hybridCommandsModels.values())
             data.add(Commands.slash(command.getName(), command.getDescription())
-                    .addOptions(command.getOptions().build())
-                    .setDefaultPermissions(command.getDefaultMemberPermissions())
+                    .addOptions(command.getOptions())
+//                    .setDefaultPermissions(command.getDefaultMemberPermissions())
                     .setGuildOnly(command.isGuildOnly())
                     .setNSFW(command.isNSFW()));
 
-        for (SlashCommand command : slashCommands.values())
+        for (SlashCommandModel command : slashCommandsModels.values())
             data.add(Commands.slash(command.getName(), command.getDescription())
-                    .addOptions(command.getOptions().build())
-                    .setDefaultPermissions(command.getDefaultMemberPermissions())
+                    .addOptions(command.getOptions())
+//                    .setDefaultPermissions(command.getDefaultMemberPermissions())
                     .setGuildOnly(command.isGuildOnly())
                     .setNSFW(command.isNSFW()));
 
@@ -94,13 +123,17 @@ public class JDAExtra extends ListenerAdapter {
             return;  // It's just a message
         }
 
-        PrefixCommand command = prefixCommands.get(entity.getName());
+        PrefixCommandModel model = prefixCommandsModels.get(entity.getName());
 
-        if (command == null) {
+        if (model == null) {
             throw new CommandNotFoundException(entity.getName());
         }
 
-        command.executePrefixLogic(new PrefixCommandEvent(event, this));  // Done
+        try {
+            model.getMain().invoke(model.getCommand(), new PrefixCommandEvent(event, this));  // Done
+        } catch (IllegalAccessException | InvocationTargetException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
