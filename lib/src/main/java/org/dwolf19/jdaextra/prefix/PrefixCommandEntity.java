@@ -1,4 +1,4 @@
-package org.dwolf19.jdaextra.entities;
+package org.dwolf19.jdaextra.prefix;
 
 import org.jetbrains.annotations.NotNull;
 

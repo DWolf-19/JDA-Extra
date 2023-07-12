@@ -1,9 +1,8 @@
-package org.dwolf19.jdaextra.parsers;
+package org.dwolf19.jdaextra.prefix;
 
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 import org.dwolf19.jdaextra.JDAExtra;
-import org.dwolf19.jdaextra.entities.PrefixCommandEntity;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -33,7 +32,7 @@ public class PrefixCommandParser {
 
     @Nullable
     public PrefixCommandEntity buildEntity() {
-        PrefixCommandEntity model = new PrefixCommandEntity();
+        PrefixCommandEntity entity = new PrefixCommandEntity();
         String content = event.getMessage().getContentRaw();
 
         final String prefix = jdaExtra.getPrefix();
@@ -44,19 +43,19 @@ public class PrefixCommandParser {
         if (content.startsWith(prefix) || (whenMention && content.startsWith(mention))) {
             final String trigger = content.startsWith(prefix) ? prefix : mention + " ";
 
-            model.setPrefix(trigger);
+            entity.setPrefix(trigger);
 
             String[] parts = content.substring(trigger.length()).split(" ");
 
-            model.setName(parts[0]);
+            entity.setName(parts[0]);
 
             final ArrayList<String> args = new ArrayList<>();
             Collections.addAll(args, Arrays.copyOfRange(parts, 1, parts.length));
 
-            model.setArgs(args);
+            entity.setArgs(args);
         } else
             return null;
 
-        return model;
+        return entity;
     }
 }
