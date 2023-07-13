@@ -117,22 +117,28 @@ public class JDAExtra extends ListenerAdapter {
 
     @Override
     public void onMessageReceived(@NotNull MessageReceivedEvent event) {
-        PrefixCommandEntity entity = new PrefixCommandParser(event, this).buildEntity();
+        PrefixCommandParser parser = new PrefixCommandParser(event, this, prefixCommandsModels);
 
-        if (entity == null) {
-            return;  // It's just a message
-        }
+        parser.build();  // BEFORE calling other methods
 
-        PrefixCommandModel model = prefixCommandsModels.get(entity.getName());
+        PrefixCommandEvent prefixEvent = parser.getParsedEvent();
 
-        if (model == null) {
-            throw new CommandNotFoundException(entity.getName());
-        }
+        if (prefixEvent == null) {
+            return; /* TODO: replace with
+            if (parser.getCommandName() != null)
+                 onHybridCommand(parser.getCommandName(), event);
+            // else: It's just a message
+            */
+        } else {
+            PrefixCommandModel prefixModel = parser.getModel();
 
-        try {
-            model.getMain().invoke(model.getCommand(), new PrefixCommandEvent(event, this));  // Done
-        } catch (IllegalAccessException | InvocationTargetException e) {
-            throw new RuntimeException(e);
+            try {
+                // Done
+                prefixModel.getMain().invoke(prefixModel.getCommand(), prefixEvent);
+
+            } catch (IllegalAccessException | InvocationTargetException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 
