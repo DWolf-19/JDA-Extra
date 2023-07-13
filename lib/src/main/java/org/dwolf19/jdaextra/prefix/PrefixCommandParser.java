@@ -64,11 +64,11 @@ public class PrefixCommandParser {
 
             String[] parts = content.substring(trigger.length()).split(" ");
 
-            PrefixCommandModel model = commandsModels.get(parts[0]);
+            commandName = parts[0];
+
+            PrefixCommandModel model = commandsModels.get(commandName);
 
             if (model == null) {
-                commandName = parts[0];
-
                 return;
             }
 
@@ -77,7 +77,7 @@ public class PrefixCommandParser {
 //
 //            entity.setArgs(args);
 
-            parsedEvent = new PrefixCommandEvent(event, jdaExtra, trigger, parts[0], model.getDescription());
+            parsedEvent = new PrefixCommandEvent(event, jdaExtra, trigger, commandName, model.getDescription());
         }
     }
 }
