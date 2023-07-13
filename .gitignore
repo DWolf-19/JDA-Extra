@@ -1,3 +1,6 @@
-/.gradle/
+# IDE
 /.idea/
+
+# Gradle
+/.gradle/
 build/
