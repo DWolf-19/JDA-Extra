@@ -15,7 +15,6 @@ import org.dwolf19.jdaextra.commands.PrefixCommand;
 import org.dwolf19.jdaextra.commands.SlashCommand;
 import org.dwolf19.jdaextra.events.PrefixCommandEvent;
 import org.dwolf19.jdaextra.exceptions.CommandNotFoundException;
-import org.dwolf19.jdaextra.prefix.PrefixCommandEntity;
 import org.dwolf19.jdaextra.models.HybridCommandModel;
 import org.dwolf19.jdaextra.models.PrefixCommandModel;
 import org.dwolf19.jdaextra.models.SlashCommandModel;
