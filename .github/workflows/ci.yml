@@ -1,6 +1,12 @@
 name: CI
 
 on:
+  push:
+    branches:
+      - "main"
+    paths:
+      - "**.java"
+      - "**.kts"
   pull_request:
     types:
       - opened
