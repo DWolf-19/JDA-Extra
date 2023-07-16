@@ -1,4 +1,4 @@
-package org.dwolf19.jdaextra.annotations.commands;
+package org.dwolf19.jdaextra.annotations;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
