@@ -1,7 +1,7 @@
 package org.dwolf19.jdaextra.builders;
 
-import org.dwolf19.jdaextra.annotations.commands.ExtraCommand;
-import org.dwolf19.jdaextra.annotations.commands.ExtraMainCommand;
+import org.dwolf19.jdaextra.annotations.ExtraPrefixCommand;
+import org.dwolf19.jdaextra.annotations.ExtraMainCommand;
 import org.dwolf19.jdaextra.commands.PrefixCommand;
 import org.dwolf19.jdaextra.models.PrefixCommandModel;
 
@@ -28,8 +28,8 @@ public class PrefixCommandBuilder implements CommandBuilder {
             if (method.isAnnotationPresent(ExtraMainCommand.class)) {
                 model.setMain(method);
 
-                if (command.getClass().isAnnotationPresent(ExtraCommand.class)) {
-                    ExtraCommand classAnnotation = command.getClass().getAnnotation(ExtraCommand.class);
+                if (command.getClass().isAnnotationPresent(ExtraPrefixCommand.class)) {
+                    ExtraPrefixCommand classAnnotation = command.getClass().getAnnotation(ExtraPrefixCommand.class);
 
                     if (classAnnotation.name().isEmpty())
                         model.setName(method.getName());
