@@ -1,17 +1,19 @@
 package org.dwolf19.jdaextra.models;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class PrefixCommandModel extends CommandModel {
-    private String prefix;
+    private String description;
 
-    @NotNull
-    public String getPrefix() {
-        return prefix;
+    @Nullable
+    public String getDescription() {
+        return description;
     }
 
-    public PrefixCommandModel setPrefix(@NotNull String prefix) {
-        this.prefix = prefix;
+    @NotNull
+    public PrefixCommandModel setDescription(@Nullable String description) {
+        this.description = description;
 
         return this;
     }

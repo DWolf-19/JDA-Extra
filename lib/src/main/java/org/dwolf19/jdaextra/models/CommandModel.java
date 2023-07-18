@@ -1,20 +1,16 @@
 package org.dwolf19.jdaextra.models;
 
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
-
 import org.dwolf19.jdaextra.commands.Command;
-
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Method;
-
 import java.util.ArrayList;
 
 public abstract class CommandModel {
     private Command command;
     private Method main;
     private String name;
-    private String description;
     private ArrayList<OptionData> options;
     private boolean guildOnly;
     private boolean nsfw;
@@ -32,11 +28,6 @@ public abstract class CommandModel {
     @NotNull
     public String getName() {
         return name;
-    }
-
-    @NotNull
-    public String getDescription() {
-        return description;
     }
 
     @NotNull
@@ -68,12 +59,6 @@ public abstract class CommandModel {
 
     public CommandModel setName(@NotNull String name) {
         this.name = name;
-
-        return this;
-    }
-
-    public CommandModel setDescription(@NotNull String description) {
-        this.description = description;
 
         return this;
     }
