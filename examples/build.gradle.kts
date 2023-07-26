@@ -3,7 +3,7 @@ plugins {
 }
 
 application {
-    mainClass.set("org.dwolf19.examplebot.ExampleBot")
+    mainClass.set("com.dwolfnineteen.examplebot.ExampleBot")
 }
 
 repositories {
