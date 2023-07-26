@@ -1,6 +1,6 @@
 ---
 name: Bug report
-about: Create bug report for developer
+about: Create a bug report
 title: ''
 labels: 'category: bug'
 assignees: ''
