@@ -27,11 +27,15 @@ import com.dwolfnineteen.jdaextra.builders.SlashCommandBuilder;
 import com.dwolfnineteen.jdaextra.commands.HybridCommand;
 import com.dwolfnineteen.jdaextra.commands.PrefixCommand;
 import com.dwolfnineteen.jdaextra.commands.SlashCommand;
+import com.dwolfnineteen.jdaextra.events.HybridCommandEvent;
 import com.dwolfnineteen.jdaextra.events.PrefixCommandEvent;
+import com.dwolfnineteen.jdaextra.events.SlashCommandEvent;
+import com.dwolfnineteen.jdaextra.exceptions.CommandNotFoundException;
 import com.dwolfnineteen.jdaextra.models.HybridCommandModel;
 import com.dwolfnineteen.jdaextra.models.PrefixCommandModel;
 import com.dwolfnineteen.jdaextra.models.SlashCommandModel;
 import com.dwolfnineteen.jdaextra.prefix.PrefixCommandParser;
+import net.dv8tion.jda.api.events.GenericEvent;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.events.session.ReadyEvent;
@@ -131,6 +135,20 @@ public class JDAExtra extends ListenerAdapter {
         event.getJDA().updateCommands().addCommands(data).queue();
     }
 
+    public void onHybridCommand(@NotNull String commandName, @NotNull GenericEvent event) {
+        HybridCommandModel hybridModel = hybridCommandsModels.get(commandName);
+
+        if (hybridModel == null)
+            throw new CommandNotFoundException(commandName);
+
+        try {
+            // Done
+            hybridModel.getMain().invoke(hybridModel.getCommand(), new HybridCommandEvent(event, this));
+        } catch (IllegalAccessException | InvocationTargetException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     @Override
     public void onMessageReceived(@NotNull MessageReceivedEvent event) {
         PrefixCommandParser parser = new PrefixCommandParser(event, this, prefixCommandsModels);
@@ -140,18 +158,15 @@ public class JDAExtra extends ListenerAdapter {
         PrefixCommandEvent prefixEvent = parser.getParsedEvent();
 
         if (prefixEvent == null) {
-            return; /* TODO: replace with
             if (parser.getCommandName() != null)
                  onHybridCommand(parser.getCommandName(), event);
             // else: It's just a message
-            */
         } else {
             PrefixCommandModel prefixModel = parser.getModel();
 
             try {
                 // Done
                 prefixModel.getMain().invoke(prefixModel.getCommand(), prefixEvent);
-
             } catch (IllegalAccessException | InvocationTargetException e) {
                 throw new RuntimeException(e);
             }
