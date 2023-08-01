@@ -175,6 +175,17 @@ public class JDAExtra extends ListenerAdapter {
 
     @Override
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
-        // TODO: add logic
+        SlashCommandModel slashModel = slashCommandsModels.get(event.getName());
+
+        if (slashModel == null) {
+            onHybridCommand(event.getName(), event);
+        } else {
+            try {
+                // Done
+                slashModel.getMain().invoke(slashModel.getCommand(), new SlashCommandEvent(event, this));
+            } catch (IllegalAccessException | InvocationTargetException e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
 }
