@@ -21,7 +21,6 @@ SOFTWARE.
 */
 package com.dwolfnineteen.jdaextra.builders;
 
-import com.dwolfnineteen.jdaextra.annotations.ExtraMainCommand;
 import com.dwolfnineteen.jdaextra.annotations.ExtraSlashCommand;
 import com.dwolfnineteen.jdaextra.commands.Command;
 import com.dwolfnineteen.jdaextra.commands.SlashCommand;
@@ -30,7 +29,6 @@ import com.dwolfnineteen.jdaextra.models.SlashCommandModel;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.lang.reflect.Method;
 
 public class SlashCommandBuilder extends CommandBuilder {
     public SlashCommandBuilder(@NotNull SlashCommand command) {
@@ -44,14 +42,9 @@ public class SlashCommandBuilder extends CommandBuilder {
         Class<? extends Command> commandClass = command.getClass();
 
         model.setCommand(command);
+        model.setMain(buildMain());
 
-        for (Method method : command.getClass().getDeclaredMethods()) {
-            if (method.isAnnotationPresent(ExtraMainCommand.class)) {
-                model.setMain(method);
 
-                break;
-            }
-        }
 
         if (commandClass.isAnnotationPresent(ExtraSlashCommand.class)) {
             ExtraSlashCommand classAnnotation = commandClass.getAnnotation(ExtraSlashCommand.class);

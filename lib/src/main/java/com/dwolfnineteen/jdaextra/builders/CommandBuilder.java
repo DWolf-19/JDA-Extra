@@ -21,12 +21,24 @@ SOFTWARE.
 */
 package com.dwolfnineteen.jdaextra.builders;
 
+import com.dwolfnineteen.jdaextra.annotations.ExtraMainCommand;
 import com.dwolfnineteen.jdaextra.commands.Command;
 import com.dwolfnineteen.jdaextra.models.CommandModel;
+import org.jetbrains.annotations.Nullable;
+
+import java.lang.reflect.Method;
 
 public abstract class CommandBuilder {
     protected Command command;
 
-    // TODO: remove duplicate code
     public abstract CommandModel buildModel();
+
+    @Nullable
+    protected Method buildMain() {
+        for (Method method : command.getClass().getDeclaredMethods())
+            if (method.isAnnotationPresent(ExtraMainCommand.class))
+                return method;
+
+        return null;
+    }
 }
