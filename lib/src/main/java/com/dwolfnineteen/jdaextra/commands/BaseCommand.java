@@ -21,5 +21,5 @@ SOFTWARE.
 */
 package com.dwolfnineteen.jdaextra.commands;
 
-public abstract class Command {
+public abstract class BaseCommand {
 }
