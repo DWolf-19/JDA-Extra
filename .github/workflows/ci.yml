@@ -8,7 +8,7 @@ on:
       - synchronize
     paths:
       - "**.java"
-      - "**.kts"
+      - "**gradle**"
 
 jobs:
   build:
