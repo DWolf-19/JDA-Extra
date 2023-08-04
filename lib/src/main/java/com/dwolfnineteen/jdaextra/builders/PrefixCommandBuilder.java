@@ -22,8 +22,8 @@ SOFTWARE.
 package com.dwolfnineteen.jdaextra.builders;
 
 import com.dwolfnineteen.jdaextra.annotations.ExtraPrefixCommand;
+import com.dwolfnineteen.jdaextra.commands.BaseCommand;
 import com.dwolfnineteen.jdaextra.commands.PrefixCommand;
-import com.dwolfnineteen.jdaextra.commands.Command;
 import com.dwolfnineteen.jdaextra.exceptions.CommandAnnotationNotFoundException;
 import com.dwolfnineteen.jdaextra.models.PrefixCommandModel;
 import org.jetbrains.annotations.NotNull;
@@ -38,7 +38,7 @@ public class PrefixCommandBuilder extends CommandBuilder {
     @Nullable
     public PrefixCommandModel buildModel() {
         PrefixCommandModel model = new PrefixCommandModel();
-        Class<? extends Command> commandClass = command.getClass();
+        Class<? extends BaseCommand> commandClass = command.getClass();
 
         model.setCommand(command);
         model.setMain(buildMain());

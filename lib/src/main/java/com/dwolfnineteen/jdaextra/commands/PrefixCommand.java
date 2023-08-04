@@ -21,5 +21,5 @@ SOFTWARE.
 */
 package com.dwolfnineteen.jdaextra.commands;
 
-public abstract class PrefixCommand extends Command {
+public abstract class PrefixCommand extends BaseCommand {
 }

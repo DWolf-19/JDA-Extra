@@ -22,13 +22,12 @@ SOFTWARE.
 package com.dwolfnineteen.jdaextra.builders;
 
 import com.dwolfnineteen.jdaextra.annotations.ExtraSlashCommand;
-import com.dwolfnineteen.jdaextra.commands.Command;
+import com.dwolfnineteen.jdaextra.commands.BaseCommand;
 import com.dwolfnineteen.jdaextra.commands.SlashCommand;
 import com.dwolfnineteen.jdaextra.exceptions.CommandAnnotationNotFoundException;
 import com.dwolfnineteen.jdaextra.models.SlashCommandModel;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
 
 public class SlashCommandBuilder extends CommandBuilder {
     public SlashCommandBuilder(@NotNull SlashCommand command) {
@@ -39,12 +38,10 @@ public class SlashCommandBuilder extends CommandBuilder {
     @Nullable
     public SlashCommandModel buildModel() {
         SlashCommandModel model = new SlashCommandModel();
-        Class<? extends Command> commandClass = command.getClass();
+        Class<? extends BaseCommand> commandClass = command.getClass();
 
         model.setCommand(command);
         model.setMain(buildMain());
-
-
 
         if (commandClass.isAnnotationPresent(ExtraSlashCommand.class)) {
             ExtraSlashCommand classAnnotation = commandClass.getAnnotation(ExtraSlashCommand.class);

@@ -22,8 +22,8 @@ SOFTWARE.
 package com.dwolfnineteen.jdaextra.builders;
 
 import com.dwolfnineteen.jdaextra.annotations.ExtraHybridCommand;
+import com.dwolfnineteen.jdaextra.commands.BaseCommand;
 import com.dwolfnineteen.jdaextra.commands.HybridCommand;
-import com.dwolfnineteen.jdaextra.commands.Command;
 import com.dwolfnineteen.jdaextra.exceptions.CommandAnnotationNotFoundException;
 import com.dwolfnineteen.jdaextra.models.HybridCommandModel;
 import org.jetbrains.annotations.NotNull;
@@ -38,7 +38,7 @@ public class HybridCommandBuilder extends CommandBuilder {
     @Nullable
     public HybridCommandModel buildModel() {
         HybridCommandModel model = new HybridCommandModel();
-        Class<? extends Command> commandClass = command.getClass();
+        Class<? extends BaseCommand> commandClass = command.getClass();
 
         model.setCommand(command);
         model.setMain(buildMain());
