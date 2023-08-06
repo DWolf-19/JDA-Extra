@@ -30,8 +30,8 @@ import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.PARAMETER)
-public @interface Option {
+public @interface SlashOption {
     OptionType type() default OptionType.UNKNOWN;
     String name() default "";
-    String description() default "";
+    String description();
 }
