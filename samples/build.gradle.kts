@@ -30,3 +30,9 @@ repositories {
 dependencies {
     implementation(project(":lib"))
 }
+
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(8))
+    }
+}
