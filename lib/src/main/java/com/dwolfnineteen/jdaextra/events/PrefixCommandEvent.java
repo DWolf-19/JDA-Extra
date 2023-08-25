@@ -22,9 +22,16 @@ SOFTWARE.
 package com.dwolfnineteen.jdaextra.events;
 
 import com.dwolfnineteen.jdaextra.JDAExtra;
+import net.dv8tion.jda.api.entities.MessageEmbed;
+import net.dv8tion.jda.api.entities.sticker.StickerSnowflake;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
-
+import net.dv8tion.jda.api.interactions.components.LayoutComponent;
+import net.dv8tion.jda.api.requests.restaction.MessageCreateAction;
+import net.dv8tion.jda.api.utils.FileUpload;
+import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.Collection;
 
 public class PrefixCommandEvent extends MessageReceivedEvent implements CommandEvent {
     private final JDAExtra jdaExtra;
@@ -63,5 +70,60 @@ public class PrefixCommandEvent extends MessageReceivedEvent implements CommandE
     @NotNull
     public String getDescription() {
         return description;
+    }
+
+    @NotNull
+    public MessageCreateAction reply(@NotNull CharSequence content) {
+        return getMessage().reply(content);
+    }
+
+    @NotNull
+    public MessageCreateAction reply(@NotNull MessageCreateData data) {
+        return getMessage().reply(data);
+    }
+
+    @NotNull
+    public MessageCreateAction replyComponents(@NotNull Collection<? extends LayoutComponent> components) {
+        return getMessage().replyComponents(components);
+    }
+
+    @NotNull
+    public MessageCreateAction replyComponents(@NotNull LayoutComponent component, @NotNull LayoutComponent... other) {
+        return getMessage().replyComponents(component, other);
+    }
+
+    @NotNull
+    public MessageCreateAction replyEmbeds(@NotNull Collection<? extends MessageEmbed> embeds) {
+        return getMessage().replyEmbeds(embeds);
+    }
+
+    @NotNull
+    public MessageCreateAction replyEmbeds(@NotNull MessageEmbed embed, @NotNull MessageEmbed... other) {
+        return getMessage().replyEmbeds(embed, other);
+    }
+
+    @NotNull
+    public MessageCreateAction replyFiles(@NotNull Collection<? extends FileUpload> files) {
+        return getMessage().replyFiles(files);
+    }
+
+    @NotNull
+    public MessageCreateAction replyFiles(@NotNull FileUpload... files) {
+        return getMessage().replyFiles(files);
+    }
+
+    @NotNull
+    public MessageCreateAction replyFormat(@NotNull String format, Object... args) {
+        return getMessage().replyFormat(format, args);
+    }
+
+    @NotNull
+    public MessageCreateAction replyStickers(@NotNull Collection<? extends StickerSnowflake> stickers) {
+        return getMessage().replyStickers(stickers);
+    }
+
+    @NotNull
+    public MessageCreateAction replyStickers(@NotNull StickerSnowflake... stickers) {
+        return getMessage().replyStickers(stickers);
     }
 }
