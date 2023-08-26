@@ -32,6 +32,6 @@ import java.lang.annotation.Target;
 @Target(ElementType.PARAMETER)
 public @interface HybridOption {
     OptionType type() default OptionType.UNKNOWN;
-    String name() default "";
+    String name();
     String description();
 }
