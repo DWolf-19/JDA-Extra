@@ -21,10 +21,14 @@ SOFTWARE.
 */
 package com.dwolfnineteen.jdaextra.models;
 
+import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.List;
 
 public class HybridCommandModel extends CommandModel {
     private String description;
+    private List<OptionData> options;
 
     @NotNull
     public String getDescription() {
@@ -32,8 +36,20 @@ public class HybridCommandModel extends CommandModel {
     }
 
     @NotNull
+    public List<OptionData> getOptions() {
+        return options;
+    }
+
+    @NotNull
     public HybridCommandModel setDescription(@NotNull String description) {
         this.description = description;
+
+        return this;
+    }
+
+    @NotNull
+    public HybridCommandModel setOptions(@NotNull List<OptionData> options) {
+        this.options = options;
 
         return this;
     }
