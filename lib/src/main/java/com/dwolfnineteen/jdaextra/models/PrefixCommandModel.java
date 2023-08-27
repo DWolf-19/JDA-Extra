@@ -21,11 +21,15 @@ SOFTWARE.
 */
 package com.dwolfnineteen.jdaextra.models;
 
+import com.dwolfnineteen.jdaextra.prefix.PrefixOptionData;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.List;
+
 public class PrefixCommandModel extends CommandModel {
     private String description;
+    private List<PrefixOptionData> options;
 
     @Nullable
     public String getDescription() {
@@ -33,8 +37,20 @@ public class PrefixCommandModel extends CommandModel {
     }
 
     @NotNull
+    public List<PrefixOptionData> getOptions() {
+        return options;
+    }
+
+    @NotNull
     public PrefixCommandModel setDescription(@Nullable String description) {
         this.description = description;
+
+        return this;
+    }
+
+    @NotNull
+    public PrefixCommandModel setOptions(@NotNull List<PrefixOptionData> options) {
+        this.options = options;
 
         return this;
     }
