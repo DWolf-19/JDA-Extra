@@ -19,39 +19,48 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package com.dwolfnineteen.jdaextra.events;
+package com.dwolfnineteen.jdaextra.prefix;
 
-import com.dwolfnineteen.jdaextra.JDAExtra;
-import com.dwolfnineteen.jdaextra.exceptions.InvalidHybridEventException;
-import net.dv8tion.jda.api.requests.RestAction;
 import org.jetbrains.annotations.NotNull;
 
-public class HybridCommandEvent implements CommandEvent {
-    private final CommandEvent event;
-
-    public HybridCommandEvent(@NotNull CommandEvent event) {
-        this.event = event;
-    }
+public class PrefixCommandEntity {
+    private String trigger;
+    private String name;
+    private String[] args;
 
     @NotNull
-    public CommandEvent getEvent() {
-        return event;
-    }
-
-    @Override
-    @NotNull
-    public JDAExtra getJDAExtra() {
-        return event.getJDAExtra();
+    public String getTrigger() {
+        return trigger;
     }
 
     @NotNull
     public String getName() {
-        if (event instanceof SlashCommandEvent)
-            return ((SlashCommandEvent) event).getName();
+        return name;
+    }
 
-//        else if (event instanceof PrefixCommandEvent)
-//            return ((PrefixCommandEvent) event).getName();
+    @NotNull
+    public String[] getArguments() {
+        return args;
+    }
 
-        throw new InvalidHybridEventException();
+    @NotNull
+    public PrefixCommandEntity setTrigger(@NotNull String trigger) {
+        this.trigger = trigger;
+
+        return this;
+    }
+
+    @NotNull
+    public PrefixCommandEntity setName(@NotNull String name) {
+        this.name = name;
+
+        return this;
+    }
+
+    @NotNull
+    public PrefixCommandEntity setArguments(@NotNull String[] args) {
+        this.args = args;
+
+        return this;
     }
 }

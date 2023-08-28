@@ -22,34 +22,20 @@ SOFTWARE.
 package com.dwolfnineteen.jdaextra.prefix;
 
 import com.dwolfnineteen.jdaextra.JDAExtra;
-import com.dwolfnineteen.jdaextra.events.PrefixCommandEvent;
-import com.dwolfnineteen.jdaextra.models.PrefixCommandModel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
-
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.HashMap;
+import java.util.Arrays;
 
 public class PrefixCommandParser {
     private final JDAExtra jdaExtra;
     private final MessageReceivedEvent event;
-    private final HashMap<String, PrefixCommandModel> commandsModels;
+    private PrefixCommandEntity entity;
 
-    private String commandName;
-    private PrefixCommandEvent parsedEvent;
-
-    public PrefixCommandParser(@NotNull MessageReceivedEvent event,
-                               @NotNull JDAExtra jdaExtra,
-                               @NotNull HashMap<String, PrefixCommandModel> commandsModels) {
+    public PrefixCommandParser(@NotNull MessageReceivedEvent event, @NotNull JDAExtra jdaExtra) {
         this.event = event;
         this.jdaExtra = jdaExtra;
-        this.commandsModels = commandsModels;
-    }
-
-    @NotNull
-    public JDAExtra getJDAExtra() {
-        return jdaExtra;
     }
 
     @NotNull
@@ -57,47 +43,36 @@ public class PrefixCommandParser {
         return event;
     }
 
-    @Nullable
-    public String getCommandName() {
-        return commandName;
+    @NotNull
+    public PrefixCommandEntity getEntity() {
+        if (entity == null)
+            throw new NullPointerException();
+
+        return entity;
     }
 
     @Nullable
-    public PrefixCommandEvent getParsedEvent() {
-        return parsedEvent;
-    }
+    public PrefixCommandParser parse() {
+        PrefixCommandEntity entity = new PrefixCommandEntity();
 
-    public PrefixCommandModel getModel() {
-        return commandsModels.get(commandName);
-    }
+        String content = event.getMessage().getContentRaw();
 
-    public void build() {
-        final String content = event.getMessage().getContentRaw();
+        String prefix = jdaExtra.getPrefix();
+        String mention = event.getJDA().getSelfUser().getAsMention();
 
-        final String prefix = jdaExtra.getPrefix();
-        final String mention = event.getJDA().getSelfUser().getAsMention();
+        if (!content.startsWith(prefix) || (jdaExtra.isWhenMention() && content.startsWith(mention)))
+            return null;
 
-        final boolean whenMention = jdaExtra.isWhenMention();
+        String trigger = content.startsWith(prefix) ? prefix : mention + " ";
+        entity.setTrigger(trigger);
 
-        if (content.startsWith(prefix) || (whenMention && content.startsWith(mention))) {
-            final String trigger = content.startsWith(prefix) ? prefix : mention + " ";
+        String[] parts = content.substring(trigger.length()).split(" ");
+        entity.setName(parts[0]);
 
-            String[] parts = content.substring(trigger.length()).split(" ");
+        entity.setArguments(Arrays.copyOfRange(parts, 1, parts.length));
 
-            commandName = parts[0];
+        this.entity = entity;
 
-            PrefixCommandModel model = commandsModels.get(commandName);
-
-            if (model == null) {
-                return;
-            }
-
-//            final ArrayList<String> args = new ArrayList<>();
-//            Collections.addAll(args, Arrays.copyOfRange(parts, 1, parts.length));
-//
-//            entity.setArgs(args);
-
-            parsedEvent = new PrefixCommandEvent(event, jdaExtra, trigger, commandName, model.getDescription());
-        }
+        return this;
     }
 }
