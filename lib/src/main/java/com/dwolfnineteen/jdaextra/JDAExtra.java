@@ -34,19 +34,23 @@ import com.dwolfnineteen.jdaextra.exceptions.CommandNotFoundException;
 import com.dwolfnineteen.jdaextra.models.HybridCommandModel;
 import com.dwolfnineteen.jdaextra.models.PrefixCommandModel;
 import com.dwolfnineteen.jdaextra.models.SlashCommandModel;
+import com.dwolfnineteen.jdaextra.prefix.PrefixCommandEntity;
 import com.dwolfnineteen.jdaextra.prefix.PrefixCommandParser;
-import net.dv8tion.jda.api.events.GenericEvent;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.events.session.ReadyEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
+import net.dv8tion.jda.api.interactions.commands.OptionMapping;
+import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.Commands;
+import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import net.dv8tion.jda.api.interactions.commands.build.SlashCommandData;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class JDAExtra extends ListenerAdapter {
     private final String prefix;
@@ -135,34 +139,63 @@ public class JDAExtra extends ListenerAdapter {
         event.getJDA().updateCommands().addCommands(data).queue();
     }
 
-    public void onHybridCommand(@NotNull String commandName, @NotNull GenericEvent event) {
-        HybridCommandModel hybridModel = hybridCommandsModels.get(commandName);
+    private void onHybridCommand(@NotNull PrefixCommandParser parser) {
+        PrefixCommandEntity entity = parser.getEntity();
+
+        HybridCommandModel hybridModel = hybridCommandsModels.get(entity.getName());
 
         if (hybridModel == null)
-            throw new CommandNotFoundException(commandName);
+            throw new CommandNotFoundException(entity.getName());
+
+        PrefixCommandEvent prefixEvent = new PrefixCommandEvent(parser.getEvent(),
+                this,
+                entity.getTrigger(),
+                hybridModel.getName(),
+                hybridModel.getDescription());
 
         try {
             // Done
-            hybridModel.getMain().invoke(hybridModel.getCommand(), new HybridCommandEvent(event, this));
-        } catch (IllegalAccessException | InvocationTargetException e) {
-            throw new RuntimeException(e);
+            hybridModel.getMain().invoke(hybridModel.getCommand(), new HybridCommandEvent(prefixEvent));
+        } catch (IllegalAccessException | InvocationTargetException exception) {
+            throw new RuntimeException(exception);
+        }
+    }
+
+    private void onHybridCommand(@NotNull SlashCommandInteractionEvent event) {
+        HybridCommandModel hybridModel = hybridCommandsModels.get(event.getName());
+
+        if (hybridModel == null)
+            throw new CommandNotFoundException(event.getName());
+
+        SlashCommandEvent slashEvent = new SlashCommandEvent(event, this);
+
+        try {
+            // Done
+            hybridModel.getMain().invoke(hybridModel.getCommand(), new HybridCommandEvent(slashEvent));
+        } catch (IllegalAccessException | InvocationTargetException exception) {
+            throw new RuntimeException(exception);
         }
     }
 
     @Override
     public void onMessageReceived(@NotNull MessageReceivedEvent event) {
-        PrefixCommandParser parser = new PrefixCommandParser(event, this, prefixCommandsModels);
+        PrefixCommandParser parser = new PrefixCommandParser(event, this).parse();
 
-        parser.build();  // BEFORE calling other methods
+        if (parser == null)
+            return; // It's just a message
 
-        PrefixCommandEvent prefixEvent = parser.getParsedEvent();
+        PrefixCommandEntity entity = parser.getEntity();
 
-        if (prefixEvent == null) {
-            if (parser.getCommandName() != null)
-                 onHybridCommand(parser.getCommandName(), event);
-            // else: It's just a message
+        PrefixCommandModel prefixModel = prefixCommandsModels.get(entity.getName());
+
+        if (prefixModel == null) {
+            onHybridCommand(parser);
         } else {
-            PrefixCommandModel prefixModel = parser.getModel();
+            PrefixCommandEvent prefixEvent = new PrefixCommandEvent(event,
+                    this,
+                    entity.getTrigger(),
+                    entity.getName(),
+                    prefixModel.getDescription());
 
             try {
                 // Done
@@ -178,7 +211,7 @@ public class JDAExtra extends ListenerAdapter {
         SlashCommandModel slashModel = slashCommandsModels.get(event.getName());
 
         if (slashModel == null) {
-            onHybridCommand(event.getName(), event);
+            onHybridCommand(event);
         } else {
             try {
                 // Done
