@@ -19,13 +19,13 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package com.dwolfnineteen.jdaextra.prefix;
+package com.dwolfnineteen.jdaextra.options.data;
 
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class PrefixOptionData {
+public class PrefixOptionData implements CommandOptionData {
     private final OptionType type;
     private String name;
     private String description;
@@ -85,49 +85,59 @@ public class PrefixOptionData {
         this.isAutoComplete = isAutoComplete;
     }
 
+    @Override
     @NotNull
     public OptionType getType() {
         return type;
     }
 
+    @Override
     @NotNull
     public String getName() {
         return name;
     }
 
+    @Override
     @Nullable
     public String getDescription() {
         return description;
     }
 
+    @Override
     public boolean isRequired() {
         return isRequired;
     }
 
+    @Override
     public boolean isAutoComplete() {
         return isAutoComplete;
     }
 
+    @Override
     @Nullable
     public Number getMinValue() {
         return minValue;
     }
 
+    @Override
     @Nullable
     public Number getMaxValue() {
         return maxValue;
     }
 
+    @Override
     @Nullable
     public Integer getMinLength() {
         return minLength;
     }
 
+    @Override
     @Nullable
     public Integer getMaxLength() {
         return maxLength;
     }
 
+    @Override
     @NotNull
     public PrefixOptionData setName(@NotNull String name) {
         this.name = name;
@@ -135,6 +145,7 @@ public class PrefixOptionData {
         return this;
     }
 
+    @Override
     @NotNull
     public PrefixOptionData setDescription(@NotNull String description) {
         this.description = description;
@@ -142,6 +153,7 @@ public class PrefixOptionData {
         return this;
     }
 
+    @Override
     @NotNull
     public PrefixOptionData setRequired(boolean required) {
         isRequired = required;
@@ -149,6 +161,7 @@ public class PrefixOptionData {
         return this;
     }
 
+    @Override
     @NotNull
     public PrefixOptionData setAutoComplete(boolean autoComplete) {
         isAutoComplete = autoComplete;
@@ -156,6 +169,7 @@ public class PrefixOptionData {
         return this;
     }
 
+    @Override
     @NotNull
     public PrefixOptionData setMinValue(Number minValue) {
         this.minValue = minValue;
@@ -163,6 +177,7 @@ public class PrefixOptionData {
         return this;
     }
 
+    @Override
     @NotNull
     public PrefixOptionData setMaxValue(Number maxValue) {
         this.maxValue = maxValue;
@@ -170,6 +185,7 @@ public class PrefixOptionData {
         return this;
     }
 
+    @Override
     @NotNull
     public PrefixOptionData setMinLength(int minLength) {
         this.minLength = minLength;
@@ -177,6 +193,7 @@ public class PrefixOptionData {
         return this;
     }
 
+    @Override
     @NotNull
     public PrefixOptionData setMaxLength(Integer maxLength) {
         this.maxLength = maxLength;
