@@ -19,39 +19,27 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package com.dwolfnineteen.jdaextra.models;
+package com.dwolfnineteen.jdaextra.options.data;
 
-import com.dwolfnineteen.jdaextra.options.data.PrefixOptionData;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import net.dv8tion.jda.api.interactions.commands.OptionType;
 
-import java.util.List;
+public interface CommandOptionData {
+    OptionType getType();
+    String getName();
+    String getDescription();
+    boolean isRequired();
+    boolean isAutoComplete();
+    Number getMinValue();
+    Number getMaxValue();
+    Integer getMinLength();
+    Integer getMaxLength();
 
-public class PrefixCommandModel extends CommandModel {
-    private String description;
-    private List<PrefixOptionData> options;
-
-    @Nullable
-    public String getDescription() {
-        return description;
-    }
-
-    @NotNull
-    public List<PrefixOptionData> getOptions() {
-        return options;
-    }
-
-    @NotNull
-    public PrefixCommandModel setDescription(@Nullable String description) {
-        this.description = description;
-
-        return this;
-    }
-
-    @NotNull
-    public PrefixCommandModel setOptions(@NotNull List<PrefixOptionData> options) {
-        this.options = options;
-
-        return this;
-    }
+    CommandOptionData setName(String name);
+    CommandOptionData setDescription(String description);
+    CommandOptionData setRequired(boolean required);
+    CommandOptionData setAutoComplete(boolean autoComplete);
+    CommandOptionData setMinValue(Number minValue);
+    CommandOptionData setMaxValue(Number maxValue);
+    CommandOptionData setMinLength(int minLength);
+    CommandOptionData setMaxLength(Integer maxLength);
 }
