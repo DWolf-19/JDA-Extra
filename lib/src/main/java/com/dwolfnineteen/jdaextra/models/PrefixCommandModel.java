@@ -21,7 +21,7 @@ SOFTWARE.
 */
 package com.dwolfnineteen.jdaextra.models;
 
-import com.dwolfnineteen.jdaextra.prefix.PrefixOptionData;
+import com.dwolfnineteen.jdaextra.options.data.PrefixOptionData;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
