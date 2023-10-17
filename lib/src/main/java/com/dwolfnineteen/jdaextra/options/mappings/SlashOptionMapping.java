@@ -34,7 +34,6 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 // This is for semantics!
-// TODO: Add OptionType checks to getters
 public class SlashOptionMapping implements CommandOptionMapping {
     private final OptionMapping mapping;
 
