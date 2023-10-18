@@ -22,11 +22,25 @@ SOFTWARE.
 package com.dwolfnineteen.jdaextra.builders;
 
 import com.dwolfnineteen.jdaextra.annotations.ExtraMainCommand;
+import com.dwolfnineteen.jdaextra.annotations.commands.GuildOnly;
+import com.dwolfnineteen.jdaextra.annotations.options.ChoiceDouble;
+import com.dwolfnineteen.jdaextra.annotations.options.ChoiceLong;
+import com.dwolfnineteen.jdaextra.annotations.options.ChoiceString;
 import com.dwolfnineteen.jdaextra.commands.BaseCommand;
 import com.dwolfnineteen.jdaextra.models.CommandModel;
+import net.dv8tion.jda.api.entities.IMentionable;
+import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.entities.channel.Channel;
+import net.dv8tion.jda.api.interactions.commands.Command;
+import net.dv8tion.jda.api.interactions.commands.OptionType;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
 
 public abstract class CommandBuilder {
     protected BaseCommand command;
@@ -40,5 +54,61 @@ public abstract class CommandBuilder {
                 return method;
 
         return null;
+    }
+
+    @NotNull
+    protected OptionType buildOptionType(@NotNull Class<?> parameterType, @NotNull OptionType typeFromAnnotation) {
+        OptionType type;
+
+        if (typeFromAnnotation == OptionType.UNKNOWN) {
+            if (parameterType.equals(Boolean.class)) {
+                type = OptionType.BOOLEAN;
+            } else if (parameterType.equals(Channel.class)) {
+                type = OptionType.CHANNEL;
+            } else if (parameterType.equals(Long.class)) {
+                type = OptionType.INTEGER;
+            } else if (parameterType.equals(IMentionable.class)) {
+                type = OptionType.MENTIONABLE;
+            } else if (parameterType.equals(Double.class)) {
+                type = OptionType.NUMBER;
+            } else if (parameterType.equals(String.class)) {
+                type = OptionType.STRING;
+            } else if (parameterType.equals(Member.class) || parameterType.equals(User.class)) {
+                type = OptionType.USER;
+            } else {
+                throw new IllegalArgumentException();
+            }
+        } else {
+            type = typeFromAnnotation;
+        }
+
+        return type;
+    }
+
+    @NotNull
+    protected List<Command.Choice> buildChoices(@NotNull Annotation[] annotations) {
+        List<Command.Choice> choices = new ArrayList<>();
+
+        for (Annotation annotation : annotations) {
+            if (annotation instanceof ChoiceDouble) {
+                choices.add(new Command.Choice(((ChoiceDouble) annotation).name(),
+                        ((ChoiceDouble) annotation).val()));
+            } else if (annotation instanceof ChoiceLong) {
+                choices.add(new Command.Choice(((ChoiceLong) annotation).name(),
+                        ((ChoiceLong) annotation).val()));
+            } else if (annotation instanceof ChoiceString) {
+                choices.add(new Command.Choice(((ChoiceString) annotation).name(),
+                        ((ChoiceString) annotation).val()));
+            }
+        }
+
+        return choices;
+    }
+
+    @NotNull
+    protected CommandModel buildSettings(@NotNull CommandModel model, @NotNull Class<? extends BaseCommand> cls) {
+        model.setGuildOnly(cls.isAnnotationPresent(GuildOnly.class));
+
+        return model;
     }
 }

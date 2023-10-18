@@ -28,29 +28,27 @@ import com.dwolfnineteen.jdaextra.commands.HybridCommand;
 import com.dwolfnineteen.jdaextra.commands.PrefixCommand;
 import com.dwolfnineteen.jdaextra.commands.SlashCommand;
 import com.dwolfnineteen.jdaextra.events.HybridCommandEvent;
-import com.dwolfnineteen.jdaextra.events.PrefixCommandEvent;
 import com.dwolfnineteen.jdaextra.events.SlashCommandEvent;
 import com.dwolfnineteen.jdaextra.exceptions.CommandNotFoundException;
 import com.dwolfnineteen.jdaextra.models.HybridCommandModel;
 import com.dwolfnineteen.jdaextra.models.PrefixCommandModel;
 import com.dwolfnineteen.jdaextra.models.SlashCommandModel;
-import com.dwolfnineteen.jdaextra.prefix.PrefixCommandEntity;
-import com.dwolfnineteen.jdaextra.prefix.PrefixCommandParser;
+import com.dwolfnineteen.jdaextra.options.data.HybridOptionData;
+import com.dwolfnineteen.jdaextra.parsers.HybridCommandParser;
+import com.dwolfnineteen.jdaextra.parsers.PrefixCommandParser;
+import com.dwolfnineteen.jdaextra.parsers.SlashCommandParser;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.events.session.ReadyEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
-import net.dv8tion.jda.api.interactions.commands.OptionMapping;
-import net.dv8tion.jda.api.interactions.commands.OptionType;
+import net.dv8tion.jda.api.interactions.commands.build.CommandData;
 import net.dv8tion.jda.api.interactions.commands.build.Commands;
-import net.dv8tion.jda.api.interactions.commands.build.OptionData;
-import net.dv8tion.jda.api.interactions.commands.build.SlashCommandData;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
+import java.util.stream.Collectors;
 
 public class JDAExtra extends ListenerAdapter {
     private final String prefix;
@@ -120,58 +118,61 @@ public class JDAExtra extends ListenerAdapter {
 
     @Override
     public void onReady(@NotNull ReadyEvent event) {
-        ArrayList<SlashCommandData> data = new ArrayList<>();
+        ArrayList<CommandData> data = new ArrayList<>();
 
-        for (HybridCommandModel command : hybridCommandsModels.values())
+        // TODO: Add SlashCommandData#setDefaultPermissions
+        for (HybridCommandModel command : hybridCommandsModels.values()) {
             data.add(Commands.slash(command.getName(), command.getDescription())
-                    .addOptions(command.getOptions())
-//                    .setDefaultPermissions(command.getDefaultMemberPermissions())
+                    .addOptions(command.getOptions()
+                            .stream()
+                            .map(HybridOptionData::toGeneralOptionData)
+                            .collect(Collectors.toList()))
                     .setGuildOnly(command.isGuildOnly())
                     .setNSFW(command.isNSFW()));
+        }
 
-        for (SlashCommandModel command : slashCommandsModels.values())
+        for (SlashCommandModel command : slashCommandsModels.values()) {
             data.add(Commands.slash(command.getName(), command.getDescription())
                     .addOptions(command.getOptions())
-//                    .setDefaultPermissions(command.getDefaultMemberPermissions())
                     .setGuildOnly(command.isGuildOnly())
                     .setNSFW(command.isNSFW()));
+        }
 
         event.getJDA().updateCommands().addCommands(data).queue();
     }
 
-    private void onHybridCommand(@NotNull PrefixCommandParser parser) {
-        PrefixCommandEntity entity = parser.getEntity();
+    private void onHybridCommand(@NotNull String commandName, @NotNull PrefixCommandParser parser) {
+        HybridCommandModel hybridModel = hybridCommandsModels.get(commandName);
 
-        HybridCommandModel hybridModel = hybridCommandsModels.get(entity.getName());
+        if (hybridModel == null) {
+            throw new CommandNotFoundException(commandName);
+        }
 
-        if (hybridModel == null)
-            throw new CommandNotFoundException(entity.getName());
-
-        PrefixCommandEvent prefixEvent = new PrefixCommandEvent(parser.getEvent(),
-                this,
-                entity.getTrigger(),
-                hybridModel.getName(),
-                hybridModel.getDescription());
+        HybridCommandParser hybridParser = new HybridCommandParser(this, parser).setModel(hybridModel);
 
         try {
-            // Done
-            hybridModel.getMain().invoke(hybridModel.getCommand(), new HybridCommandEvent(prefixEvent));
+            // TODO: Fix "Method invocation 'invoke' may produce 'NullPointerException'"
+            //  by adding subcommands(group) support
+            hybridModel.getMain().invoke(hybridModel.getCommand(), hybridParser.buildInvokeArguments()); // Done
         } catch (IllegalAccessException | InvocationTargetException exception) {
             throw new RuntimeException(exception);
         }
     }
 
-    private void onHybridCommand(@NotNull SlashCommandInteractionEvent event) {
-        HybridCommandModel hybridModel = hybridCommandsModels.get(event.getName());
+    private void onHybridCommand(@NotNull String commandName, @NotNull SlashCommandParser parser) {
+        HybridCommandModel hybridModel = hybridCommandsModels.get(commandName);
 
-        if (hybridModel == null)
-            throw new CommandNotFoundException(event.getName());
+        if (hybridModel == null) {
+            throw new CommandNotFoundException(commandName);
+        }
 
-        SlashCommandEvent slashEvent = new SlashCommandEvent(event, this);
+        HybridCommandParser hybridParser =
+                new HybridCommandParser(this, parser).setModel(hybridModel);
 
         try {
-            // Done
-            hybridModel.getMain().invoke(hybridModel.getCommand(), new HybridCommandEvent(slashEvent));
+            // TODO: Fix "Method invocation 'invoke' may produce 'NullPointerException'"
+            //  by adding subcommands(group) support
+            hybridModel.getMain().invoke(hybridModel.getCommand(), hybridParser.buildInvokeArguments()); // Done
         } catch (IllegalAccessException | InvocationTargetException exception) {
             throw new RuntimeException(exception);
         }
@@ -179,29 +180,27 @@ public class JDAExtra extends ListenerAdapter {
 
     @Override
     public void onMessageReceived(@NotNull MessageReceivedEvent event) {
-        PrefixCommandParser parser = new PrefixCommandParser(event, this).parse();
+        PrefixCommandParser parser = new PrefixCommandParser(this, event);
 
-        if (parser == null)
+        if (!parser.isCommand()) {
             return; // It's just a message
+        }
 
-        PrefixCommandEntity entity = parser.getEntity();
+        String commandName = parser.parseName(parser.parseTrigger());
 
-        PrefixCommandModel prefixModel = prefixCommandsModels.get(entity.getName());
+        PrefixCommandModel prefixModel = prefixCommandsModels.get(commandName);
 
         if (prefixModel == null) {
-            onHybridCommand(parser);
+            onHybridCommand(commandName, parser);
         } else {
-            PrefixCommandEvent prefixEvent = new PrefixCommandEvent(event,
-                    this,
-                    entity.getTrigger(),
-                    entity.getName(),
-                    prefixModel.getDescription());
+            parser.setModel(prefixModel);
 
             try {
-                // Done
-                prefixModel.getMain().invoke(prefixModel.getCommand(), prefixEvent);
-            } catch (IllegalAccessException | InvocationTargetException e) {
-                throw new RuntimeException(e);
+                // TODO: Fix "Method invocation 'invoke' may produce 'NullPointerException'"
+                //  by adding subcommands(group) support
+                prefixModel.getMain().invoke(prefixModel.getCommand(), parser.buildInvokeArguments()); // Done
+            } catch (IllegalAccessException | InvocationTargetException exception) {
+                throw new RuntimeException(exception);
             }
         }
     }
@@ -210,14 +209,17 @@ public class JDAExtra extends ListenerAdapter {
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
         SlashCommandModel slashModel = slashCommandsModels.get(event.getName());
 
+        SlashCommandParser slashParser = new SlashCommandParser(this, event).setModel(slashModel);
+
         if (slashModel == null) {
-            onHybridCommand(event);
+            onHybridCommand(event.getName(), slashParser);
         } else {
             try {
-                // Done
-                slashModel.getMain().invoke(slashModel.getCommand(), new SlashCommandEvent(event, this));
-            } catch (IllegalAccessException | InvocationTargetException e) {
-                throw new RuntimeException(e);
+                // TODO: Fix "Method invocation 'invoke' may produce 'NullPointerException'"
+                //  by adding subcommands(group) support
+                slashModel.getMain().invoke(slashModel.getCommand(), slashParser.buildInvokeArguments()); // Done
+            } catch (IllegalAccessException | InvocationTargetException exception) {
+                throw new RuntimeException(exception);
             }
         }
     }

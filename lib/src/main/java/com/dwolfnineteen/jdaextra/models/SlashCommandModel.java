@@ -21,6 +21,7 @@ SOFTWARE.
 */
 package com.dwolfnineteen.jdaextra.models;
 
+import com.dwolfnineteen.jdaextra.options.data.SlashOptionData;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import org.jetbrains.annotations.NotNull;
 
@@ -28,7 +29,7 @@ import java.util.List;
 
 public class SlashCommandModel extends CommandModel {
     private String description;
-    private List<OptionData> options;
+    private List<SlashOptionData> options;
 
     @NotNull
     public String getDescription() {
@@ -36,7 +37,7 @@ public class SlashCommandModel extends CommandModel {
     }
 
     @NotNull
-    public List<OptionData> getOptions() {
+    public List<SlashOptionData> getOptions() {
         return options;
     }
 
@@ -48,7 +49,7 @@ public class SlashCommandModel extends CommandModel {
     }
 
     @NotNull
-    public SlashCommandModel setOptions(@NotNull List<OptionData> options) {
+    public SlashCommandModel setOptions(@NotNull List<SlashOptionData> options) {
         this.options = options;
 
         return this;

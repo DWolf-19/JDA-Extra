@@ -22,12 +22,20 @@ SOFTWARE.
 package com.dwolfnineteen.jdaextra.builders;
 
 import com.dwolfnineteen.jdaextra.annotations.ExtraPrefixCommand;
+import com.dwolfnineteen.jdaextra.annotations.options.AutoComplete;
+import com.dwolfnineteen.jdaextra.annotations.options.PrefixOption;
+import com.dwolfnineteen.jdaextra.annotations.options.Required;
 import com.dwolfnineteen.jdaextra.commands.BaseCommand;
 import com.dwolfnineteen.jdaextra.commands.PrefixCommand;
 import com.dwolfnineteen.jdaextra.exceptions.CommandAnnotationNotFoundException;
 import com.dwolfnineteen.jdaextra.models.PrefixCommandModel;
+import com.dwolfnineteen.jdaextra.options.data.PrefixOptionData;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import java.lang.reflect.Parameter;
+import java.util.ArrayList;
+import java.util.List;
 
 public class PrefixCommandBuilder extends CommandBuilder {
     public PrefixCommandBuilder(@NotNull PrefixCommand command) {
@@ -38,19 +46,36 @@ public class PrefixCommandBuilder extends CommandBuilder {
     @Nullable
     public PrefixCommandModel buildModel() {
         PrefixCommandModel model = new PrefixCommandModel();
-        Class<? extends BaseCommand> commandClass = command.getClass();
+        Class<? extends BaseCommand> cls = command.getClass();
 
         model.setCommand(command);
         model.setMain(buildMain());
 
-        if (commandClass.isAnnotationPresent(ExtraPrefixCommand.class)) {
-            ExtraPrefixCommand classAnnotation = commandClass.getAnnotation(ExtraPrefixCommand.class);
+        ExtraPrefixCommand annotation = cls.getAnnotation(ExtraPrefixCommand.class);
 
-            model.setName(classAnnotation.name().isEmpty() ? model.getMain().getName() : classAnnotation.name());
-            model.setDescription(classAnnotation.description().isEmpty() ? null : classAnnotation.description());
-        } else
+        if (annotation == null)
             throw new CommandAnnotationNotFoundException();
 
-        return model;
+        model.setName(annotation.name().isEmpty() ? model.getMain().getName() : annotation.name());
+        model.setDescription(annotation.description().isEmpty() ? null : annotation.description());
+
+        List<PrefixOptionData> options = new ArrayList<>();
+
+        for (Parameter parameter : model.getMain().getParameters())
+            if (parameter.isAnnotationPresent(PrefixOption.class)) {
+                PrefixOption prefixOption = parameter.getAnnotation(PrefixOption.class);
+
+                PrefixOptionData data = new PrefixOptionData(buildOptionType(parameter.getType(), prefixOption.type()),
+                        prefixOption.name(),
+                        prefixOption.description().isEmpty() ? null : prefixOption.description(),
+                        parameter.isAnnotationPresent(Required.class),
+                        parameter.isAnnotationPresent(AutoComplete.class));
+
+                options.add(data);
+            }
+
+        model.setOptions(options);
+
+        return (PrefixCommandModel) buildSettings(model, cls);
     }
 }
