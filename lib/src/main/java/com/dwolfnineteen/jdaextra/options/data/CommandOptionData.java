@@ -21,7 +21,10 @@ SOFTWARE.
 */
 package com.dwolfnineteen.jdaextra.options.data;
 
+import net.dv8tion.jda.api.interactions.commands.Command;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
+
+import java.util.Collection;
 
 public interface CommandOptionData {
     OptionType getType();
@@ -38,8 +41,19 @@ public interface CommandOptionData {
     CommandOptionData setDescription(String description);
     CommandOptionData setRequired(boolean required);
     CommandOptionData setAutoComplete(boolean autoComplete);
-    CommandOptionData setMinValue(Number minValue);
-    CommandOptionData setMaxValue(Number maxValue);
+    CommandOptionData setMinValue(long minValue);
+    CommandOptionData setMinValue(double minValue);
+    CommandOptionData setMaxValue(long maxValue);
+    CommandOptionData setMaxValue(double maxValue);
+    CommandOptionData setRequiredRange(long minValue, long maxValue);
+    CommandOptionData setRequiredRange(double minValue, double maxValue);
     CommandOptionData setMinLength(int minLength);
-    CommandOptionData setMaxLength(Integer maxLength);
+    CommandOptionData setMaxLength(int maxLength);
+    CommandOptionData setRequiredLength(int minLength, int maxLength);
+
+    CommandOptionData addChoice(String name, double value);
+    CommandOptionData addChoice(String name, long value);
+    CommandOptionData addChoice(String name, String value);
+    CommandOptionData addChoices(Command.Choice... choices);
+    CommandOptionData addChoices(Collection<? extends Command.Choice> choices);
 }

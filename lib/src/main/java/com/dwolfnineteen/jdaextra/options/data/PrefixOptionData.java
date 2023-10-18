@@ -21,9 +21,12 @@ SOFTWARE.
 */
 package com.dwolfnineteen.jdaextra.options.data;
 
+import net.dv8tion.jda.api.interactions.commands.Command;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.Collection;
 
 public class PrefixOptionData implements CommandOptionData {
     private final OptionType type;
@@ -171,7 +174,7 @@ public class PrefixOptionData implements CommandOptionData {
 
     @Override
     @NotNull
-    public PrefixOptionData setMinValue(Number minValue) {
+    public PrefixOptionData setMinValue(long minValue) {
         this.minValue = minValue;
 
         return this;
@@ -179,7 +182,41 @@ public class PrefixOptionData implements CommandOptionData {
 
     @Override
     @NotNull
-    public PrefixOptionData setMaxValue(Number maxValue) {
+    public PrefixOptionData setMinValue(double minValue) {
+        this.minValue= minValue;
+
+        return this;
+    }
+
+    @Override
+    @NotNull
+    public PrefixOptionData setMaxValue(long maxValue) {
+        this.maxValue = maxValue;
+
+        return this;
+    }
+
+    @Override
+    @NotNull
+    public PrefixOptionData setMaxValue(double maxValue) {
+        this.maxValue = maxValue;
+
+        return this;
+    }
+
+    @Override
+    @NotNull
+    public PrefixOptionData setRequiredRange(long minValue, long maxValue) {
+        this.minValue = minValue;
+        this.maxValue = maxValue;
+
+        return this;
+    }
+
+    @Override
+    @NotNull
+    public PrefixOptionData setRequiredRange(double minValue, double maxValue) {
+        this.minValue = minValue;
         this.maxValue = maxValue;
 
         return this;
@@ -195,9 +232,49 @@ public class PrefixOptionData implements CommandOptionData {
 
     @Override
     @NotNull
-    public PrefixOptionData setMaxLength(Integer maxLength) {
+    public PrefixOptionData setMaxLength(int maxLength) {
         this.maxLength = maxLength;
 
+        return this;
+    }
+
+    @Override
+    @NotNull
+    public PrefixOptionData setRequiredLength(int minLength, int maxLength) {
+        this.minLength = minLength;
+        this.maxLength = maxLength;
+
+        return this;
+    }
+
+    // TODO: Support for choices
+    @Override
+    @NotNull
+    public PrefixOptionData addChoice(String name, double value) {
+        return this;
+    }
+
+    @Override
+    @NotNull
+    public PrefixOptionData addChoice(String name, long value) {
+        return this;
+    }
+
+    @Override
+    @NotNull
+    public PrefixOptionData addChoice(String name, String value) {
+        return this;
+    }
+
+    @Override
+    @NotNull
+    public PrefixOptionData addChoices(Command.Choice... choices) {
+        return this;
+    }
+
+    @Override
+    @NotNull
+    public PrefixOptionData addChoices(Collection<? extends Command.Choice> choices) {
         return this;
     }
 }
