@@ -23,9 +23,9 @@ package com.dwolfnineteen.jdaextra.events;
 
 import com.dwolfnineteen.jdaextra.JDAExtra;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
-
 import org.jetbrains.annotations.NotNull;
 
+// FIXME: SlashCommandEvent#getOptions returns default option mappings
 public class SlashCommandEvent extends SlashCommandInteractionEvent implements CommandEvent {
     private final JDAExtra jdaExtra;
 

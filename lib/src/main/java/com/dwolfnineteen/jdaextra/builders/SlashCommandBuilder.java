@@ -22,12 +22,22 @@ SOFTWARE.
 package com.dwolfnineteen.jdaextra.builders;
 
 import com.dwolfnineteen.jdaextra.annotations.ExtraSlashCommand;
+import com.dwolfnineteen.jdaextra.annotations.options.AutoComplete;
+import com.dwolfnineteen.jdaextra.annotations.options.Required;
+import com.dwolfnineteen.jdaextra.annotations.options.SlashOption;
 import com.dwolfnineteen.jdaextra.commands.BaseCommand;
 import com.dwolfnineteen.jdaextra.commands.SlashCommand;
 import com.dwolfnineteen.jdaextra.exceptions.CommandAnnotationNotFoundException;
 import com.dwolfnineteen.jdaextra.models.SlashCommandModel;
+import com.dwolfnineteen.jdaextra.options.data.SlashOptionData;
+import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.interactions.commands.OptionType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import java.lang.reflect.Parameter;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SlashCommandBuilder extends CommandBuilder {
     public SlashCommandBuilder(@NotNull SlashCommand command) {
@@ -38,21 +48,46 @@ public class SlashCommandBuilder extends CommandBuilder {
     @Nullable
     public SlashCommandModel buildModel() {
         SlashCommandModel model = new SlashCommandModel();
-        Class<? extends BaseCommand> commandClass = command.getClass();
+        Class<? extends BaseCommand> cls = command.getClass();
 
         model.setCommand(command);
         model.setMain(buildMain());
 
-        if (commandClass.isAnnotationPresent(ExtraSlashCommand.class)) {
-            ExtraSlashCommand classAnnotation = commandClass.getAnnotation(ExtraSlashCommand.class);
+        ExtraSlashCommand annotation = cls.getAnnotation(ExtraSlashCommand.class);
 
-            model.setName(classAnnotation.name().isEmpty() ? model.getMain().getName() : classAnnotation.name());
-            model.setDescription(classAnnotation.description());
-
-        // TODO: add logic
-        } else
+        if (annotation == null)
             throw new CommandAnnotationNotFoundException();
 
-        return model;
+        model.setName(annotation.name().isEmpty() ? model.getMain().getName() : annotation.name());
+        model.setDescription(annotation.description());
+
+        List<SlashOptionData> options = new ArrayList<>();
+
+        for (Parameter parameter : model.getMain().getParameters())
+            if (parameter.isAnnotationPresent(SlashOption.class)) {
+                SlashOption slashOption = parameter.getAnnotation(SlashOption.class);
+
+                SlashOptionData data = new SlashOptionData(buildOptionType(parameter.getType(), slashOption.type()),
+                        slashOption.name(),
+                        slashOption.description(),
+                        parameter.isAnnotationPresent(Required.class),
+                        parameter.isAnnotationPresent(AutoComplete.class));
+
+                data.addChoices(buildChoices(parameter.getAnnotations()));
+
+                options.add(data);
+            }
+
+        model.setOptions(options);
+
+        return (SlashCommandModel) buildSettings(model, cls);
+    }
+
+    @Override
+    @NotNull
+    protected OptionType buildOptionType(@NotNull Class<?> parameterType, @NotNull OptionType typeFromAnnotation) {
+        return typeFromAnnotation == OptionType.UNKNOWN && parameterType.equals(Message.Attachment.class)
+                ? OptionType.ATTACHMENT
+                : super.buildOptionType(parameterType, typeFromAnnotation);
     }
 }

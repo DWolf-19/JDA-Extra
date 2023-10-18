@@ -22,6 +22,7 @@ SOFTWARE.
 package com.dwolfnineteen.jdaextra.events;
 
 import com.dwolfnineteen.jdaextra.JDAExtra;
+import com.dwolfnineteen.jdaextra.options.mappings.PrefixOptionMapping;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.sticker.StickerSnowflake;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
@@ -30,26 +31,32 @@ import net.dv8tion.jda.api.requests.restaction.MessageCreateAction;
 import net.dv8tion.jda.api.utils.FileUpload;
 import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
+import java.util.List;
 
+// TODO: Convert PrefixCommandEvent to container for MessageReceivedEvent
 public class PrefixCommandEvent extends MessageReceivedEvent implements CommandEvent {
     private final JDAExtra jdaExtra;
     private final String prefix;
     private final String name;
     private final String description;
+    private final List<PrefixOptionMapping> options;
 
     public PrefixCommandEvent(@NotNull MessageReceivedEvent event,
                               @NotNull JDAExtra jdaExtra,
                               @NotNull String prefix,
                               @NotNull String name,
-                              @NotNull String description) {
+                              @Nullable String description,
+                              @NotNull List<PrefixOptionMapping> options) {
         super(event.getJDA(), event.getResponseNumber(), event.getMessage());
 
         this.jdaExtra = jdaExtra;
         this.prefix = prefix;
         this.name = name;
         this.description = description;
+        this.options = options;
     }
 
     @NotNull
@@ -67,9 +74,14 @@ public class PrefixCommandEvent extends MessageReceivedEvent implements CommandE
         return name;
     }
 
-    @NotNull
+    @Nullable
     public String getDescription() {
         return description;
+    }
+
+    @NotNull
+    public List<PrefixOptionMapping> getOptions() {
+        return options;
     }
 
     @NotNull

@@ -22,12 +22,20 @@ SOFTWARE.
 package com.dwolfnineteen.jdaextra.builders;
 
 import com.dwolfnineteen.jdaextra.annotations.ExtraHybridCommand;
+import com.dwolfnineteen.jdaextra.annotations.options.AutoComplete;
+import com.dwolfnineteen.jdaextra.annotations.options.HybridOption;
+import com.dwolfnineteen.jdaextra.annotations.options.Required;
 import com.dwolfnineteen.jdaextra.commands.BaseCommand;
 import com.dwolfnineteen.jdaextra.commands.HybridCommand;
 import com.dwolfnineteen.jdaextra.exceptions.CommandAnnotationNotFoundException;
 import com.dwolfnineteen.jdaextra.models.HybridCommandModel;
+import com.dwolfnineteen.jdaextra.options.data.HybridOptionData;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import java.lang.reflect.Parameter;
+import java.util.ArrayList;
+import java.util.List;
 
 public class HybridCommandBuilder extends CommandBuilder {
     public HybridCommandBuilder(@NotNull HybridCommand command) {
@@ -38,21 +46,38 @@ public class HybridCommandBuilder extends CommandBuilder {
     @Nullable
     public HybridCommandModel buildModel() {
         HybridCommandModel model = new HybridCommandModel();
-        Class<? extends BaseCommand> commandClass = command.getClass();
+        Class<? extends BaseCommand> cls = command.getClass();
 
         model.setCommand(command);
         model.setMain(buildMain());
 
-        if (commandClass.isAnnotationPresent(ExtraHybridCommand.class)) {
-            ExtraHybridCommand classAnnotation = commandClass.getAnnotation(ExtraHybridCommand.class);
+        ExtraHybridCommand annotation = cls.getAnnotation(ExtraHybridCommand.class);
 
-            model.setName(classAnnotation.name().isEmpty() ? model.getMain().getName() : classAnnotation.name());
-            model.setDescription(classAnnotation.description());
-
-        // TODO: add logic
-        } else
+        if (annotation == null)
             throw new CommandAnnotationNotFoundException();
 
-        return model;
+        model.setName(annotation.name().isEmpty() ? model.getMain().getName() : annotation.name());
+        model.setDescription(annotation.description());
+
+        List<HybridOptionData> options = new ArrayList<>();
+
+        for (Parameter parameter : model.getMain().getParameters())
+            if (parameter.isAnnotationPresent(HybridOption.class)) {
+                HybridOption hybridOption = parameter.getAnnotation(HybridOption.class);
+
+                HybridOptionData data = new HybridOptionData(buildOptionType(parameter.getType(), hybridOption.type()),
+                        hybridOption.name(),
+                        hybridOption.description(),
+                        parameter.isAnnotationPresent(Required.class),
+                        parameter.isAnnotationPresent(AutoComplete.class));
+
+                data.addChoices(buildChoices(parameter.getAnnotations()));
+
+                options.add(data);
+            }
+
+        model.setOptions(options);
+
+        return (HybridCommandModel) buildSettings(model, cls);
     }
 }
