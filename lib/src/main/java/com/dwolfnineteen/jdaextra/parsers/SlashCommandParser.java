@@ -37,20 +37,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SlashCommandParser extends CommandParser {
-    private final SlashCommandInteractionEvent event;
+    private final SlashCommandInteractionEvent sourceEvent;
 
     private SlashCommandModel model;
 
     public SlashCommandParser(@NotNull JDAExtra jdaExtra,
-                              @NotNull SlashCommandInteractionEvent event) {
+                              @NotNull SlashCommandInteractionEvent sourceEvent) {
         this.jdaExtra = jdaExtra;
-        this.event = event;
+        this.sourceEvent = sourceEvent;
     }
 
     @Override
     @NotNull
     public GenericEvent getSourceEvent() {
-        return event;
+        return sourceEvent;
     }
 
     @Override
@@ -73,7 +73,7 @@ public class SlashCommandParser extends CommandParser {
         List<Object> arguments = new ArrayList<>();
         List<SlashOptionData> options = model.getOptions();
 
-        List<OptionMapping> optionMappings = event.getOptions();
+        List<OptionMapping> optionMappings = sourceEvent.getOptions();
 
         for (int i = 0; i < options.size(); i++) {
             if (optionMappings.size() <= i) {
@@ -82,11 +82,12 @@ public class SlashCommandParser extends CommandParser {
                 continue;
             }
 
-            Object type = buildInvokeArgumentType(options.get(i).getType(), new SlashOptionMapping(optionMappings.get(i)));
+            Object type = buildInvokeArgumentType(options.get(i).getType(),
+                    new SlashOptionMapping(optionMappings.get(i)));
             arguments.add(type == null ? optionMappings.get(i).getAsAttachment() : type);
         }
 
-        arguments.add(0, new SlashCommandEvent(event, jdaExtra));
+        arguments.add(0, new SlashCommandEvent(sourceEvent, jdaExtra));
 
         return arguments.toArray();
     }

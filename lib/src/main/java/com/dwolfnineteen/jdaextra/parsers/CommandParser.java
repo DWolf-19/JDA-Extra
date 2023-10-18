@@ -23,7 +23,6 @@ package com.dwolfnineteen.jdaextra.parsers;
 
 import com.dwolfnineteen.jdaextra.JDAExtra;
 import com.dwolfnineteen.jdaextra.models.CommandModel;
-import com.dwolfnineteen.jdaextra.models.PrefixCommandModel;
 import com.dwolfnineteen.jdaextra.options.mappings.CommandOptionMapping;
 import net.dv8tion.jda.api.events.GenericEvent;
 import net.dv8tion.jda.api.interactions.commands.OptionType;

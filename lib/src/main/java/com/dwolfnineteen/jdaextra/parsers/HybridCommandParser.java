@@ -37,7 +37,6 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -72,7 +71,6 @@ public class HybridCommandParser extends CommandParser {
         return this;
     }
 
-    // TODO: DO REFACTORING FOR THIS HORROR
     @Override
     @NotNull
     public Object[] buildInvokeArguments() {
@@ -82,52 +80,55 @@ public class HybridCommandParser extends CommandParser {
         if (parser instanceof PrefixCommandParser) {
             PrefixCommandParser prefixParser = (PrefixCommandParser) parser;
 
-            List<PrefixOptionMapping> optionMappings = new ArrayList<>();
+            List<PrefixOptionMapping> mappings = new ArrayList<>();
 
-            for (int i = 0; i < prefixParser.parseOptions(prefixParser.parseTrigger()).length; i++) {
-                optionMappings.add(new PrefixOptionMapping(options.get(i).getType(),
+            String trigger = prefixParser.parseTrigger();
+
+            for (int i = 0; i < prefixParser.parseOptions(trigger).length; i++) {
+                mappings.add(new PrefixOptionMapping(options.get(i).getType(),
                         options.get(i).getName(),
-                        prefixParser.parseOptions(prefixParser.parseTrigger())[i],
+                        prefixParser.parseOptions(trigger)[i],
                         prefixParser.getSourceEvent()));
             }
 
             for (int i = 0; i < options.size(); i++) {
-                if (optionMappings.size() <= i) {
+                if (mappings.size() <= i) {
                     arguments.add(null);
 
                     continue;
                 }
 
                 arguments.add(buildInvokeArgumentType(options.get(i).getType(),
-                        new HybridOptionMapping(optionMappings.get(i))));
+                        new HybridOptionMapping(mappings.get(i))));
             }
 
             arguments.add(0, new HybridCommandEvent(new PrefixCommandEvent(prefixParser.getSourceEvent(),
                     jdaExtra,
-                    prefixParser.parseTrigger(),
-                    prefixParser.parseName(prefixParser.parseTrigger()),
+                    trigger,
+                    prefixParser.parseName(trigger),
                     model.getDescription(),
-                    optionMappings)));
+                    mappings)));
         } else if (parser instanceof SlashCommandParser) {
             SlashCommandParser slashParser = (SlashCommandParser) parser;
+
             SlashCommandEvent slashEvent =
                     new SlashCommandEvent((SlashCommandInteractionEvent) slashParser.getSourceEvent(), jdaExtra);
 
             // TODO: See todo in SlashCommandEvent
-            List<SlashOptionMapping> optionMappings = slashEvent.getOptions()
+            List<SlashOptionMapping> mappings = slashEvent.getOptions()
                     .stream()
                     .map(SlashOptionMapping::new)
                     .collect(Collectors.toList());
 
             for (int i = 0; i < options.size(); i++) {
-                if (optionMappings.size() <= i) {
+                if (mappings.size() <= i) {
                     arguments.add(null);
 
                     continue;
                 }
 
-                HybridOptionMapping mapping = new HybridOptionMapping(optionMappings.get(i));
-                arguments.add(buildInvokeArgumentType(options.get(i).getType(), mapping));
+                arguments.add(buildInvokeArgumentType(options.get(i).getType(),
+                        new HybridOptionMapping(mappings.get(i))));
             }
 
             arguments.add(0, new HybridCommandEvent(slashEvent));

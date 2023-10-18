@@ -28,7 +28,6 @@ import com.dwolfnineteen.jdaextra.models.PrefixCommandModel;
 import com.dwolfnineteen.jdaextra.options.data.PrefixOptionData;
 import com.dwolfnineteen.jdaextra.options.mappings.PrefixOptionMapping;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
-import net.dv8tion.jda.api.interactions.commands.OptionType;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -82,19 +81,18 @@ public class PrefixCommandParser extends CommandParser {
         }
 
         List<Object> arguments = new ArrayList<>();
+        List<PrefixOptionData> options = model.getOptions();
 
-        List<PrefixOptionData> optionsData = model.getOptions();
+        List<PrefixOptionMapping> mappings = buildOptionsMappings(parseOptions(parseTrigger()));
 
-        List<PrefixOptionMapping> optionMappings = buildOptionsMappings(parseOptions(parseTrigger()));
-
-        for (int i = 0; i < optionsData.size(); i++) {
-            if (optionMappings.size() <= i) {
+        for (int i = 0; i < options.size(); i++) {
+            if (mappings.size() <= i) {
                 arguments.add(null);
 
                 continue;
             }
 
-            arguments.add(buildInvokeArgumentType(optionsData.get(i).getType(), optionMappings.get(i)));
+            arguments.add(buildInvokeArgumentType(options.get(i).getType(), mappings.get(i)));
         }
 
         arguments.add(0, new PrefixCommandEvent(sourceEvent,
@@ -102,7 +100,7 @@ public class PrefixCommandParser extends CommandParser {
                 parseTrigger(),
                 parseName(parseTrigger()),
                 model.getDescription(),
-                optionMappings));
+                mappings));
 
         return arguments.toArray();
     }
