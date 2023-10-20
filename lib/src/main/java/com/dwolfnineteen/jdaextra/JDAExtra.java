@@ -50,6 +50,17 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+
+/* TODO: Think about
+    @NotNull
+    public String getSomething() {
+        return something;
+    }
+    or
+    public @NotNull String getSomething() {
+        return something;
+    } ?
+*/
 public class JDAExtra extends ListenerAdapter {
     private final String prefix;
     private final boolean whenMention;
