@@ -1,24 +1,24 @@
 /*
-Copyright (c) 2023 DWolf Nineteen & The JDA-Extra contributors
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-*/
+ * Copyright (c) 2023 DWolf Nineteen & The JDA-Extra contributors
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
 package com.dwolfnineteen.jdaextra;
 
 import com.dwolfnineteen.jdaextra.builders.HybridCommandBuilder;
@@ -27,8 +27,6 @@ import com.dwolfnineteen.jdaextra.builders.SlashCommandBuilder;
 import com.dwolfnineteen.jdaextra.commands.HybridCommand;
 import com.dwolfnineteen.jdaextra.commands.PrefixCommand;
 import com.dwolfnineteen.jdaextra.commands.SlashCommand;
-import com.dwolfnineteen.jdaextra.events.HybridCommandEvent;
-import com.dwolfnineteen.jdaextra.events.SlashCommandEvent;
 import com.dwolfnineteen.jdaextra.exceptions.CommandNotFoundException;
 import com.dwolfnineteen.jdaextra.models.HybridCommandModel;
 import com.dwolfnineteen.jdaextra.models.PrefixCommandModel;
@@ -48,39 +46,41 @@ import org.jetbrains.annotations.NotNull;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class JDAExtra extends ListenerAdapter {
     private final String prefix;
     private final boolean whenMention;
 
-    private final HashMap<String, HybridCommandModel> hybridCommandsModels;
-    private final HashMap<String, PrefixCommandModel> prefixCommandsModels;
-    private final HashMap<String, SlashCommandModel> slashCommandsModels;
+    private final Map<String, HybridCommandModel> hybridCommandsModels;
+    private final Map<String, PrefixCommandModel> prefixCommandsModels;
+    private final Map<String, SlashCommandModel> slashCommandsModels;
 
     public JDAExtra(@NotNull String prefix,
                     boolean whenMention,
-                    @NotNull ArrayList<HybridCommand> hybridCommands,
-                    @NotNull ArrayList<PrefixCommand> prefixCommands,
-                    @NotNull ArrayList<SlashCommand> slashCommands) {
+                    @NotNull List<HybridCommand> hybridCommands,
+                    @NotNull List<PrefixCommand> prefixCommands,
+                    @NotNull List<SlashCommand> slashCommands) {
         this.prefix = prefix;
         this.whenMention = whenMention;
 
-        HashMap<String, HybridCommandModel> hybridCommandModels = new HashMap<>();
+        Map<String, HybridCommandModel> hybridCommandModels = new HashMap<>();
 
         for (HybridCommand hybridCommand : hybridCommands) {
             HybridCommandModel hybridModel = new HybridCommandBuilder(hybridCommand).buildModel();
             hybridCommandModels.put(hybridModel.getName(), hybridModel);
         }
 
-        HashMap<String, PrefixCommandModel> prefixCommandModels = new HashMap<>();
+        Map<String, PrefixCommandModel> prefixCommandModels = new HashMap<>();
 
         for (PrefixCommand prefixCommand : prefixCommands) {
             PrefixCommandModel prefixModel = new PrefixCommandBuilder(prefixCommand).buildModel();
             prefixCommandModels.put(prefixModel.getName(), prefixModel);
         }
 
-        HashMap<String, SlashCommandModel> slashCommandModels = new HashMap<>();
+        Map<String, SlashCommandModel> slashCommandModels = new HashMap<>();
 
         for (SlashCommand slashCommand : slashCommands) {
             SlashCommandModel slashModel = new SlashCommandBuilder(slashCommand).buildModel();
@@ -102,17 +102,17 @@ public class JDAExtra extends ListenerAdapter {
     }
 
     @NotNull
-    public HashMap<String, HybridCommandModel> getHybridCommandsModels() {
+    public Map<String, HybridCommandModel> getHybridCommandsModels() {
         return hybridCommandsModels;
     }
 
     @NotNull
-    public HashMap<String, PrefixCommandModel> getPrefixCommandsModels() {
+    public Map<String, PrefixCommandModel> getPrefixCommandsModels() {
         return prefixCommandsModels;
     }
 
     @NotNull
-    public HashMap<String, SlashCommandModel> getSlashCommandsModels() {
+    public Map<String, SlashCommandModel> getSlashCommandsModels() {
         return slashCommandsModels;
     }
 
