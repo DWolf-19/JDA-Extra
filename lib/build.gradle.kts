@@ -28,7 +28,7 @@ repositories {
 }
 
 dependencies {
-    api("net.dv8tion:JDA:5.0.0-beta.16")
+    api("net.dv8tion:JDA:5.0.0-beta.17")
     compileOnly("org.jetbrains:annotations:24.0.1")
 }
 
