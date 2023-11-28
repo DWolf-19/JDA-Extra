@@ -1,7 +1,7 @@
 # Important
 * All your commits must have a [verified signature](https://docs.github.com/en/authentication/managing-commit-signature-verification/about-commit-signature-verification).
 * Follow [Google Java Code Style](https://google.github.io/styleguide/javaguide.html) excluding [4.2](https://google.github.io/styleguide/javaguide.html#s4.2-block-indentation): use 4 spaces. `java.*` imports should be placed one line below other imports.
-* All `*.java`/`*.kts` files that you add must contain the copyright header.
+* All `*.java`/`*.kts` files that you add must contain the [copyright header](HEADER.md).
 
 # Guide
 1. [Fork](https://github.com/DWolf-19/JDA-Extra/fork) this repository.
