@@ -33,10 +33,21 @@ import net.dv8tion.jda.api.interactions.commands.OptionType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-// This is for semantics!
+// TODO: Add OptionType checks to getters (and exception throwing)
+/**
+ * Name/value mapping of {@link com.dwolfnineteen.jdaextra.events.SlashCommandEvent SlashCommandEvent} option.
+ * This is semantic container for the original
+ * {@link net.dv8tion.jda.api.interactions.commands.OptionMapping OptionMapping}.
+ */
 public class SlashOptionMapping implements CommandOptionMapping {
     private final OptionMapping mapping;
 
+    /**
+     * Construct new {@link com.dwolfnineteen.jdaextra.options.mappings.SlashOptionMapping SlashOptionMapping}.
+     *
+     * @param mapping The original {@link net.dv8tion.jda.api.interactions.commands.OptionMapping OptionMapping}.
+     * @see com.dwolfnineteen.jdaextra.options.mappings.SlashOptionMapping SlashOptionMapping
+     */
     public SlashOptionMapping(@NotNull OptionMapping mapping) {
         this.mapping = mapping;
     }
@@ -59,6 +70,11 @@ public class SlashOptionMapping implements CommandOptionMapping {
         return mapping.getAsString();
     }
 
+    /**
+     * Value for this option as {@link net.dv8tion.jda.api.entities.Message.Attachment Message.Attachment} instance.
+     *
+     * @return Value as {@link net.dv8tion.jda.api.entities.Message.Attachment Message.Attachment} instance.
+     */
     @NotNull
     public Message.Attachment getAsAttachment() {
         return mapping.getAsAttachment();

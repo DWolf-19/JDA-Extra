@@ -21,5 +21,9 @@
  */
 package com.dwolfnineteen.jdaextra.commands;
 
+// TODO: Remove extends SlashCommand
+/**
+ * Empty abstract class for hybrid commands.
+ */
 public abstract class HybridCommand extends SlashCommand {
 }

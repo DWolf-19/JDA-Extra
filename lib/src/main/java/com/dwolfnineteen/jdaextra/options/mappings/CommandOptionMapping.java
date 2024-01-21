@@ -29,18 +29,103 @@ import net.dv8tion.jda.api.entities.channel.ChannelType;
 import net.dv8tion.jda.api.entities.channel.unions.GuildChannelUnion;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 
+/**
+ * Basic interface for name/value mappings of {@link com.dwolfnineteen.jdaextra.events.CommandEvent CommandEvent}
+ * options.
+ */
 public interface CommandOptionMapping {
+    /**
+     * The {@link net.dv8tion.jda.api.interactions.commands.OptionType OptionType} for this option.
+     *
+     * @return The {@link net.dv8tion.jda.api.interactions.commands.OptionType OptionType}.
+     */
     OptionType getType();
+
+    /**
+     * The name for this option.
+     *
+     * @return The name.
+     */
     String getName();
+
+    /**
+     * The {@link String} representation of this option.
+     *
+     * @return The {@link String} representation.
+     */
     String getAsString();
+
+    /**
+     * Value for this option as a {@code boolean}.
+     *
+     * @return Value as a {@code boolean}.
+     */
     boolean getAsBoolean();
+
+    /**
+     * Value for this option as a {@code long}.
+     *
+     * @return Value as a {@code long}.
+     */
     long getAsLong();
+
+    /**
+     * Value for this option as an {@code int}.
+     *
+     * @return Value as an {@code int}.
+     */
     int getAsInt();
+
+    /**
+     * Value for this option as a {@code double}.
+     *
+     * @return Value as a {@code double}.
+     */
     double getAsDouble();
+
+    /**
+     * Value for this option as {@link net.dv8tion.jda.api.entities.IMentionable IMentionable} instance.
+     *
+     * @return Value as {@link net.dv8tion.jda.api.entities.IMentionable IMentionable} instance.
+     */
     IMentionable getAsMentionable();
+
+    /**
+     * Value for this option as {@link net.dv8tion.jda.api.entities.Member Member} instance.
+     *
+     * @return Value as {@link net.dv8tion.jda.api.entities.Member Member} instance.
+     */
     Member getAsMember();
+
+    /**
+     * Value for this option as {@link net.dv8tion.jda.api.entities.User User} instance.
+     *
+     * @return Value as {@link net.dv8tion.jda.api.entities.User User} instance.
+     */
     User getAsUser();
+
+    /**
+     * Value for this option as {@link net.dv8tion.jda.api.entities.Role Role} instance.
+     *
+     * @return Value as {@link net.dv8tion.jda.api.entities.Role Role} instance.
+     */
     Role getAsRole();
+
+    /**
+     * Value for this option as
+     * {@link net.dv8tion.jda.api.entities.channel.unions.GuildChannelUnion GuildChannelUnion} instance.
+     *
+     * @return Value as
+     * {@link net.dv8tion.jda.api.entities.channel.unions.GuildChannelUnion GuildChannelUnion} instance.
+     */
     GuildChannelUnion getAsChannel();
+
+    /**
+     * The {@link net.dv8tion.jda.api.entities.channel.ChannelType ChannelType} for
+     * {@link com.dwolfnineteen.jdaextra.options.mappings.CommandOptionMapping#getAsChannel CommandOptionMapping#getAsChannel}
+     * result (this option value).
+     *
+     * @return The {@link net.dv8tion.jda.api.entities.channel.ChannelType ChannelType}.
+     */
     ChannelType getChannelType();
 }

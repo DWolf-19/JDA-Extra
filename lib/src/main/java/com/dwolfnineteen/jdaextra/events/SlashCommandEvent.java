@@ -26,9 +26,19 @@ import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEve
 import org.jetbrains.annotations.NotNull;
 
 // FIXME: SlashCommandEvent#getOptions returns default option mappings
+/**
+ * Slash command event.
+ */
 public class SlashCommandEvent extends SlashCommandInteractionEvent implements CommandEvent {
     private final JDAExtra jdaExtra;
 
+    /**
+     * Construct new {@link com.dwolfnineteen.jdaextra.events.SlashCommandEvent SlashCommandEvent}.
+     *
+     * @param event The source
+     * {@link net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent SlashCommandInteractionEvent}.
+     * @param jdaExtra The {@link com.dwolfnineteen.jdaextra.JDAExtra JDAExtra} instance.
+     */
     public SlashCommandEvent(@NotNull SlashCommandInteractionEvent event, @NotNull JDAExtra jdaExtra) {
         super(event.getJDA(), event.getResponseNumber(), event.getInteraction());
 

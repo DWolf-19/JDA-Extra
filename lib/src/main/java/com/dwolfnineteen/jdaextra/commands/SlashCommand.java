@@ -21,5 +21,8 @@
  */
 package com.dwolfnineteen.jdaextra.commands;
 
+/**
+ * Empty abstract class for slash commands.
+ */
 public abstract class SlashCommand extends BaseCommand {
 }

@@ -26,8 +26,18 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+/**
+ * Set min length for option
+ * (only if the {@link net.dv8tion.jda.api.interactions.commands.OptionType OptionType} is
+ * {@link net.dv8tion.jda.api.interactions.commands.OptionType#STRING STRING}/parameter type is {@link String}).
+ */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.PARAMETER)
 public @interface MinLength {
+    /**
+     * Min length for this option.
+     *
+     * @return Min length.
+     */
     double value();
 }

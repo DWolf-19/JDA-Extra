@@ -33,12 +33,23 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 // TODO: Add OptionType checks to getters
+/**
+ * Name/value mapping of {@link com.dwolfnineteen.jdaextra.events.PrefixCommandEvent PrefixCommandEvent} option.
+ */
 public class PrefixOptionMapping implements CommandOptionMapping {
     private final OptionType type;
     private final String name;
     private final String option;
     private final MessageReceivedEvent event;
 
+    /**
+     * Construct new {@link com.dwolfnineteen.jdaextra.options.mappings.PrefixOptionMapping PrefixOptionMapping}.
+     *
+     * @param type The {@link net.dv8tion.jda.api.interactions.commands.OptionType OptionType} for this option.
+     * @param name The name for this option.
+     * @param option The source {@link String String} for this option value.
+     * @param event The {@link net.dv8tion.jda.api.events.message.MessageReceivedEvent MessageReceivedEvent}.
+     */
     public PrefixOptionMapping(@NotNull OptionType type,
                                @NotNull String name,
                                @NotNull String option,

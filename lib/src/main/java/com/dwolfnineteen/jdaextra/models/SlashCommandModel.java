@@ -26,20 +26,41 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
+/**
+ * Slash command model.
+ * @see com.dwolfnineteen.jdaextra.models.CommandModel CommandModel
+ */
 public class SlashCommandModel extends CommandModel {
     private String description;
     private List<SlashOptionData> options;
 
+    /**
+     * The command description.
+     *
+     * @return The description.
+     */
     @NotNull
     public String getDescription() {
         return description;
     }
 
+    /**
+     * All command options as a {@link java.util.List List}.
+     *
+     * @return The command options.
+     */
     @NotNull
     public List<SlashOptionData> getOptions() {
         return options;
     }
 
+    /**
+     * Sets the command description.
+     *
+     * @param description The command description.
+     * @return Current {@link com.dwolfnineteen.jdaextra.models.SlashCommandModel SlashCommandModel} instance,
+     * for chaining.
+     */
     @NotNull
     public SlashCommandModel setDescription(@NotNull String description) {
         this.description = description;
@@ -47,6 +68,13 @@ public class SlashCommandModel extends CommandModel {
         return this;
     }
 
+    /**
+     * Sets the command options as a {@link java.util.List List}.
+     *
+     * @param options The command options.
+     * @return Current {@link com.dwolfnineteen.jdaextra.models.SlashCommandModel SlashCommandModel} instance,
+     * for chaining.
+     */
     @NotNull
     public SlashCommandModel setOptions(@NotNull List<SlashOptionData> options) {
         this.options = options;

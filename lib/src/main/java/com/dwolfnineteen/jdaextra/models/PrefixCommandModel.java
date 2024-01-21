@@ -27,20 +27,41 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
+/**
+ * Prefix command model.
+ * @see com.dwolfnineteen.jdaextra.models.CommandModel CommandModel
+ */
 public class PrefixCommandModel extends CommandModel {
     private String description;
     private List<PrefixOptionData> options;
 
+    /**
+     * The command description.
+     *
+     * @return The description. {@code null}, if description not specified.
+     */
     @Nullable
     public String getDescription() {
         return description;
     }
 
+    /**
+     * All command options as a {@link java.util.List List}.
+     *
+     * @return The command options.
+     */
     @NotNull
     public List<PrefixOptionData> getOptions() {
         return options;
     }
 
+    /**
+     * Sets the command description.
+     *
+     * @param description The command description.
+     * @return Current {@link com.dwolfnineteen.jdaextra.models.PrefixCommandModel PrefixCommandModel} instance,
+     * for chaining.
+     */
     @NotNull
     public PrefixCommandModel setDescription(@Nullable String description) {
         this.description = description;
@@ -48,6 +69,13 @@ public class PrefixCommandModel extends CommandModel {
         return this;
     }
 
+    /**
+     * Sets the command options as a {@link java.util.List List}.
+     *
+     * @param options The command options.
+     * @return Current {@link com.dwolfnineteen.jdaextra.models.PrefixCommandModel PrefixCommandModel} instance,
+     * for chaining.
+     */
     @NotNull
     public PrefixCommandModel setOptions(@NotNull List<PrefixOptionData> options) {
         this.options = options;

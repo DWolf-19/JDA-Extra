@@ -19,30 +19,8 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.dwolfnineteen.jdaextra.annotations.options;
-
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
 
 /**
- * Set required length for option (shortcut for {@link MinLength @MinLength} + {@link MaxLength @MaxLength}).
+ * Annotations for commands and options.
  */
-@Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.PARAMETER)
-public @interface RequiredLength {
-    /**
-     * Set min length for this option.
-     *
-     * @return Min length.
-     */
-    int minLength();
-
-    /**
-     * Set max length for this option.
-     *
-     * @return Max length.
-     */
-    int maxLength();
-}
+package com.dwolfnineteen.jdaextra.annotations;

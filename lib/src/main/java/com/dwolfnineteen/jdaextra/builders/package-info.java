@@ -19,30 +19,13 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.dwolfnineteen.jdaextra.annotations.options;
-
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
 
 /**
- * Set required length for option (shortcut for {@link MinLength @MinLength} + {@link MaxLength @MaxLength}).
+ * Command builders.
+ * <br>
+ * Classes that implement logic of assembling "view" objects (models)
+ * by collecting data from command annotations and the Java Reflection API.
+ *
+ * @see com.dwolfnineteen.jdaextra.models.CommandModel CommandModel
  */
-@Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.PARAMETER)
-public @interface RequiredLength {
-    /**
-     * Set min length for this option.
-     *
-     * @return Min length.
-     */
-    int minLength();
-
-    /**
-     * Set max length for this option.
-     *
-     * @return Max length.
-     */
-    int maxLength();
-}
+package com.dwolfnineteen.jdaextra.builders;

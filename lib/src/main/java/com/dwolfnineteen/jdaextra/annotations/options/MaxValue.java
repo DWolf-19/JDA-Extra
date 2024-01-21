@@ -26,8 +26,20 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+/**
+ * Set max value for option
+ * (only if the {@link net.dv8tion.jda.api.interactions.commands.OptionType OptionType} is
+ * {@link net.dv8tion.jda.api.interactions.commands.OptionType#INTEGER INTEGER} or
+ * {@link net.dv8tion.jda.api.interactions.commands.OptionType#NUMBER NUMBER}/parameter type is
+ * {@link Long} or {@link Double}).
+ */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.PARAMETER)
 public @interface MaxValue {
+    /**
+     * Max value for this option.
+     *
+     * @return Max value.
+     */
     double value();
 }

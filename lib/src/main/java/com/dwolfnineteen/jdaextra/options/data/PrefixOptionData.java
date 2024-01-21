@@ -28,6 +28,11 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
 
+/**
+ * Option data container for {@link com.dwolfnineteen.jdaextra.commands.PrefixCommand PrefixCommand}.
+ * <br>
+ * This class used by {@link com.dwolfnineteen.jdaextra.builders builders} for options building.
+ */
 public class PrefixOptionData implements CommandOptionData {
     private final OptionType type;
     private String name;
@@ -39,23 +44,51 @@ public class PrefixOptionData implements CommandOptionData {
     private int minLength;
     private Integer maxLength;
 
+    /**
+     * Construct new basic prefix option data container without advanced settings.
+     *
+     * @param type The {@link net.dv8tion.jda.api.interactions.commands.OptionType OptionType} for this option.
+     * @param name The name for this option.
+     */
     public PrefixOptionData(@NotNull OptionType type, @NotNull String name) {
         this.type = type;
         this.name = name;
     }
 
+    /**
+     * Construct new basic prefix option data container.
+     *
+     * @param type The {@link net.dv8tion.jda.api.interactions.commands.OptionType OptionType} for this option.
+     * @param name The name for this option.
+     * @param description The description for this option.
+     */
     public PrefixOptionData(@NotNull OptionType type, @NotNull String name, @Nullable String description) {
         this.type = type;
         this.name = name;
         this.description = description;
     }
 
+    /**
+     * Construct new basic prefix option data container.
+     *
+     * @param type The {@link net.dv8tion.jda.api.interactions.commands.OptionType OptionType} for this option.
+     * @param name The name for this option.
+     * @param isRequired Is this option required.
+     */
     public PrefixOptionData(@NotNull OptionType type, @NotNull String name, boolean isRequired) {
         this.type = type;
         this.name = name;
         this.isRequired = isRequired;
     }
 
+    /**
+     * Construct new basic prefix option data container.
+     *
+     * @param type The {@link net.dv8tion.jda.api.interactions.commands.OptionType OptionType} for this option.
+     * @param name The name for this option.
+     * @param description The description for this option.
+     * @param isRequired Whether this option required.
+     */
     public PrefixOptionData(@NotNull OptionType type,
                             @NotNull String name,
                             @Nullable String description,
@@ -66,6 +99,14 @@ public class PrefixOptionData implements CommandOptionData {
         this.isRequired = isRequired;
     }
 
+    /**
+     * Construct new basic prefix option data container.
+     *
+     * @param type The {@link net.dv8tion.jda.api.interactions.commands.OptionType OptionType} for this option.
+     * @param name The name for this option.
+     * @param isRequired Is this option required.
+     * @param isAutoComplete Whether this option supports autocomplete.
+     */
     public PrefixOptionData(@NotNull OptionType type,
                             @NotNull String name,
                             boolean isRequired,
@@ -76,6 +117,15 @@ public class PrefixOptionData implements CommandOptionData {
         this.isAutoComplete = isAutoComplete;
     }
 
+    /**
+     * Construct new basic prefix option data container.
+     *
+     * @param type The {@link net.dv8tion.jda.api.interactions.commands.OptionType OptionType} for this option.
+     * @param name The name for this option.
+     * @param description The description for this option.
+     * @param isRequired Whether this option required.
+     * @param isAutoComplete Whether this option supports autocomplete.
+     */
     public PrefixOptionData(@NotNull OptionType type,
                             @NotNull String name,
                             @Nullable String description,
@@ -140,6 +190,10 @@ public class PrefixOptionData implements CommandOptionData {
         return maxLength;
     }
 
+    /**
+     * @return Current {@link com.dwolfnineteen.jdaextra.options.data.PrefixOptionData PrefixOptionData} instance,
+     * for chaining.
+     */
     @Override
     @NotNull
     public PrefixOptionData setName(@NotNull String name) {
@@ -148,6 +202,10 @@ public class PrefixOptionData implements CommandOptionData {
         return this;
     }
 
+    /**
+     * @return Current {@link com.dwolfnineteen.jdaextra.options.data.PrefixOptionData PrefixOptionData} instance,
+     * for chaining.
+     */
     @Override
     @NotNull
     public PrefixOptionData setDescription(@NotNull String description) {
@@ -156,6 +214,10 @@ public class PrefixOptionData implements CommandOptionData {
         return this;
     }
 
+    /**
+     * @return Current {@link com.dwolfnineteen.jdaextra.options.data.PrefixOptionData PrefixOptionData} instance,
+     * for chaining.
+     */
     @Override
     @NotNull
     public PrefixOptionData setRequired(boolean required) {
@@ -164,6 +226,10 @@ public class PrefixOptionData implements CommandOptionData {
         return this;
     }
 
+    /**
+     * @return Current {@link com.dwolfnineteen.jdaextra.options.data.PrefixOptionData PrefixOptionData} instance,
+     * for chaining.
+     */
     @Override
     @NotNull
     public PrefixOptionData setAutoComplete(boolean autoComplete) {
@@ -172,6 +238,10 @@ public class PrefixOptionData implements CommandOptionData {
         return this;
     }
 
+    /**
+     * @return Current {@link com.dwolfnineteen.jdaextra.options.data.PrefixOptionData PrefixOptionData} instance,
+     * for chaining.
+     */
     @Override
     @NotNull
     public PrefixOptionData setMinValue(long minValue) {
@@ -180,6 +250,10 @@ public class PrefixOptionData implements CommandOptionData {
         return this;
     }
 
+    /**
+     * @return Current {@link com.dwolfnineteen.jdaextra.options.data.PrefixOptionData PrefixOptionData} instance,
+     * for chaining.
+     */
     @Override
     @NotNull
     public PrefixOptionData setMinValue(double minValue) {
@@ -188,6 +262,10 @@ public class PrefixOptionData implements CommandOptionData {
         return this;
     }
 
+    /**
+     * @return Current {@link com.dwolfnineteen.jdaextra.options.data.PrefixOptionData PrefixOptionData} instance,
+     * for chaining.
+     */
     @Override
     @NotNull
     public PrefixOptionData setMaxValue(long maxValue) {
@@ -196,6 +274,10 @@ public class PrefixOptionData implements CommandOptionData {
         return this;
     }
 
+    /**
+     * @return Current {@link com.dwolfnineteen.jdaextra.options.data.PrefixOptionData PrefixOptionData} instance,
+     * for chaining.
+     */
     @Override
     @NotNull
     public PrefixOptionData setMaxValue(double maxValue) {
@@ -204,6 +286,10 @@ public class PrefixOptionData implements CommandOptionData {
         return this;
     }
 
+    /**
+     * @return Current {@link com.dwolfnineteen.jdaextra.options.data.PrefixOptionData PrefixOptionData} instance,
+     * for chaining.
+     */
     @Override
     @NotNull
     public PrefixOptionData setRequiredRange(long minValue, long maxValue) {
@@ -213,6 +299,10 @@ public class PrefixOptionData implements CommandOptionData {
         return this;
     }
 
+    /**
+     * @return Current {@link com.dwolfnineteen.jdaextra.options.data.PrefixOptionData PrefixOptionData} instance,
+     * for chaining.
+     */
     @Override
     @NotNull
     public PrefixOptionData setRequiredRange(double minValue, double maxValue) {
@@ -222,6 +312,10 @@ public class PrefixOptionData implements CommandOptionData {
         return this;
     }
 
+    /**
+     * @return Current {@link com.dwolfnineteen.jdaextra.options.data.PrefixOptionData PrefixOptionData} instance,
+     * for chaining.
+     */
     @Override
     @NotNull
     public PrefixOptionData setMinLength(int minLength) {
@@ -230,6 +324,10 @@ public class PrefixOptionData implements CommandOptionData {
         return this;
     }
 
+    /**
+     * @return Current {@link com.dwolfnineteen.jdaextra.options.data.PrefixOptionData PrefixOptionData} instance,
+     * for chaining.
+     */
     @Override
     @NotNull
     public PrefixOptionData setMaxLength(int maxLength) {
@@ -238,6 +336,10 @@ public class PrefixOptionData implements CommandOptionData {
         return this;
     }
 
+    /**
+     * @return Current {@link com.dwolfnineteen.jdaextra.options.data.PrefixOptionData PrefixOptionData} instance,
+     * for chaining.
+     */
     @Override
     @NotNull
     public PrefixOptionData setRequiredLength(int minLength, int maxLength) {
@@ -248,30 +350,51 @@ public class PrefixOptionData implements CommandOptionData {
     }
 
     // TODO: Support for choices
+
+    /**
+     * @return Current {@link com.dwolfnineteen.jdaextra.options.data.PrefixOptionData PrefixOptionData} instance,
+     * for chaining.
+     */
     @Override
     @NotNull
     public PrefixOptionData addChoice(String name, double value) {
         return this;
     }
 
+    /**
+     * @return Current {@link com.dwolfnineteen.jdaextra.options.data.PrefixOptionData PrefixOptionData} instance,
+     * for chaining.
+     */
     @Override
     @NotNull
     public PrefixOptionData addChoice(String name, long value) {
         return this;
     }
 
+    /**
+     * @return Current {@link com.dwolfnineteen.jdaextra.options.data.PrefixOptionData PrefixOptionData} instance,
+     * for chaining.
+     */
     @Override
     @NotNull
     public PrefixOptionData addChoice(String name, String value) {
         return this;
     }
 
+    /**
+     * @return Current {@link com.dwolfnineteen.jdaextra.options.data.PrefixOptionData PrefixOptionData} instance,
+     * for chaining.
+     */
     @Override
     @NotNull
     public PrefixOptionData addChoices(Command.Choice... choices) {
         return this;
     }
 
+    /**
+     * @return Current {@link com.dwolfnineteen.jdaextra.options.data.PrefixOptionData PrefixOptionData} instance,
+     * for chaining.
+     */
     @Override
     @NotNull
     public PrefixOptionData addChoices(Collection<? extends Command.Choice> choices) {

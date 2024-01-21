@@ -30,9 +30,18 @@ import net.dv8tion.jda.api.entities.channel.unions.GuildChannelUnion;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * Name/value mapping of {@link com.dwolfnineteen.jdaextra.events.HybridCommandEvent HybridCommandEvent} option.
+ */
 public class HybridOptionMapping implements CommandOptionMapping {
     private final CommandOptionMapping mapping;
 
+    /**
+     * Construct new {@link com.dwolfnineteen.jdaextra.options.mappings.HybridOptionMapping HybridOptionMapping}.
+     *
+     * @param mapping The {@link com.dwolfnineteen.jdaextra.options.mappings.CommandOptionMapping CommandOptionMapping}
+     * for "containerization".
+     */
     public HybridOptionMapping(@NotNull CommandOptionMapping mapping) {
         this.mapping = mapping;
     }

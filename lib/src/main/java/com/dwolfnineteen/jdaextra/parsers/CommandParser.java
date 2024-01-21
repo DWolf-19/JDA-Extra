@@ -29,21 +29,65 @@ import net.dv8tion.jda.api.interactions.commands.OptionType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+/**
+ * Basic command parser.
+ * @see com.dwolfnineteen.jdaextra.parsers parsers
+ */
 public abstract class CommandParser {
+    /**
+     * The {@link com.dwolfnineteen.jdaextra.JDAExtra JDAExtra} instance.
+     */
     protected JDAExtra jdaExtra;
 
+    /**
+     * Build arguments for executing command entry point.
+     *
+     * @return Arguments for {@link java.lang.reflect.Method#invoke Method.invoke()}.
+     * @see com.dwolfnineteen.jdaextra.annotations.ExtraMainCommand ExtraMainCommand
+     */
     public abstract Object[] buildInvokeArguments();
 
+    /**
+     * The {@link com.dwolfnineteen.jdaextra.JDAExtra JDAExtra} instance.
+     *
+     * @return The {@link com.dwolfnineteen.jdaextra.JDAExtra JDAExtra} instance.
+     */
     @NotNull
     public JDAExtra getJDAExtra() {
         return jdaExtra;
     }
 
+    /**
+     * The {@link net.dv8tion.jda.api.events.GenericEvent GenericEvent} (source event) for this parser.
+     *
+     * @return The {@link net.dv8tion.jda.api.events.GenericEvent GenericEvent} for this parser.
+     */
     public abstract GenericEvent getSourceEvent();
+
+    /**
+     * {@link com.dwolfnineteen.jdaextra.models.CommandModel CommandModel} for this parser.
+     *
+     * @return The {@link com.dwolfnineteen.jdaextra.models.CommandModel CommandModel} for this parser.
+     */
     public abstract CommandModel getModel();
 
+    /**
+     * Sets {@link com.dwolfnineteen.jdaextra.models.CommandModel CommandModel} for this parser.
+     *
+     * @param model {@link com.dwolfnineteen.jdaextra.models.CommandModel CommandModel} for this parser.
+     * @return Current {@link com.dwolfnineteen.jdaextra.parsers.CommandParser CommandParser} instance, for chaining.
+     */
     public abstract CommandParser setModel(CommandModel model);
 
+    /**
+     * Build argument type for {@link java.lang.reflect.Method#invoke Method.invoke()}.
+     *
+     * @param type The {@link net.dv8tion.jda.api.interactions.commands.OptionType OptionType}
+     * from {@link com.dwolfnineteen.jdaextra.options.data.CommandOptionData CommandOptionData}.
+     * @param mapping The {@link com.dwolfnineteen.jdaextra.options.mappings.CommandOptionMapping CommandOptionMapping}.
+     * @return Argument type. {@code null}, if the
+     * {@link net.dv8tion.jda.api.interactions.commands.OptionType OptionType} does not match supported type.
+     */
     @Nullable
     protected Object buildInvokeArgumentType(@NotNull OptionType type, @NotNull CommandOptionMapping mapping) {
         switch (type) {

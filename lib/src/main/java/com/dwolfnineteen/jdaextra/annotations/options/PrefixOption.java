@@ -28,10 +28,32 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+/**
+ * Definition annotation for prefix command options.
+ */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.PARAMETER)
 public @interface PrefixOption {
+    /**
+     * The {@link OptionType} for this option.
+     * <br>
+     * If no value is given (default to {@link OptionType#UNKNOWN UNKNOWN}), parameter type will be used.
+     */
     OptionType type() default OptionType.UNKNOWN;
+
+    /**
+     * The name for this option.
+     *
+     * @return The name.
+     */
     String name();
+
+    /**
+     * The description for this option.
+     * <br>
+     * If no value is given (default to empty string), description will be set to {@code null}.
+     *
+     * @return The description.
+     */
     String description() default "";
 }

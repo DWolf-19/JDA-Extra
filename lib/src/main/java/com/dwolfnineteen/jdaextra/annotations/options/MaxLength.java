@@ -26,8 +26,18 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+/**
+ * Set max length for option
+ * (only if the {@link net.dv8tion.jda.api.interactions.commands.OptionType OptionType} is
+ * {@link net.dv8tion.jda.api.interactions.commands.OptionType#STRING STRING}/parameter type is {@link String}).
+ */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.PARAMETER)
 public @interface MaxLength {
+    /**
+     * Max length for this option.
+     *
+     * @return Max length.
+     */
     double value();
 }

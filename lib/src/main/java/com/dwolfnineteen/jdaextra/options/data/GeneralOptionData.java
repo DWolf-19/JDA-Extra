@@ -23,6 +23,20 @@ package com.dwolfnineteen.jdaextra.options.data;
 
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 
+/**
+ * Classes that implements this interface can be converted into the standard
+ * {@link net.dv8tion.jda.api.interactions.commands.build.OptionData OptionData} through
+ * {@link #toGeneralOptionData() toGeneralOptionData()}.
+ * <br>
+ * This is used for binding to the JDA.
+ */
 public interface GeneralOptionData {
+    /**
+     * Get standard {@link net.dv8tion.jda.api.interactions.commands.build.OptionData OptionData} for this object.
+     *
+     * @return The {@link net.dv8tion.jda.api.interactions.commands.build.OptionData OptionData}
+     * instance for this object.
+     * @see com.dwolfnineteen.jdaextra.options.data.GeneralOptionData
+     */
     OptionData toGeneralOptionData();
 }

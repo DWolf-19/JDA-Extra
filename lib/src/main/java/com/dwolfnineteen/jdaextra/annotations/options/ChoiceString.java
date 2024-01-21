@@ -27,11 +27,25 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+/**
+ * Add predefined choice for this option as {@link String}.
+ */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.PARAMETER)
 @Repeatable(ChoiceString.Container.class)
 public @interface ChoiceString {
+    /**
+     * Sets the choice name.
+     *
+     * @return The name.
+     */
     String name();
+
+    /**
+     * Sets the value for this choice as {@link String}.
+     *
+     * @return The value as {@link String}.
+     */
     String val();
 
     @Retention(RetentionPolicy.RUNTIME)

@@ -23,7 +23,15 @@ package com.dwolfnineteen.jdaextra.exceptions;
 
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * Base class for all commands related exceptions.
+ */
 public class CommandException extends RuntimeException {
+    /**
+     * Construct new {@link com.dwolfnineteen.jdaextra.exceptions.CommandException CommandException}.
+     *
+     * @param message The description for this exception.
+     */
     public CommandException(@NotNull String message) {
         super(message);
     }

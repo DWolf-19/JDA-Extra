@@ -21,5 +21,8 @@
  */
 package com.dwolfnineteen.jdaextra.commands;
 
+/**
+ * Empty abstract class for basic commands (prefix/slash/hybrid).
+ */
 public abstract class BaseCommand {
 }

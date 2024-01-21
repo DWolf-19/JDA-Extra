@@ -35,6 +35,10 @@ import java.util.Arrays;
 import java.util.List;
 
 // TODO: Add "caching" for PrefixCommandParser#parse** methods
+/**
+ * Parser for prefix commands.
+ * @see com.dwolfnineteen.jdaextra.parsers parsers
+ */
 public class PrefixCommandParser extends CommandParser {
     private final MessageReceivedEvent sourceEvent;
 
@@ -44,6 +48,12 @@ public class PrefixCommandParser extends CommandParser {
 
     private PrefixCommandModel model;
 
+    /**
+     * Construct new {@link com.dwolfnineteen.jdaextra.parsers.PrefixCommandParser PrefixCommandParser}.
+     *
+     * @param jdaExtra The {@link com.dwolfnineteen.jdaextra.JDAExtra JDAExtra} instance.
+     * @param sourceEvent The {@link net.dv8tion.jda.api.events.GenericEvent GenericEvent} for this parser.
+     */
     public PrefixCommandParser(@NotNull JDAExtra jdaExtra,
                                @NotNull MessageReceivedEvent sourceEvent) {
         this.jdaExtra = jdaExtra;
@@ -54,18 +64,36 @@ public class PrefixCommandParser extends CommandParser {
         this.mention = sourceEvent.getJDA().getSelfUser().getAsMention();
     }
 
+    /**
+     * The {@link net.dv8tion.jda.api.events.message.MessageReceivedEvent MessageReceivedEvent} (source event)
+     * for this parser.
+     *
+     * @return The {@link net.dv8tion.jda.api.events.message.MessageReceivedEvent MessageReceivedEvent}.
+     */
     @Override
     @NotNull
     public MessageReceivedEvent getSourceEvent() {
         return sourceEvent;
     }
 
+    /**
+     * The {@link com.dwolfnineteen.jdaextra.models.PrefixCommandModel PrefixCommandModel} for this parser.
+     *
+     * @return The {@link com.dwolfnineteen.jdaextra.models.PrefixCommandModel PrefixCommandModel}.
+     */
     @Override
     @NotNull
     public PrefixCommandModel getModel() {
         return model;
     }
 
+    /**
+     * Set {@link com.dwolfnineteen.jdaextra.models.CommandModel CommandModel} for this parser.
+     *
+     * @param model {@link com.dwolfnineteen.jdaextra.models.CommandModel CommandModel}.
+     * @return Current {@link com.dwolfnineteen.jdaextra.parsers.PrefixCommandParser PrefixCommandParser} instance,
+     * for chaining.
+     */
     @Override
     @NotNull
     public PrefixCommandParser setModel(@NotNull CommandModel model) {
@@ -105,10 +133,21 @@ public class PrefixCommandParser extends CommandParser {
         return arguments.toArray();
     }
 
+    /**
+     * Checks if the source message begins with a given prefix.
+     *
+     * @return {@code True}, if it is a command.
+     */
     public boolean isCommand() {
         return content.startsWith(prefix) || (jdaExtra.isWhenMention() && content.startsWith(mention));
     }
 
+    /**
+     * Trigger (prefix/mention) from the message.
+     *
+     * @return Trigger for this command.
+     * @throws NullPointerException if the message not a command ({@link #isCommand() isCommand()} is {@code False}).
+     */
     @NotNull
     public String parseTrigger() {
         if (!isCommand()) {
@@ -118,6 +157,13 @@ public class PrefixCommandParser extends CommandParser {
         return content.startsWith(prefix) ? prefix : mention + " ";
     }
 
+    /**
+     * Command name from the message.
+     *
+     * @param trigger Trigger for this command.
+     * @return The command name.
+     * @throws NullPointerException if the message not a command ({@link #isCommand() isCommand()} is {@code False}).
+     */
     @NotNull
     public String parseName(@NotNull String trigger) {
         if (!isCommand()) {
@@ -127,6 +173,13 @@ public class PrefixCommandParser extends CommandParser {
         return content.substring(trigger.length()).split(" ")[0];
     }
 
+    /**
+     * Command options values as a {@link String String} array.
+     *
+     * @param trigger Trigger for this command.
+     * @return Options values.
+     * @throws NullPointerException if the message not a command ({@link #isCommand() isCommand()} is {@code False}).
+     */
     @NotNull
     public String[] parseOptions(@NotNull String trigger) {
         if (!isCommand()) {
