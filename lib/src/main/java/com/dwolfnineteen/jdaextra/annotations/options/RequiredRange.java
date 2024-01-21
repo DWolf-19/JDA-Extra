@@ -26,9 +26,23 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+/**
+ * Set required range for option (shortcut for {@link MinValue @MinValue} + {@link MaxValue @MaxValue}).
+ */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.PARAMETER)
 public @interface RequiredRange {
+    /**
+     * Set min value for this option.
+     *
+     * @return Min value.
+     */
     double minValue();
+
+    /**
+     * Set max value for this option.
+     *
+     * @return Max value.
+     */
     double maxValue();
 }

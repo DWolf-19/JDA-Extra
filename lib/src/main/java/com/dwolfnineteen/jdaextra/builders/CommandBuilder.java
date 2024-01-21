@@ -42,11 +42,27 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Base command builder.
+ */
 public abstract class CommandBuilder {
+    /**
+     * The command class.
+     */
     protected BaseCommand command;
 
+    /**
+     * Build the command model.
+     *
+     * @return The command model.
+     */
     public abstract CommandModel buildModel();
 
+    /**
+     * Build the command <strong>main</strong> entry point.
+     *
+     * @return The entry point.
+     */
     @Nullable
     protected Method buildMain() {
         for (Method method : command.getClass().getDeclaredMethods()) {
@@ -58,6 +74,16 @@ public abstract class CommandBuilder {
         return null;
     }
 
+    /**
+     * Build option type.
+     *
+     * @param parameterType Parameter type from Java Reflection API.
+     * @param typeFromAnnotation {@link OptionType} defined by annotation
+     * (default: {@link OptionType#UNKNOWN UNKNOWN}).
+     * If {@link OptionType#UNKNOWN UNKNOWN}, parameter type will be used.
+     * @return The {@link OptionType}.
+     * @see com.dwolfnineteen.jdaextra.annotations.options.HybridOption HybridOption
+     */
     @NotNull
     protected OptionType buildOptionType(@NotNull Class<?> parameterType, @NotNull OptionType typeFromAnnotation) {
         OptionType type;
@@ -87,6 +113,12 @@ public abstract class CommandBuilder {
         return type;
     }
 
+    /**
+     * Build command choices from option annotations.
+     *
+     * @param annotations Option annotations.
+     * @return {@link List} of {@link net.dv8tion.jda.api.interactions.commands.Command.Choice Command.Choice}.
+     */
     @NotNull
     protected List<Command.Choice> buildChoices(@NotNull Annotation[] annotations) {
         List<Command.Choice> choices = new ArrayList<>();
@@ -107,6 +139,13 @@ public abstract class CommandBuilder {
         return choices;
     }
 
+    /**
+     * Build command settings (such as {@link GuildOnly @GuildOnly}).
+     *
+     * @param model The command model.
+     * @param cls The command class.
+     * @return Configured {@link CommandModel}.
+     */
     @NotNull
     protected CommandModel buildSettings(@NotNull CommandModel model, @NotNull Class<? extends BaseCommand> cls) {
         model.setGuildOnly(cls.isAnnotationPresent(GuildOnly.class));

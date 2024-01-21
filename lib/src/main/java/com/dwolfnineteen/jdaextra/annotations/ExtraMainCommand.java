@@ -26,6 +26,25 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+/**
+ * Required annotation-marker for command main entry point.
+ * <br>
+ * Need to mark method contain main logic of the command.
+ * Can be omitted if the command has subcommands/subcommand groups.
+ * <br>
+ * <strong>Example:</strong>
+ * <pre>
+ * {@code
+ * @ExtraSlashCommand
+ * public class SlashCommandExample extends SlashCommand {
+ *      @ExtraMainCommand // !!!
+ *      public void executeLogic(SlashCommandEvent event) {
+ *          // Run...
+ *      }
+ * }
+ * }
+ * </pre>
+ */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 public @interface ExtraMainCommand {

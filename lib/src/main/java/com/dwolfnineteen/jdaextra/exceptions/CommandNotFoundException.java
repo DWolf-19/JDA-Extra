@@ -23,7 +23,15 @@ package com.dwolfnineteen.jdaextra.exceptions;
 
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * Throws when called command not found.
+ */
 public class CommandNotFoundException extends CommandException {
+    /**
+     * Construct new {@link com.dwolfnineteen.jdaextra.exceptions.CommandNotFoundException CommandNotFoundException}.
+     *
+     * @param commandName The command name.
+     */
     public CommandNotFoundException(@NotNull String commandName) {
         super(String.format("Command '%s' not found", commandName));
     }

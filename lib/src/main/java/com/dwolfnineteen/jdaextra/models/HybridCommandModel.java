@@ -26,20 +26,41 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
+/**
+ * Hybrid command model.
+ * @see com.dwolfnineteen.jdaextra.models.CommandModel CommandModel
+ */
 public class HybridCommandModel extends CommandModel {
     private String description;
     private List<HybridOptionData> options;
 
+    /**
+     * The command description.
+     *
+     * @return The description.
+     */
     @NotNull
     public String getDescription() {
         return description;
     }
 
+    /**
+     * All command options as a {@link java.util.List List}.
+     *
+     * @return The command options.
+     */
     @NotNull
     public List<HybridOptionData> getOptions() {
         return options;
     }
 
+    /**
+     * Sets the command description.
+     *
+     * @param description The command description.
+     * @return Current {@link com.dwolfnineteen.jdaextra.models.HybridCommandModel HybridCommandModel} instance,
+     * for chaining.
+     */
     @NotNull
     public HybridCommandModel setDescription(@NotNull String description) {
         this.description = description;
@@ -47,6 +68,13 @@ public class HybridCommandModel extends CommandModel {
         return this;
     }
 
+    /**
+     * Sets the command options as a {@link java.util.List List}.
+     *
+     * @param options The command options.
+     * @return Current {@link com.dwolfnineteen.jdaextra.models.HybridCommandModel HybridCommandModel} instance,
+     * for chaining.
+     */
     @NotNull
     public HybridCommandModel setOptions(@NotNull List<HybridOptionData> options) {
         this.options = options;

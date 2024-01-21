@@ -40,11 +40,22 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Parser for hybrid commands.
+ *
+ * @see com.dwolfnineteen.jdaextra.parsers parsers
+ */
 public class HybridCommandParser extends CommandParser {
     private final CommandParser parser;
 
     private HybridCommandModel model;
 
+    /**
+     * Construct new {@link com.dwolfnineteen.jdaextra.parsers.HybridCommandParser HybridCommandParser}.
+     *
+     * @param jdaExtra The {@link com.dwolfnineteen.jdaextra.JDAExtra JDAExtra} instance.
+     * @param parser The {@link com.dwolfnineteen.jdaextra.parsers.CommandParser CommandParser} to be used.
+     */
     public HybridCommandParser(@NotNull JDAExtra jdaExtra,
                                @NotNull CommandParser parser) {
         this.jdaExtra = jdaExtra;
@@ -57,12 +68,24 @@ public class HybridCommandParser extends CommandParser {
         return parser.getSourceEvent();
     }
 
+    /**
+     * The {@link com.dwolfnineteen.jdaextra.models.HybridCommandModel HybridCommandModel} for this parser.
+     *
+     * @return The {@link com.dwolfnineteen.jdaextra.models.HybridCommandModel HybridCommandModel} for this parser.
+     */
     @Override
     @Nullable
     public HybridCommandModel getModel() {
         return model;
     }
 
+    /**
+     * Sets {@link com.dwolfnineteen.jdaextra.models.CommandModel CommandModel} for this parser.
+     *
+     * @param model {@link com.dwolfnineteen.jdaextra.models.CommandModel CommandModel}.
+     * @return Current {@link com.dwolfnineteen.jdaextra.parsers.HybridCommandParser HybridCommandParser} instance,
+     * for chaining.
+     */
     @Override
     @NotNull
     public HybridCommandParser setModel(CommandModel model) {
@@ -77,6 +100,7 @@ public class HybridCommandParser extends CommandParser {
         List<Object> arguments = new ArrayList<>();
         List<HybridOptionData> options = model.getOptions();
 
+        // TODO: Remove duplicated code (for (int i = 0; i < options.size(); i++) {}...)
         if (parser instanceof PrefixCommandParser) {
             PrefixCommandParser prefixParser = (PrefixCommandParser) parser;
 

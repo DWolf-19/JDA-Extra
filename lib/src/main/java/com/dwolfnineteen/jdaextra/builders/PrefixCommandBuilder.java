@@ -37,7 +37,15 @@ import java.lang.reflect.Parameter;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Prefix command builder.
+ */
 public class PrefixCommandBuilder extends CommandBuilder {
+    /**
+     * Construct new {@link PrefixCommandBuilder}.
+     *
+     * @param command The prefix command class.
+     */
     public PrefixCommandBuilder(@NotNull PrefixCommand command) {
         this.command = command;
     }

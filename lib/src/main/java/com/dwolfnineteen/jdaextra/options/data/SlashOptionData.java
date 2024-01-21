@@ -28,11 +28,31 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Collection;
 
+/**
+ * Option data container for {@link com.dwolfnineteen.jdaextra.commands.SlashCommand SlashCommand}.
+ * <br>
+ * This class used by {@link com.dwolfnineteen.jdaextra.builders builders} for options building.
+ */
 public class SlashOptionData extends OptionData implements CommandOptionData {
+    /**
+     * Construct new basic slash option data container without advanced settings.
+     *
+     * @param type The {@link net.dv8tion.jda.api.interactions.commands.OptionType OptionType} for this option.
+     * @param name The name for this option.
+     * @param description The description for this option.
+     */
     public SlashOptionData(@NotNull OptionType type, @NotNull String name, @NotNull String description) {
         super(type, name, description);
     }
 
+    /**
+     * Construct new basic slash option data container.
+     *
+     * @param type The {@link net.dv8tion.jda.api.interactions.commands.OptionType OptionType} for this option.
+     * @param name The name for this option.
+     * @param description The description for this option.
+     * @param isRequired Whether this option required.
+     */
     public SlashOptionData(@NotNull OptionType type,
                            @NotNull String name,
                            @NotNull String description,
@@ -40,6 +60,15 @@ public class SlashOptionData extends OptionData implements CommandOptionData {
         super(type, name, description, isRequired);
     }
 
+    /**
+     * Construct new basic slash option data container.
+     *
+     * @param type The {@link net.dv8tion.jda.api.interactions.commands.OptionType OptionType} for this option.
+     * @param name The name for this option.
+     * @param description The description for this option.
+     * @param isRequired Whether this option required.
+     * @param isAutoComplete Whether this option supports autocomplete.
+     */
     public SlashOptionData(@NotNull OptionType type,
                            @NotNull String name,
                            @NotNull String description,
@@ -48,6 +77,10 @@ public class SlashOptionData extends OptionData implements CommandOptionData {
         super(type, name, description, isRequired, isAutoComplete);
     }
 
+    /**
+     * @return Current {@link com.dwolfnineteen.jdaextra.options.data.SlashOptionData SlashOptionData} instance,
+     * for chaining.
+     */
     @Override
     @NotNull
     public SlashOptionData setName(@NotNull String name) {
@@ -56,6 +89,10 @@ public class SlashOptionData extends OptionData implements CommandOptionData {
         return this;
     }
 
+    /**
+     * @return Current {@link com.dwolfnineteen.jdaextra.options.data.SlashOptionData SlashOptionData} instance,
+     * for chaining.
+     */
     @Override
     @NotNull
     public SlashOptionData setDescription(@NotNull String description) {
@@ -64,6 +101,10 @@ public class SlashOptionData extends OptionData implements CommandOptionData {
         return this;
     }
 
+    /**
+     * @return Current {@link com.dwolfnineteen.jdaextra.options.data.SlashOptionData SlashOptionData} instance,
+     * for chaining.
+     */
     @Override
     @NotNull
     public SlashOptionData setRequired(boolean required) {
@@ -72,6 +113,10 @@ public class SlashOptionData extends OptionData implements CommandOptionData {
         return this;
     }
 
+    /**
+     * @return Current {@link com.dwolfnineteen.jdaextra.options.data.SlashOptionData SlashOptionData} instance,
+     * for chaining.
+     */
     @Override
     @NotNull
     public SlashOptionData setAutoComplete(boolean autoComplete) {
@@ -80,6 +125,10 @@ public class SlashOptionData extends OptionData implements CommandOptionData {
         return this;
     }
 
+    /**
+     * @return Current {@link com.dwolfnineteen.jdaextra.options.data.SlashOptionData SlashOptionData} instance,
+     * for chaining.
+     */
     @Override
     @NotNull
     public SlashOptionData setMinValue(long minValue) {
@@ -88,6 +137,10 @@ public class SlashOptionData extends OptionData implements CommandOptionData {
         return this;
     }
 
+    /**
+     * @return Current {@link com.dwolfnineteen.jdaextra.options.data.SlashOptionData SlashOptionData} instance,
+     * for chaining.
+     */
     @Override
     @NotNull
     public SlashOptionData setMinValue(double minValue) {
@@ -96,6 +149,10 @@ public class SlashOptionData extends OptionData implements CommandOptionData {
         return this;
     }
 
+    /**
+     * @return Current {@link com.dwolfnineteen.jdaextra.options.data.SlashOptionData SlashOptionData} instance,
+     * for chaining.
+     */
     @Override
     @NotNull
     public SlashOptionData setMaxValue(long maxValue) {
@@ -104,6 +161,10 @@ public class SlashOptionData extends OptionData implements CommandOptionData {
         return this;
     }
 
+    /**
+     * @return Current {@link com.dwolfnineteen.jdaextra.options.data.SlashOptionData SlashOptionData} instance,
+     * for chaining.
+     */
     @Override
     @NotNull
     public SlashOptionData setMaxValue(double maxValue) {
@@ -112,6 +173,10 @@ public class SlashOptionData extends OptionData implements CommandOptionData {
         return this;
     }
 
+    /**
+     * @return Current {@link com.dwolfnineteen.jdaextra.options.data.SlashOptionData SlashOptionData} instance,
+     * for chaining.
+     */
     @Override
     @NotNull
     public SlashOptionData setRequiredRange(long minValue, long maxValue) {
@@ -120,6 +185,10 @@ public class SlashOptionData extends OptionData implements CommandOptionData {
         return this;
     }
 
+    /**
+     * @return Current {@link com.dwolfnineteen.jdaextra.options.data.SlashOptionData SlashOptionData} instance,
+     * for chaining.
+     */
     @Override
     @NotNull
     public SlashOptionData setRequiredRange(double minValue, double maxValue) {
@@ -128,6 +197,10 @@ public class SlashOptionData extends OptionData implements CommandOptionData {
         return this;
     }
 
+    /**
+     * @return Current {@link com.dwolfnineteen.jdaextra.options.data.SlashOptionData SlashOptionData} instance,
+     * for chaining.
+     */
     @Override
     @NotNull
     public SlashOptionData setMinLength(int minLength) {
@@ -136,6 +209,10 @@ public class SlashOptionData extends OptionData implements CommandOptionData {
         return this;
     }
 
+    /**
+     * @return Current {@link com.dwolfnineteen.jdaextra.options.data.SlashOptionData SlashOptionData} instance,
+     * for chaining.
+     */
     @Override
     @NotNull
     public SlashOptionData setMaxLength(int maxLength) {
@@ -144,6 +221,10 @@ public class SlashOptionData extends OptionData implements CommandOptionData {
         return this;
     }
 
+    /**
+     * @return Current {@link com.dwolfnineteen.jdaextra.options.data.SlashOptionData SlashOptionData} instance,
+     * for chaining.
+     */
     @Override
     @NotNull
     public SlashOptionData setRequiredLength(int minLength, int maxLength) {
@@ -152,6 +233,10 @@ public class SlashOptionData extends OptionData implements CommandOptionData {
         return this;
     }
 
+    /**
+     * @return Current {@link com.dwolfnineteen.jdaextra.options.data.SlashOptionData SlashOptionData} instance,
+     * for chaining.
+     */
     @Override
     @NotNull
     public SlashOptionData addChoice(@NotNull String name, double value) {
@@ -160,6 +245,10 @@ public class SlashOptionData extends OptionData implements CommandOptionData {
         return this;
     }
 
+    /**
+     * @return Current {@link com.dwolfnineteen.jdaextra.options.data.SlashOptionData SlashOptionData} instance,
+     * for chaining.
+     */
     @Override
     @NotNull
     public SlashOptionData addChoice(@NotNull String name, long value) {
@@ -168,6 +257,10 @@ public class SlashOptionData extends OptionData implements CommandOptionData {
         return this;
     }
 
+    /**
+     * @return Current {@link com.dwolfnineteen.jdaextra.options.data.SlashOptionData SlashOptionData} instance,
+     * for chaining.
+     */
     @Override
     @NotNull
     public SlashOptionData addChoice(@NotNull String name, @NotNull String value) {
@@ -176,6 +269,11 @@ public class SlashOptionData extends OptionData implements CommandOptionData {
         return this;
     }
 
+    // TODO: Fix annotation. BUT HOW TO IT WORKS AND NOT THROWING ERRORS??????????
+    /**
+     * @return Current {@link com.dwolfnineteen.jdaextra.options.data.SlashOptionData SlashOptionData} instance,
+     * for chaining.
+     */
     @Override
     @NotNull
     public SlashOptionData addChoices(Command.@NotNull Choice... choices) {
@@ -184,6 +282,10 @@ public class SlashOptionData extends OptionData implements CommandOptionData {
         return this;
     }
 
+    /**
+     * @return Current {@link com.dwolfnineteen.jdaextra.options.data.SlashOptionData SlashOptionData} instance,
+     * for chaining.
+     */
     @Override
     @NotNull
     public SlashOptionData addChoices(@NotNull Collection<? extends Command.Choice> choices) {

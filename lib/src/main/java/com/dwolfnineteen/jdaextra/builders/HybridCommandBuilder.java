@@ -37,7 +37,15 @@ import java.lang.reflect.Parameter;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Hybrid command builder.
+ */
 public class HybridCommandBuilder extends CommandBuilder {
+    /**
+     * Construct new {@link HybridCommandBuilder}.
+     *
+     * @param command The hybrid command class.
+     */
     public HybridCommandBuilder(@NotNull HybridCommand command) {
         this.command = command;
     }

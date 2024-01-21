@@ -27,11 +27,25 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+/**
+ * Add predefined choice for this option as {@code double}.
+ */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.PARAMETER)
 @Repeatable(ChoiceDouble.Container.class)
 public @interface ChoiceDouble {
+    /**
+     * Sets the choice name.
+     *
+     * @return The name.
+     */
     String name();
+
+    /**
+     * Sets the value for this choice as {@code double}.
+     *
+     * @return The value as {@code double}.
+     */
     double val();
 
     @Retention(RetentionPolicy.RUNTIME)

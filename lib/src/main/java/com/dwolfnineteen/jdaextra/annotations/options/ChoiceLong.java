@@ -27,11 +27,25 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+/**
+ * Add predefined choice for this option as {@code long}.
+ */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.PARAMETER)
 @Repeatable(ChoiceLong.Container.class)
 public @interface ChoiceLong {
+    /**
+     * Sets the choice name.
+     *
+     * @return The name.
+     */
     String name();
+
+    /**
+     * Sets the value for this choice as {@code long}.
+     *
+     * @return The value as {@code long}.
+     */
     long val();
 
     @Retention(RetentionPolicy.RUNTIME)

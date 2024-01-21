@@ -39,7 +39,15 @@ import java.lang.reflect.Parameter;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Slash command builder.
+ */
 public class SlashCommandBuilder extends CommandBuilder {
+    /**
+     * Construct new {@link SlashCommandBuilder}.
+     *
+     * @param command The slash command class.
+     */
     public SlashCommandBuilder(@NotNull SlashCommand command) {
         this.command = command;
     }

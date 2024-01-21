@@ -29,14 +29,34 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
 
+/**
+ * Option data container for {@link com.dwolfnineteen.jdaextra.commands.HybridCommand HybridCommand}.
+ * <br>
+ * This class used by {@link com.dwolfnineteen.jdaextra.builders builders} for options building.
+ */
 public class HybridOptionData implements CommandOptionData, GeneralOptionData {
     // TODO: Maybe replace it with CommandOptionData?
     private final OptionData slashData;
 
+    /**
+     * Construct new basic hybrid option data container without advanced settings.
+     *
+     * @param type The {@link net.dv8tion.jda.api.interactions.commands.OptionType OptionType} for this option.
+     * @param name The name for this option.
+     * @param description The description for this option.
+     */
     public HybridOptionData(@NotNull OptionType type, @NotNull String name, @NotNull String description) {
         slashData = new OptionData(type, name, description);
     }
 
+    /**
+     * Construct new basic hybrid option data container.
+     *
+     * @param type The {@link net.dv8tion.jda.api.interactions.commands.OptionType OptionType} for this option.
+     * @param name The name for this option.
+     * @param description The description for this option.
+     * @param isRequired Whether this option must be specified at command calling.
+     */
     public HybridOptionData(@NotNull OptionType type,
                             @NotNull String name,
                             @NotNull String description,
@@ -44,6 +64,15 @@ public class HybridOptionData implements CommandOptionData, GeneralOptionData {
         slashData = new OptionData(type, name, description, isRequired);
     }
 
+    /**
+     * Construct new basic hybrid option data container.
+     *
+     * @param type The {@link net.dv8tion.jda.api.interactions.commands.OptionType OptionType} for this option.
+     * @param name The name for this option.
+     * @param description The description for this option.
+     * @param isRequired Whether this option must be specified at command calling.
+     * @param isAutoComplete Whether this option supports autocomplete.
+     */
     public HybridOptionData(@NotNull OptionType type,
                             @NotNull String name,
                             @NotNull String description,
@@ -104,6 +133,10 @@ public class HybridOptionData implements CommandOptionData, GeneralOptionData {
         return slashData.getMaxLength();
     }
 
+    /**
+     * @return Current {@link com.dwolfnineteen.jdaextra.options.data.HybridOptionData HybridOptionData} instance,
+     * for chaining.
+     */
     @Override
     @NotNull
     public HybridOptionData setName(@NotNull String name) {
@@ -112,6 +145,10 @@ public class HybridOptionData implements CommandOptionData, GeneralOptionData {
         return this;
     }
 
+    /**
+     * @return Current {@link com.dwolfnineteen.jdaextra.options.data.HybridOptionData HybridOptionData} instance,
+     * for chaining.
+     */
     @Override
     @NotNull
     public HybridOptionData setDescription(@NotNull String description) {
@@ -120,6 +157,10 @@ public class HybridOptionData implements CommandOptionData, GeneralOptionData {
         return this;
     }
 
+    /**
+     * @return Current {@link com.dwolfnineteen.jdaextra.options.data.HybridOptionData HybridOptionData} instance,
+     * for chaining.
+     */
     @Override
     @NotNull
     public HybridOptionData setRequired(boolean required) {
@@ -128,6 +169,10 @@ public class HybridOptionData implements CommandOptionData, GeneralOptionData {
         return this;
     }
 
+    /**
+     * @return Current {@link com.dwolfnineteen.jdaextra.options.data.HybridOptionData HybridOptionData} instance,
+     * for chaining.
+     */
     @Override
     @NotNull
     public HybridOptionData setAutoComplete(boolean autoComplete) {
@@ -136,6 +181,10 @@ public class HybridOptionData implements CommandOptionData, GeneralOptionData {
         return this;
     }
 
+    /**
+     * @return Current {@link com.dwolfnineteen.jdaextra.options.data.HybridOptionData HybridOptionData} instance,
+     * for chaining.
+     */
     @Override
     @NotNull
     public HybridOptionData setMinValue(long minValue) {
@@ -144,6 +193,10 @@ public class HybridOptionData implements CommandOptionData, GeneralOptionData {
         return this;
     }
 
+    /**
+     * @return Current {@link com.dwolfnineteen.jdaextra.options.data.HybridOptionData HybridOptionData} instance,
+     * for chaining.
+     */
     @Override
     @NotNull
     public HybridOptionData setMinValue(double minValue) {
@@ -152,6 +205,10 @@ public class HybridOptionData implements CommandOptionData, GeneralOptionData {
         return this;
     }
 
+    /**
+     * @return Current {@link com.dwolfnineteen.jdaextra.options.data.HybridOptionData HybridOptionData} instance,
+     * for chaining.
+     */
     @Override
     @NotNull
     public HybridOptionData setMaxValue(long maxValue) {
@@ -160,6 +217,10 @@ public class HybridOptionData implements CommandOptionData, GeneralOptionData {
         return this;
     }
 
+    /**
+     * @return Current {@link com.dwolfnineteen.jdaextra.options.data.HybridOptionData HybridOptionData} instance,
+     * for chaining.
+     */
     @Override
     @NotNull
     public HybridOptionData setMaxValue(double maxValue) {
@@ -168,6 +229,10 @@ public class HybridOptionData implements CommandOptionData, GeneralOptionData {
         return this;
     }
 
+    /**
+     * @return Current {@link com.dwolfnineteen.jdaextra.options.data.HybridOptionData HybridOptionData} instance,
+     * for chaining.
+     */
     @Override
     @NotNull
     public HybridOptionData setRequiredRange(long minValue, long maxValue) {
@@ -176,6 +241,10 @@ public class HybridOptionData implements CommandOptionData, GeneralOptionData {
         return this;
     }
 
+    /**
+     * @return Current {@link com.dwolfnineteen.jdaextra.options.data.HybridOptionData HybridOptionData} instance,
+     * for chaining.
+     */
     @Override
     @NotNull
     public HybridOptionData setRequiredRange(double minValue, double maxValue) {
@@ -184,6 +253,10 @@ public class HybridOptionData implements CommandOptionData, GeneralOptionData {
         return this;
     }
 
+    /**
+     * @return Current {@link com.dwolfnineteen.jdaextra.options.data.HybridOptionData HybridOptionData} instance,
+     * for chaining.
+     */
     @Override
     @NotNull
     public HybridOptionData setMinLength(int minLength) {
@@ -192,6 +265,10 @@ public class HybridOptionData implements CommandOptionData, GeneralOptionData {
         return this;
     }
 
+    /**
+     * @return Current {@link com.dwolfnineteen.jdaextra.options.data.HybridOptionData HybridOptionData} instance,
+     * for chaining.
+     */
     @Override
     @NotNull
     public HybridOptionData setMaxLength(int maxLength) {
@@ -200,6 +277,10 @@ public class HybridOptionData implements CommandOptionData, GeneralOptionData {
         return this;
     }
 
+    /**
+     * @return Current {@link com.dwolfnineteen.jdaextra.options.data.HybridOptionData HybridOptionData} instance,
+     * for chaining.
+     */
     @Override
     @NotNull
     public HybridOptionData setRequiredLength(int minLength, int maxLength) {
@@ -208,6 +289,10 @@ public class HybridOptionData implements CommandOptionData, GeneralOptionData {
         return this;
     }
 
+    /**
+     * @return Current {@link com.dwolfnineteen.jdaextra.options.data.HybridOptionData HybridOptionData} instance,
+     * for chaining.
+     */
     @Override
     public HybridOptionData addChoice(@NotNull String name, double value) {
         slashData.addChoice(name, value);
@@ -215,6 +300,10 @@ public class HybridOptionData implements CommandOptionData, GeneralOptionData {
         return this;
     }
 
+    /**
+     * @return Current {@link com.dwolfnineteen.jdaextra.options.data.HybridOptionData HybridOptionData} instance,
+     * for chaining.
+     */
     @Override
     public HybridOptionData addChoice(@NotNull String name, long value) {
         slashData.addChoice(name, value);
@@ -222,6 +311,10 @@ public class HybridOptionData implements CommandOptionData, GeneralOptionData {
         return this;
     }
 
+    /**
+     * @return Current {@link com.dwolfnineteen.jdaextra.options.data.HybridOptionData HybridOptionData} instance,
+     * for chaining.
+     */
     @Override
     public HybridOptionData addChoice(@NotNull String name, @NotNull String value) {
         slashData.addChoice(name, value);
@@ -229,6 +322,10 @@ public class HybridOptionData implements CommandOptionData, GeneralOptionData {
         return this;
     }
 
+    /**
+     * @return Current {@link com.dwolfnineteen.jdaextra.options.data.HybridOptionData HybridOptionData} instance,
+     * for chaining.
+     */
     @Override
     public HybridOptionData addChoices(Command.@NotNull Choice... choices) {
         slashData.addChoices(choices);
@@ -236,6 +333,10 @@ public class HybridOptionData implements CommandOptionData, GeneralOptionData {
         return this;
     }
 
+    /**
+     * @return Current {@link com.dwolfnineteen.jdaextra.options.data.HybridOptionData HybridOptionData} instance,
+     * for chaining.
+     */
     @Override
     public HybridOptionData addChoices(@NotNull Collection<? extends Command.Choice> choices) {
         slashData.addChoices(choices);

@@ -36,29 +36,58 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Parser for slash commands.
+ * @see com.dwolfnineteen.jdaextra.parsers parsers
+ */
 public class SlashCommandParser extends CommandParser {
     private final SlashCommandInteractionEvent sourceEvent;
 
     private SlashCommandModel model;
 
+    /**
+     * Construct new {@link com.dwolfnineteen.jdaextra.parsers.SlashCommandParser SlashCommandParser}.
+     *
+     * @param jdaExtra The {@link com.dwolfnineteen.jdaextra.JDAExtra JDAExtra} instance.
+     * @param sourceEvent The {@link net.dv8tion.jda.api.events.GenericEvent GenericEvent} for this parser.
+     */
     public SlashCommandParser(@NotNull JDAExtra jdaExtra,
                               @NotNull SlashCommandInteractionEvent sourceEvent) {
         this.jdaExtra = jdaExtra;
         this.sourceEvent = sourceEvent;
     }
 
+    // TODO: SlashCommandParser#getSourceEvent return SlashCommandInteractionEvent
+    /**
+     * The {@link net.dv8tion.jda.api.events.GenericEvent GenericEvent} (source event) for this parser.
+     *
+     * @return The {@link net.dv8tion.jda.api.events.GenericEvent GenericEvent}.
+     */
     @Override
     @NotNull
     public GenericEvent getSourceEvent() {
         return sourceEvent;
     }
 
+    /**
+     * The {@link com.dwolfnineteen.jdaextra.models.SlashCommandModel SlashCommandModel} for this parser.
+     *
+     * @return The {@link com.dwolfnineteen.jdaextra.models.SlashCommandModel SlashCommandModel}.
+     * {@code null}, if the {@link com.dwolfnineteen.jdaextra.models.SlashCommandModel SlashCommandModel} not set.
+     */
     @Override
     @Nullable
     public SlashCommandModel getModel() {
         return model;
     }
 
+    /**
+     * Sets {@link com.dwolfnineteen.jdaextra.models.CommandModel CommandModel} for this parser.
+     *
+     * @param model {@link com.dwolfnineteen.jdaextra.models.CommandModel CommandModel}.
+     * @return Current {@link com.dwolfnineteen.jdaextra.parsers.SlashCommandParser SlashCommandParser} instance,
+     * for chaining.
+     */
     @Override
     @NotNull
     public SlashCommandParser setModel(CommandModel model) {

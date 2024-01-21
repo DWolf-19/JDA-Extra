@@ -50,7 +50,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-
 /* TODO: Think about
     @NotNull
     public String getSomething() {
@@ -61,14 +60,33 @@ import java.util.stream.Collectors;
         return something;
     } ?
 */
+/**
+ * The main class, event interceptor of JDA-Extra.
+ * <br>
+ * This class is inherited from {@link net.dv8tion.jda.api.hooks.ListenerAdapter ListenerAdapter},
+ * it uses events for building application commands data for {@link net.dv8tion.jda.api.JDA JDA}
+ * and commands parsing when calling event handlers.
+ *
+ * @see com.dwolfnineteen.jdaextra.JDAExtraBuilder JDAExtraBuilder
+ */
 public class JDAExtra extends ListenerAdapter {
     private final String prefix;
     private final boolean whenMention;
 
+    // TODO: Rename to command models
     private final Map<String, HybridCommandModel> hybridCommandsModels;
     private final Map<String, PrefixCommandModel> prefixCommandsModels;
     private final Map<String, SlashCommandModel> slashCommandsModels;
 
+    /**
+     * Build new {@link JDAExtra} instance (usually called from {@link JDAExtraBuilder}).
+     *
+     * @param prefix The prefix for prefix/hybrid commands.
+     * @param whenMention Whether bot react to its mention as a prefix.
+     * @param hybridCommands List of hybrid commands classes.
+     * @param prefixCommands List of prefix commands classes.
+     * @param slashCommands List of slash commands classes.
+     */
     public JDAExtra(@NotNull String prefix,
                     boolean whenMention,
                     @NotNull List<HybridCommand> hybridCommands,
@@ -103,32 +121,67 @@ public class JDAExtra extends ListenerAdapter {
         this.slashCommandsModels = slashCommandModels;
     }
 
+    /**
+     * The prefix for prefix/hybrid commands.
+     *
+     * @return The prefix.
+     */
     @NotNull
     public String getPrefix() {
         return prefix;
     }
 
+    /**
+     * Whether bot will react to its mention as a prefix.
+     *
+     * @return {@code True}, if bot will react to its mention as a prefix.
+     */
     public boolean isWhenMention() {
         return whenMention;
     }
 
+    /**
+     * Map of command name and {@link HybridCommandModel}.
+     *
+     * @return Map of command name and {@link com.dwolfnineteen.jdaextra.models.HybridCommandModel HybridCommandModel}.
+     * @see com.dwolfnineteen.jdaextra.builders builders
+     */
     @NotNull
     public Map<String, HybridCommandModel> getHybridCommandsModels() {
         return hybridCommandsModels;
     }
 
+    /**
+     * Map of command name and {@link com.dwolfnineteen.jdaextra.models.PrefixCommandModel PrefixCommandModel}.
+     *
+     * @return Map of command name and {@link com.dwolfnineteen.jdaextra.models.PrefixCommandModel}.
+     * @see com.dwolfnineteen.jdaextra.builders builders
+     */
     @NotNull
     public Map<String, PrefixCommandModel> getPrefixCommandsModels() {
         return prefixCommandsModels;
     }
 
+    /**
+     * Map of command name and {@link com.dwolfnineteen.jdaextra.models.SlashCommandModel SlashCommandModel}.
+     *
+     * @return Map of command name and {@link com.dwolfnineteen.jdaextra.models.SlashCommandModel SlashCommandModel}.
+     * @see com.dwolfnineteen.jdaextra.builders builders
+     */
     @NotNull
     public Map<String, SlashCommandModel> getSlashCommandsModels() {
         return slashCommandsModels;
     }
 
+    /**
+     * {@link net.dv8tion.jda.api.events.session.ReadyEvent ReadyEvent} handler
+     * for adding application commands data to {@link net.dv8tion.jda.api.JDA JDA}.
+     *
+     * @param event The {@link net.dv8tion.jda.api.events.session.ReadyEvent ReadyEvent}.
+     */
     @Override
     public void onReady(@NotNull ReadyEvent event) {
+        // TODO: Replace with List
         ArrayList<CommandData> data = new ArrayList<>();
 
         // TODO: Add SlashCommandData#setDefaultPermissions
@@ -189,6 +242,12 @@ public class JDAExtra extends ListenerAdapter {
         }
     }
 
+    /**
+     * {@link net.dv8tion.jda.api.events.message.MessageReceivedEvent MessageReceivedEvent} handler
+     * for parsing prefix/hybrid commands and executing their logic.
+     *
+     * @param event The {@link net.dv8tion.jda.api.events.message.MessageReceivedEvent MessageReceivedEvent}.
+     */
     @Override
     public void onMessageReceived(@NotNull MessageReceivedEvent event) {
         PrefixCommandParser parser = new PrefixCommandParser(this, event);
@@ -216,6 +275,12 @@ public class JDAExtra extends ListenerAdapter {
         }
     }
 
+    /**
+     * {@link net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent SlashCommandInteractionEvent}
+     * handler for parsing slash commands and executing their logic.
+     *
+     * @param event The {@link net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent SlashCommandInteractionEvent}.
+     */
     @Override
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
         SlashCommandModel slashModel = slashCommandsModels.get(event.getName());

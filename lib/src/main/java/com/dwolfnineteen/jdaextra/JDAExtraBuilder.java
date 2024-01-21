@@ -30,6 +30,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Class for comfortable configuration {@link com.dwolfnineteen.jdaextra.JDAExtra JDAExtra} instance.
+ */
 public class JDAExtraBuilder {
     private String prefix;
     private boolean whenMention;
@@ -46,6 +49,12 @@ public class JDAExtraBuilder {
         slashCommands = new ArrayList<>();
     }
 
+    /**
+     * Sets the prefix for prefix/hybrid commands.
+     *
+     * @param prefix The prefix.
+     * @return Current {@link com.dwolfnineteen.jdaextra.JDAExtraBuilder JDAExtraBuilder} instance, for chaining.
+     */
     @NotNull
     public JDAExtraBuilder setPrefix(@NotNull String prefix) {
         this.prefix = prefix;
@@ -53,6 +62,12 @@ public class JDAExtraBuilder {
         return this;
     }
 
+    /**
+     * Sets the prefix and whether bot react to its mention as a prefix to {@code True}.
+     *
+     * @param prefix The prefix for prefix/hybrid commands.
+     * @return Current {@link com.dwolfnineteen.jdaextra.JDAExtraBuilder JDAExtraBuilder} instance, for chaining.
+     */
     @NotNull
     public JDAExtraBuilder setWhenMentionOr(@NotNull String prefix) {
         this.prefix = prefix;
@@ -61,6 +76,13 @@ public class JDAExtraBuilder {
         return this;
     }
 
+    /**
+     * Add varargs of {@link com.dwolfnineteen.jdaextra.commands.HybridCommand HybridCommand} to
+     * {@link com.dwolfnineteen.jdaextra.JDAExtra JDAExtra}.
+     *
+     * @param commands {@link com.dwolfnineteen.jdaextra.commands.HybridCommand HybridCommand} varargs.
+     * @return Current {@link com.dwolfnineteen.jdaextra.JDAExtraBuilder JDAExtraBuilder} instance, for chaining.
+     */
     @NotNull
     public JDAExtraBuilder addHybridCommands(@NotNull HybridCommand... commands) {
         hybridCommands.addAll(Arrays.asList(commands));
@@ -68,6 +90,13 @@ public class JDAExtraBuilder {
         return this;
     }
 
+    /**
+     * Add varargs of {@link com.dwolfnineteen.jdaextra.commands.PrefixCommand PrefixCommand} to
+     * {@link com.dwolfnineteen.jdaextra.JDAExtra JDAExtra}.
+     *
+     * @param commands {@link com.dwolfnineteen.jdaextra.commands.PrefixCommand PrefixCommand} varargs.
+     * @return Current {@link com.dwolfnineteen.jdaextra.JDAExtraBuilder JDAExtraBuilder} instance, for chaining.
+     */
     @NotNull
     public JDAExtraBuilder addPrefixCommands(@NotNull PrefixCommand... commands) {
         prefixCommands.addAll(Arrays.asList(commands));
@@ -75,6 +104,13 @@ public class JDAExtraBuilder {
         return this;
     }
 
+    /**
+     * Add varargs of {@link com.dwolfnineteen.jdaextra.commands.SlashCommand SlashCommand} to
+     * {@link com.dwolfnineteen.jdaextra.JDAExtra JDAExtra}.
+     *
+     * @param commands {@link com.dwolfnineteen.jdaextra.commands.SlashCommand SlashCommand} varargs.
+     * @return Current {@link com.dwolfnineteen.jdaextra.JDAExtraBuilder JDAExtraBuilder} instance, for chaining.
+     */
     @NotNull
     public JDAExtraBuilder addSlashCommands(@NotNull SlashCommand... commands) {
         slashCommands.addAll(Arrays.asList(commands));
@@ -82,6 +118,11 @@ public class JDAExtraBuilder {
         return this;
     }
 
+    /**
+     * Build new {@link com.dwolfnineteen.jdaextra.JDAExtra JDAExtra} instance.
+     *
+     * @return New {@link com.dwolfnineteen.jdaextra.JDAExtra JDAExtra} instance.
+     */
     @NotNull
     public JDAExtra build() {
         return new JDAExtra(

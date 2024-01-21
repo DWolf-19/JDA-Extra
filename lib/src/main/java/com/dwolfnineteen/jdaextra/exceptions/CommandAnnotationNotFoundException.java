@@ -21,7 +21,14 @@
  */
 package com.dwolfnineteen.jdaextra.exceptions;
 
+/**
+ * Throws when JDA-Extra parsers does not find some Extra(...)Command annotation.
+ */
 public class CommandAnnotationNotFoundException extends CommandException {
+    /**
+     * Construct new
+     * {@link com.dwolfnineteen.jdaextra.exceptions.CommandAnnotationNotFoundException CommandAnnotationNotFoundException}.
+     */
     public CommandAnnotationNotFoundException() {
         // TODO: Rename to AnnotationNotFoundException
         // TODO: public AnnotationNotFoundException(String) { super(String) }

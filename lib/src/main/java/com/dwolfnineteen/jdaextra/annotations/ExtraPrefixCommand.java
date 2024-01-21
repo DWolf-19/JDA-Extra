@@ -26,9 +26,30 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+/**
+ * Definition annotation for prefix commands.
+ *
+ * @see com.dwolfnineteen.jdaextra.annotations annotations
+ */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
 public @interface ExtraPrefixCommand {
+    /**
+     * Sets the command name.
+     * <br>
+     * If no value is given (default to empty string),
+     * the method name (with {@link ExtraMainCommand @ExtraMainCommand}) will be taken.
+     *
+     * @return The name.
+     */
     String name() default "";
+
+    /**
+     * Sets the command description.
+     * <br>
+     * If no value is given (default to empty string), description will be set to {@code null}.
+     *
+     * @return The description.
+     */
     String description() default "";
 }

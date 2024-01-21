@@ -21,7 +21,18 @@
  */
 package com.dwolfnineteen.jdaextra.exceptions;
 
+/**
+ * Throws when incorrect source event was passed to
+ * {@link com.dwolfnineteen.jdaextra.events.HybridCommandEvent HybridCommandEvent} by the parser.
+ * If you receive this exception, it's a bug.
+ * <br>
+ * <a href="https://github.com/DWolf-19/JDA-Extra/issues/new?assignees=&labels=category%3A+bug&projects=&template=bug_report.md&title=">Create a bug report (GitHub).</a>
+ */
 public class InvalidHybridEventException extends CommandException {
+    /**
+     * Construct new
+     * {@link com.dwolfnineteen.jdaextra.exceptions.InvalidHybridEventException InvalidHybridEventException}.
+     */
     public InvalidHybridEventException() {
         super("Correct source event wasn't passed to HybridCommandEvent");
     }

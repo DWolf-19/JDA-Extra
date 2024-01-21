@@ -23,6 +23,15 @@ package com.dwolfnineteen.jdaextra.events;
 
 import com.dwolfnineteen.jdaextra.JDAExtra;
 
+// TODO: More common methods. Eliminate this hell: see HybridCommandEvent#getName
+/**
+ * Common methods for command events.
+ */
 public interface CommandEvent {
+    /**
+     * The {@link JDAExtra} instance.
+     *
+     * @return The {@link JDAExtra}.
+     */
     JDAExtra getJDAExtra();
 }

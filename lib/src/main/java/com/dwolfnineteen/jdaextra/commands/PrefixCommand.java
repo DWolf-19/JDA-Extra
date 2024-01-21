@@ -21,5 +21,8 @@
  */
 package com.dwolfnineteen.jdaextra.commands;
 
+/**
+ * Empty abstract class for prefix commands.
+ */
 public abstract class PrefixCommand extends BaseCommand {
 }
