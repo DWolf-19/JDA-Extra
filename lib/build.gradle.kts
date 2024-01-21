@@ -30,10 +30,15 @@ repositories {
 dependencies {
     api("net.dv8tion:JDA:5.0.0-beta.19")
     compileOnly("org.jetbrains:annotations:24.1.0")
+    // TODO: Add JUnit 5 (and some testing...)
 }
 
 java {
-    toolchain {
-        languageVersion.set(JavaLanguageVersion.of(8))
+    toolchain.languageVersion.set(JavaLanguageVersion.of(21))
+}
+
+tasks.withType<JavaCompile>().configureEach {
+    javaCompiler = javaToolchains.compilerFor {
+        languageVersion = JavaLanguageVersion.of(8)
     }
 }
