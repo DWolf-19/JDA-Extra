@@ -21,7 +21,12 @@ SOFTWARE.
 */
 plugins {
     `java-library`
+    `maven-publish`
+    signing
 }
+
+group = "com.dwolfnineteen"
+version = "1.0.0-alpha.1"
 
 repositories {
     mavenCentral()
@@ -35,10 +40,66 @@ dependencies {
 
 java {
     toolchain.languageVersion.set(JavaLanguageVersion.of(21))
+    withSourcesJar()
+    withJavadocJar()
 }
 
 tasks.withType<JavaCompile>().configureEach {
     javaCompiler = javaToolchains.compilerFor {
         languageVersion = JavaLanguageVersion.of(8)
     }
+}
+
+publishing {
+    repositories {
+        maven {
+            val repo = "https://repo.dwolfnineteen.com/"
+
+            url = if (version.toString().contains("alpha")) {
+                uri(repo + "alpha")
+            } else if (version.toString().contains("beta")) {
+                uri(repo + "beta")
+            } else if (version.toString().contains("exp")) {
+                uri(repo + "experimental")
+            } else {
+                uri(repo + "releases")
+            }
+
+            credentials {
+                username = System.getenv("MAVEN_USERNAME")
+                password = System.getenv("MAVEN_PASSWORD")
+            }
+        }
+    }
+    publications {
+        create<MavenPublication>("mavenJava") {
+            from(components["java"])
+
+            artifactId = rootProject.name
+
+            pom {
+                name = rootProject.name
+                description = "A modern, annotations-based and evolving commands & components framework for JDA."
+                url = "https://github.com/DWolf-19/JDA-Extra"
+
+                licenses {
+                    license {
+                        name = "MIT License"
+                        url = "https://github.com/DWolf-19/JDA-Extra/blob/main/LICENSE.md"
+                    }
+                }
+                developers {
+                    developer {
+                        id = "DWolf_19"
+                        name = "DWolf Nineteen"
+                        email = "dwolfnineteen@gmail.com"
+                    }
+                }
+            }
+        }
+    }
+}
+
+signing {
+    sign(publishing.publications["mavenJava"])
 }
