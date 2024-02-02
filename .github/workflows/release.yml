@@ -21,7 +21,7 @@ jobs:
         run: echo "${{ secrets.GPG_SIGNING_KEY }}" > private.gpg
 
       - name: Publish to Reposilite
-        uses: gradle/gradle-build-action@v2
+        uses: gradle/gradle-build-action@v3
         with:
           arguments: publish -Psigning.secretKeyRingFile=private.gpg -Psigning.password=${{ secrets.GPG_SIGNING_KEY_PASSWORD }} -Psigning.keyId=${{ secrets.GPG_SIGNING_KEY_ID }}
         env:
