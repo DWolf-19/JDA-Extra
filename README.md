@@ -13,7 +13,7 @@ A modern and evolving commands & components framework for JDA. Inspired by [BotC
 
 # Getting started
 
-> **Warning**
+> [!WARNING]
 > We don't recommended using this framework in production until the first beta/stable release. In alpha versions and in the main branch, the library interface will break without any warning.
 
 ### Requirements
@@ -27,7 +27,7 @@ A modern and evolving commands & components framework for JDA. Inspired by [BotC
 
 ### Installation
 
-##### Gradle (Kotlin DSL):
+#### Gradle (Kotlin DSL):
 ```kotlin
 repositories {
     mavenCentral()
