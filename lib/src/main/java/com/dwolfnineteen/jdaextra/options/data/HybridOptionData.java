@@ -35,24 +35,23 @@ import java.util.Collection;
  * This class used by {@link com.dwolfnineteen.jdaextra.builders builders} for options building.
  */
 public class HybridOptionData implements CommandOptionData, GeneralOptionData {
-    // TODO: Maybe replace it with CommandOptionData?
-    private final OptionData slashData;
+    private final OptionData data;
 
     /**
      * Construct new basic hybrid option data container without advanced settings.
      *
-     * @param type The {@link net.dv8tion.jda.api.interactions.commands.OptionType OptionType} for this option.
+     * @param type The {@link OptionType} for this option.
      * @param name The name for this option.
      * @param description The description for this option.
      */
     public HybridOptionData(@NotNull OptionType type, @NotNull String name, @NotNull String description) {
-        slashData = new OptionData(type, name, description);
+        data = new OptionData(type, name, description);
     }
 
     /**
      * Construct new basic hybrid option data container.
      *
-     * @param type The {@link net.dv8tion.jda.api.interactions.commands.OptionType OptionType} for this option.
+     * @param type The {@link OptionType} for this option.
      * @param name The name for this option.
      * @param description The description for this option.
      * @param isRequired Whether this option must be specified at command calling.
@@ -61,13 +60,13 @@ public class HybridOptionData implements CommandOptionData, GeneralOptionData {
                             @NotNull String name,
                             @NotNull String description,
                             boolean isRequired) {
-        slashData = new OptionData(type, name, description, isRequired);
+        data = new OptionData(type, name, description, isRequired);
     }
 
     /**
      * Construct new basic hybrid option data container.
      *
-     * @param type The {@link net.dv8tion.jda.api.interactions.commands.OptionType OptionType} for this option.
+     * @param type The {@link OptionType} for this option.
      * @param name The name for this option.
      * @param description The description for this option.
      * @param isRequired Whether this option must be specified at command calling.
@@ -78,274 +77,256 @@ public class HybridOptionData implements CommandOptionData, GeneralOptionData {
                             @NotNull String description,
                             boolean isRequired,
                             boolean isAutoComplete) {
-        slashData = new OptionData(type, name, description, isRequired, isAutoComplete);
+        data = new OptionData(type, name, description, isRequired, isAutoComplete);
     }
 
     @Override
     @NotNull
     public OptionType getType() {
-        return slashData.getType();
+        return data.getType();
     }
 
     @Override
     @NotNull
     public String getName() {
-        return slashData.getName();
+        return data.getName();
     }
 
     @Override
     @NotNull
     public String getDescription() {
-        return slashData.getDescription();
+        return data.getDescription();
     }
 
     @Override
     public boolean isRequired() {
-        return slashData.isRequired();
+        return data.isRequired();
     }
 
     @Override
     public boolean isAutoComplete() {
-        return slashData.isAutoComplete();
+        return data.isAutoComplete();
     }
 
     @Override
     @Nullable
     public Number getMinValue() {
-        return slashData.getMinValue();
+        return data.getMinValue();
     }
 
     @Override
     @Nullable
     public Number getMaxValue() {
-        return slashData.getMaxValue();
+        return data.getMaxValue();
     }
 
     @Override
     @Nullable
     public Integer getMinLength() {
-        return slashData.getMinLength();
+        return data.getMinLength();
     }
 
     @Override
     @Nullable
     public Integer getMaxLength() {
-        return slashData.getMaxLength();
+        return data.getMaxLength();
     }
 
     /**
-     * @return Current {@link com.dwolfnineteen.jdaextra.options.data.HybridOptionData HybridOptionData} instance,
-     * for chaining.
+     * @return Current {@link HybridOptionData} instance, for chaining.
      */
     @Override
     @NotNull
     public HybridOptionData setName(@NotNull String name) {
-        slashData.setName(name);
+        data.setName(name);
 
         return this;
     }
 
     /**
-     * @return Current {@link com.dwolfnineteen.jdaextra.options.data.HybridOptionData HybridOptionData} instance,
-     * for chaining.
+     * @return Current {@link HybridOptionData} instance, for chaining.
      */
     @Override
     @NotNull
     public HybridOptionData setDescription(@NotNull String description) {
-        slashData.setDescription(description);
+        data.setDescription(description);
 
         return this;
     }
 
     /**
-     * @return Current {@link com.dwolfnineteen.jdaextra.options.data.HybridOptionData HybridOptionData} instance,
-     * for chaining.
+     * @return Current {@link HybridOptionData} instance, for chaining.
      */
     @Override
     @NotNull
     public HybridOptionData setRequired(boolean required) {
-        slashData.setRequired(required);
+        data.setRequired(required);
 
         return this;
     }
 
     /**
-     * @return Current {@link com.dwolfnineteen.jdaextra.options.data.HybridOptionData HybridOptionData} instance,
-     * for chaining.
+     * @return Current {@link HybridOptionData} instance, for chaining.
      */
     @Override
     @NotNull
     public HybridOptionData setAutoComplete(boolean autoComplete) {
-        slashData.setAutoComplete(autoComplete);
+        data.setAutoComplete(autoComplete);
 
         return this;
     }
 
     /**
-     * @return Current {@link com.dwolfnineteen.jdaextra.options.data.HybridOptionData HybridOptionData} instance,
-     * for chaining.
+     * @return Current {@link HybridOptionData} instance, for chaining.
      */
     @Override
     @NotNull
     public HybridOptionData setMinValue(long minValue) {
-        slashData.setMinValue(minValue);
+        data.setMinValue(minValue);
 
         return this;
     }
 
     /**
-     * @return Current {@link com.dwolfnineteen.jdaextra.options.data.HybridOptionData HybridOptionData} instance,
-     * for chaining.
+     * @return Current {@link HybridOptionData} instance, for chaining.
      */
     @Override
     @NotNull
     public HybridOptionData setMinValue(double minValue) {
-        slashData.setMinValue(minValue);
+        data.setMinValue(minValue);
 
         return this;
     }
 
     /**
-     * @return Current {@link com.dwolfnineteen.jdaextra.options.data.HybridOptionData HybridOptionData} instance,
-     * for chaining.
+     * @return Current {@link HybridOptionData} instance, for chaining.
      */
     @Override
     @NotNull
     public HybridOptionData setMaxValue(long maxValue) {
-        slashData.setMaxValue(maxValue);
+        data.setMaxValue(maxValue);
 
         return this;
     }
 
     /**
-     * @return Current {@link com.dwolfnineteen.jdaextra.options.data.HybridOptionData HybridOptionData} instance,
-     * for chaining.
+     * @return Current {@link HybridOptionData} instance, for chaining.
      */
     @Override
     @NotNull
     public HybridOptionData setMaxValue(double maxValue) {
-        slashData.setMaxValue(maxValue);
+        data.setMaxValue(maxValue);
 
         return this;
     }
 
     /**
-     * @return Current {@link com.dwolfnineteen.jdaextra.options.data.HybridOptionData HybridOptionData} instance,
-     * for chaining.
+     * @return Current {@link HybridOptionData} instance, for chaining.
      */
     @Override
     @NotNull
     public HybridOptionData setRequiredRange(long minValue, long maxValue) {
-        slashData.setRequiredRange(minValue, maxValue);
+        data.setRequiredRange(minValue, maxValue);
 
         return this;
     }
 
     /**
-     * @return Current {@link com.dwolfnineteen.jdaextra.options.data.HybridOptionData HybridOptionData} instance,
-     * for chaining.
+     * @return Current {@link HybridOptionData} instance, for chaining.
      */
     @Override
     @NotNull
     public HybridOptionData setRequiredRange(double minValue, double maxValue) {
-        slashData.setRequiredRange(minValue, maxValue);
+        data.setRequiredRange(minValue, maxValue);
 
         return this;
     }
 
     /**
-     * @return Current {@link com.dwolfnineteen.jdaextra.options.data.HybridOptionData HybridOptionData} instance,
-     * for chaining.
+     * @return Current {@link HybridOptionData} instance, for chaining.
      */
     @Override
     @NotNull
     public HybridOptionData setMinLength(int minLength) {
-        slashData.setMinLength(minLength);
+        data.setMinLength(minLength);
 
         return this;
     }
 
     /**
-     * @return Current {@link com.dwolfnineteen.jdaextra.options.data.HybridOptionData HybridOptionData} instance,
-     * for chaining.
+     * @return Current {@link HybridOptionData} instance, for chaining.
      */
     @Override
     @NotNull
     public HybridOptionData setMaxLength(int maxLength) {
-        slashData.setMaxLength(maxLength);
+        data.setMaxLength(maxLength);
 
         return this;
     }
 
     /**
-     * @return Current {@link com.dwolfnineteen.jdaextra.options.data.HybridOptionData HybridOptionData} instance,
-     * for chaining.
+     * @return Current {@link HybridOptionData} instance, for chaining.
      */
     @Override
     @NotNull
     public HybridOptionData setRequiredLength(int minLength, int maxLength) {
-        slashData.setRequiredLength(minLength, maxLength);
+        data.setRequiredLength(minLength, maxLength);
 
         return this;
     }
 
     /**
-     * @return Current {@link com.dwolfnineteen.jdaextra.options.data.HybridOptionData HybridOptionData} instance,
-     * for chaining.
+     * @return Current {@link HybridOptionData} instance, for chaining.
      */
     @Override
     public HybridOptionData addChoice(@NotNull String name, double value) {
-        slashData.addChoice(name, value);
+        data.addChoice(name, value);
 
         return this;
     }
 
     /**
-     * @return Current {@link com.dwolfnineteen.jdaextra.options.data.HybridOptionData HybridOptionData} instance,
-     * for chaining.
+     * @return Current {@link HybridOptionData} instance, for chaining.
      */
     @Override
     public HybridOptionData addChoice(@NotNull String name, long value) {
-        slashData.addChoice(name, value);
+        data.addChoice(name, value);
 
         return this;
     }
 
     /**
-     * @return Current {@link com.dwolfnineteen.jdaextra.options.data.HybridOptionData HybridOptionData} instance,
-     * for chaining.
+     * @return Current {@link HybridOptionData} instance, for chaining.
      */
     @Override
     public HybridOptionData addChoice(@NotNull String name, @NotNull String value) {
-        slashData.addChoice(name, value);
+        data.addChoice(name, value);
 
         return this;
     }
 
     /**
-     * @return Current {@link com.dwolfnineteen.jdaextra.options.data.HybridOptionData HybridOptionData} instance,
-     * for chaining.
+     * @return Current {@link HybridOptionData} instance, for chaining.
      */
     @Override
     public HybridOptionData addChoices(Command.@NotNull Choice... choices) {
-        slashData.addChoices(choices);
+        data.addChoices(choices);
 
         return this;
     }
 
     /**
-     * @return Current {@link com.dwolfnineteen.jdaextra.options.data.HybridOptionData HybridOptionData} instance,
-     * for chaining.
+     * @return Current {@link HybridOptionData} instance, for chaining.
      */
     @Override
     public HybridOptionData addChoices(@NotNull Collection<? extends Command.Choice> choices) {
-        slashData.addChoices(choices);
+        data.addChoices(choices);
 
         return this;
     }
 
     @Override
     public OptionData toGeneralOptionData() {
-        return slashData;
+        return data;
     }
 }
