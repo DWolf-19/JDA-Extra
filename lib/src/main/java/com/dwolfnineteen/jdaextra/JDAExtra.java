@@ -32,6 +32,7 @@ import com.dwolfnineteen.jdaextra.models.HybridCommandModel;
 import com.dwolfnineteen.jdaextra.models.PrefixCommandModel;
 import com.dwolfnineteen.jdaextra.models.SlashCommandModel;
 import com.dwolfnineteen.jdaextra.options.data.HybridOptionData;
+import com.dwolfnineteen.jdaextra.options.data.SlashOptionData;
 import com.dwolfnineteen.jdaextra.parsers.HybridCommandParser;
 import com.dwolfnineteen.jdaextra.parsers.PrefixCommandParser;
 import com.dwolfnineteen.jdaextra.parsers.SlashCommandParser;
@@ -197,7 +198,10 @@ public class JDAExtra extends ListenerAdapter {
 
         for (SlashCommandModel command : slashCommandsModels.values()) {
             data.add(Commands.slash(command.getName(), command.getDescription())
-                    .addOptions(command.getOptions())
+                    .addOptions(command.getOptions()
+                            .stream()
+                            .map(SlashOptionData::toGeneralOptionData)
+                            .collect(Collectors.toList()))
                     .setGuildOnly(command.isGuildOnly())
                     .setNSFW(command.isNSFW()));
         }
