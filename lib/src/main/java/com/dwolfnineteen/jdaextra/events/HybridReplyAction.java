@@ -19,45 +19,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+
 package com.dwolfnineteen.jdaextra.events;
 
-import com.dwolfnineteen.jdaextra.JDAExtra;
-import net.dv8tion.jda.api.JDA;
-import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.entities.User;
-import net.dv8tion.jda.api.entities.channel.unions.MessageChannelUnion;
-import net.dv8tion.jda.api.utils.data.DataObject;
-
 /**
- * Common methods for command events.
+ *
  */
-public interface CommandEvent {
-    /**
-     * The {@link JDAExtra} instance.
-     *
-     * @return The {@link JDAExtra}.
-     */
-    JDAExtra getJDAExtra();
-    JDA getJDA();
-
-    /**
-     * The command name.
-     *
-     * @return The name.
-     */
-    String getName();
-
-    /**
-     * The command description.
-     *
-     * @return The description.
-     */
-    String getDescription();
-
-    // TODO: javadoc
-    Guild getGuild();
-    MessageChannelUnion getChannel();
-    User getUser();
-    long getResponseNumber();
-    DataObject getRawData();
+public class HybridReplyAction {
+    // TODO: Implement logic (I am tired)
 }

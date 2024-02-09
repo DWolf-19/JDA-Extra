@@ -33,6 +33,7 @@ import com.dwolfnineteen.jdaextra.options.mappings.PrefixOptionMapping;
 import com.dwolfnineteen.jdaextra.options.mappings.SlashOptionMapping;
 import net.dv8tion.jda.api.events.GenericEvent;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
+import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -131,18 +132,23 @@ public class HybridCommandParser extends CommandParser {
                     trigger,
                     prefixParser.parseName(trigger),
                     model.getDescription(),
-                    mappings)));
+                    mappings),
+                    // TODO: Reorganize mappings translation for better look
+                    mappings.stream().map(HybridOptionMapping::new).collect(Collectors.toList())));
         } else if (parser instanceof SlashCommandParser) {
             SlashCommandParser slashParser = (SlashCommandParser) parser;
+            SlashCommandInteractionEvent event = (SlashCommandInteractionEvent) slashParser.getSourceEvent();
 
-            SlashCommandEvent slashEvent =
-                    new SlashCommandEvent((SlashCommandInteractionEvent) slashParser.getSourceEvent(), jdaExtra);
+            List<OptionMapping> sourceMappings = event.getOptions();
 
-            // TODO: See todo in SlashCommandEvent
-            List<SlashOptionMapping> mappings = slashEvent.getOptions()
-                    .stream()
+            List<SlashOptionMapping> mappings = sourceMappings.stream()
                     .map(SlashOptionMapping::new)
                     .collect(Collectors.toList());
+
+            SlashCommandEvent slashEvent = new SlashCommandEvent(event,
+                    jdaExtra,
+                    mappings,
+                    model.getDescription());
 
             for (int i = 0; i < options.size(); i++) {
                 if (mappings.size() <= i) {
@@ -155,7 +161,9 @@ public class HybridCommandParser extends CommandParser {
                         new HybridOptionMapping(mappings.get(i))));
             }
 
-            arguments.add(0, new HybridCommandEvent(slashEvent));
+            arguments.add(0, new HybridCommandEvent(slashEvent,
+                    // TODO: Reorganize mappings translation for better look
+                    mappings.stream().map(HybridOptionMapping::new).collect(Collectors.toList())));
         }
 
         return arguments.toArray();
