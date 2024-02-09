@@ -35,6 +35,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Parser for slash commands.
@@ -116,7 +117,9 @@ public class SlashCommandParser extends CommandParser {
             arguments.add(type == null ? optionMappings.get(i).getAsAttachment() : type);
         }
 
-        arguments.add(0, new SlashCommandEvent(sourceEvent, jdaExtra));
+        arguments.add(0, new SlashCommandEvent(sourceEvent, jdaExtra, optionMappings.stream()
+                .map(SlashOptionMapping::new)
+                .collect(Collectors.toList()), model.getDescription()));
 
         return arguments.toArray();
     }

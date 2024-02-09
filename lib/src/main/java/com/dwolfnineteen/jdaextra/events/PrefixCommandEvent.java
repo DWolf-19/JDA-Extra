@@ -23,12 +23,17 @@ package com.dwolfnineteen.jdaextra.events;
 
 import com.dwolfnineteen.jdaextra.JDAExtra;
 import com.dwolfnineteen.jdaextra.options.mappings.PrefixOptionMapping;
-import net.dv8tion.jda.api.entities.MessageEmbed;
+import net.dv8tion.jda.api.JDA;
+import net.dv8tion.jda.api.entities.*;
+import net.dv8tion.jda.api.entities.channel.ChannelType;
+import net.dv8tion.jda.api.entities.channel.unions.GuildMessageChannelUnion;
+import net.dv8tion.jda.api.entities.channel.unions.MessageChannelUnion;
 import net.dv8tion.jda.api.entities.sticker.StickerSnowflake;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.interactions.components.LayoutComponent;
 import net.dv8tion.jda.api.requests.restaction.MessageCreateAction;
 import net.dv8tion.jda.api.utils.FileUpload;
+import net.dv8tion.jda.api.utils.data.DataObject;
 import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -36,18 +41,18 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Collection;
 import java.util.List;
 
-// TODO: Convert PrefixCommandEvent to container for MessageReceivedEvent
+// TODO: Add some interfaces from JDA to signature
 /**
  * Prefix command event.
  */
-public class PrefixCommandEvent extends MessageReceivedEvent implements CommandEvent {
+public class PrefixCommandEvent implements CommandEvent {
+    private final MessageReceivedEvent event;
     private final JDAExtra jdaExtra;
     private final String prefix;
     private final String name;
     private final String description;
     private final List<PrefixOptionMapping> options;
 
-    // TODO: Rename prefix to trigger
     /**
      * Construct new {@link PrefixCommandEvent}.
      *
@@ -64,8 +69,7 @@ public class PrefixCommandEvent extends MessageReceivedEvent implements CommandE
                               @NotNull String name,
                               @Nullable String description,
                               @NotNull List<PrefixOptionMapping> options) {
-        super(event.getJDA(), event.getResponseNumber(), event.getMessage());
-
+        this.event = event;
         this.jdaExtra = jdaExtra;
         this.prefix = prefix;
         this.name = name;
@@ -73,9 +77,16 @@ public class PrefixCommandEvent extends MessageReceivedEvent implements CommandE
         this.options = options;
     }
 
+    @Override
     @NotNull
     public JDAExtra getJDAExtra() {
         return jdaExtra;
+    }
+
+    @Override
+    @NotNull
+    public JDA getJDA() {
+        return event.getJDA();
     }
 
     /**
@@ -88,18 +99,13 @@ public class PrefixCommandEvent extends MessageReceivedEvent implements CommandE
         return prefix;
     }
 
-    // TODO: Definition and javadoc will be in CommandEvent
+    @Override
     @NotNull
     public String getName() {
         return name;
     }
 
-    // TODO: Move definition to CommandEvent
-    /**
-     * The command description.
-     *
-     * @return The description.
-     */
+    @Override
     @Nullable
     public String getDescription() {
         return description;
@@ -115,7 +121,85 @@ public class PrefixCommandEvent extends MessageReceivedEvent implements CommandE
         return options;
     }
 
-    // TODO: Add getMessage() method
+    // TODO: Add getOptionByName() and various others utils for options
+
+    @NotNull
+    public Message getMessage() {
+        return event.getMessage();
+    }
+
+    @Override
+    @NotNull
+    public User getUser() {
+        return event.getAuthor();
+    }
+
+    @Nullable
+    public Member getMember() {
+        return event.getMember();
+    }
+
+    public boolean isWebhookMessage() {
+        return event.isWebhookMessage();
+    }
+
+    @Override
+    @NotNull
+    public Guild getGuild() {
+        if (isFromGuild()) {
+            return event.getGuild();
+        }
+
+        // Override IllegalStateException("This message event did not happen in a guild")
+        throw new RuntimeException("This command is not called on guild");
+    }
+
+    public boolean isFromGuild() {
+        return event.isFromGuild();
+    }
+
+    @Override
+    @NotNull
+    public MessageChannelUnion getChannel() {
+        return event.getChannel();
+    }
+
+    @NotNull
+    public GuildMessageChannelUnion getGuildChannel() {
+        if (!isFromGuild()) {
+            // Override IllegalStateException("This message event did not happen in a guild")
+            throw new RuntimeException("This command is not called on guild");
+        }
+
+        return event.getGuildChannel();
+    }
+
+    @NotNull
+    public ChannelType getChannelType() {
+        return event.getChannelType();
+    }
+
+    public boolean isFromType(@NotNull ChannelType type) {
+        return event.isFromType(type);
+    }
+
+    public boolean isFromThread() {
+        return event.isFromThread();
+    }
+
+    @NotNull
+    public String getMessageId() {
+        return event.getMessageId();
+    }
+
+    public long getMessageIdLong() {
+        return event.getMessageIdLong();
+    }
+
+    @NotNull
+    public String getJumpUrl() {
+        return event.getJumpUrl();
+    }
 
     /**
      * Shortcut for {@link net.dv8tion.jda.api.entities.Message#reply(CharSequence) getMessage().reply(CharSequence)}.
@@ -125,7 +209,7 @@ public class PrefixCommandEvent extends MessageReceivedEvent implements CommandE
      */
     @NotNull
     public MessageCreateAction reply(@NotNull CharSequence content) {
-        return getMessage().reply(content);
+        return event.getMessage().reply(content);
     }
 
     /**
@@ -137,32 +221,7 @@ public class PrefixCommandEvent extends MessageReceivedEvent implements CommandE
      */
     @NotNull
     public MessageCreateAction reply(@NotNull MessageCreateData data) {
-        return getMessage().reply(data);
-    }
-
-    /**
-     * Shortcut for
-     * {@link net.dv8tion.jda.api.entities.Message#replyComponents(Collection) getMessage().replyComponents(Collection)}.
-     *
-     * @param components The {@link Collection} of {@link LayoutComponent} to reply.
-     * @return The {@link MessageCreateAction}.
-     */
-    @NotNull
-    public MessageCreateAction replyComponents(@NotNull Collection<? extends LayoutComponent> components) {
-        return getMessage().replyComponents(components);
-    }
-
-    /**
-     * Shortcut for
-     * {@link net.dv8tion.jda.api.entities.Message#replyComponents(LayoutComponent, LayoutComponent...) getMessage().replyComponents(LayoutComponent, LayoutComponent...)}.
-     *
-     * @param component The {@link LayoutComponent} to reply.
-     * @param other Any addition {@link LayoutComponent}s to reply.
-     * @return The {@link MessageCreateAction}.
-     */
-    @NotNull
-    public MessageCreateAction replyComponents(@NotNull LayoutComponent component, @NotNull LayoutComponent... other) {
-        return getMessage().replyComponents(component, other);
+        return event.getMessage().reply(data);
     }
 
     /**
@@ -174,7 +233,7 @@ public class PrefixCommandEvent extends MessageReceivedEvent implements CommandE
      */
     @NotNull
     public MessageCreateAction replyEmbeds(@NotNull Collection<? extends MessageEmbed> embeds) {
-        return getMessage().replyEmbeds(embeds);
+        return event.getMessage().replyEmbeds(embeds);
     }
 
     /**
@@ -187,7 +246,32 @@ public class PrefixCommandEvent extends MessageReceivedEvent implements CommandE
      */
     @NotNull
     public MessageCreateAction replyEmbeds(@NotNull MessageEmbed embed, @NotNull MessageEmbed... other) {
-        return getMessage().replyEmbeds(embed, other);
+        return event.getMessage().replyEmbeds(embed, other);
+    }
+
+    /**
+     * Shortcut for
+     * {@link net.dv8tion.jda.api.entities.Message#replyComponents(Collection) getMessage().replyComponents(Collection)}.
+     *
+     * @param components The {@link Collection} of {@link LayoutComponent} to reply.
+     * @return The {@link MessageCreateAction}.
+     */
+    @NotNull
+    public MessageCreateAction replyComponents(@NotNull Collection<? extends LayoutComponent> components) {
+        return event.getMessage().replyComponents(components);
+    }
+
+    /**
+     * Shortcut for
+     * {@link net.dv8tion.jda.api.entities.Message#replyComponents(LayoutComponent, LayoutComponent...) getMessage().replyComponents(LayoutComponent, LayoutComponent...)}.
+     *
+     * @param component The {@link LayoutComponent} to reply.
+     * @param other Any addition {@link LayoutComponent}s to reply.
+     * @return The {@link MessageCreateAction}.
+     */
+    @NotNull
+    public MessageCreateAction replyComponents(@NotNull LayoutComponent component, @NotNull LayoutComponent... other) {
+        return event.getMessage().replyComponents(component, other);
     }
 
     /**
@@ -199,7 +283,7 @@ public class PrefixCommandEvent extends MessageReceivedEvent implements CommandE
      */
     @NotNull
     public MessageCreateAction replyFiles(@NotNull Collection<? extends FileUpload> files) {
-        return getMessage().replyFiles(files);
+        return event.getMessage().replyFiles(files);
     }
 
     /**
@@ -211,7 +295,7 @@ public class PrefixCommandEvent extends MessageReceivedEvent implements CommandE
      */
     @NotNull
     public MessageCreateAction replyFiles(@NotNull FileUpload... files) {
-        return getMessage().replyFiles(files);
+        return event.getMessage().replyFiles(files);
     }
 
     /**
@@ -223,8 +307,8 @@ public class PrefixCommandEvent extends MessageReceivedEvent implements CommandE
      * @return The {@link MessageCreateAction}.
      */
     @NotNull
-    public MessageCreateAction replyFormat(@NotNull String format, Object... args) {
-        return getMessage().replyFormat(format, args);
+    public MessageCreateAction replyFormat(@NotNull String format, @NotNull Object... args) {
+        return event.getMessage().replyFormat(format, args);
     }
 
     /**
@@ -236,7 +320,7 @@ public class PrefixCommandEvent extends MessageReceivedEvent implements CommandE
      */
     @NotNull
     public MessageCreateAction replyStickers(@NotNull Collection<? extends StickerSnowflake> stickers) {
-        return getMessage().replyStickers(stickers);
+        return event.getMessage().replyStickers(stickers);
     }
 
     /**
@@ -248,6 +332,17 @@ public class PrefixCommandEvent extends MessageReceivedEvent implements CommandE
      */
     @NotNull
     public MessageCreateAction replyStickers(@NotNull StickerSnowflake... stickers) {
-        return getMessage().replyStickers(stickers);
+        return event.getMessage().replyStickers(stickers);
+    }
+
+    @Override
+    public long getResponseNumber() {
+        return event.getResponseNumber();
+    }
+
+    @Override
+    @Nullable
+    public DataObject getRawData() {
+        return event.getRawData();
     }
 }
