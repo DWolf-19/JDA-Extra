@@ -22,17 +22,31 @@
 package com.dwolfnineteen.jdaextra.models;
 
 import com.dwolfnineteen.jdaextra.options.data.SlashOptionData;
+import net.dv8tion.jda.api.interactions.DiscordLocale;
+import net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Slash command model.
- * @see com.dwolfnineteen.jdaextra.models.CommandModel CommandModel
+ * @see CommandModel
  */
 public class SlashCommandModel extends CommandModel {
+    private Map<DiscordLocale, String> nameLocalizations;
     private String description;
+    private Map<DiscordLocale, String> descriptionLocalizations;
+    private LocalizationFunction localizationFunction;
     private List<SlashOptionData> options;
+
+    /**
+     * @return
+     */
+    @NotNull
+    public Map<DiscordLocale, String> getNameLocalizations() {
+        return nameLocalizations;
+    }
 
     /**
      * The command description.
@@ -45,7 +59,23 @@ public class SlashCommandModel extends CommandModel {
     }
 
     /**
-     * All command options as a {@link java.util.List List}.
+     * @return
+     */
+    @NotNull
+    public Map<DiscordLocale, String> getDescriptionLocalizations() {
+        return descriptionLocalizations;
+    }
+
+    /**
+     * @return
+     */
+    @NotNull
+    public LocalizationFunction getLocalizationFunction() {
+        return localizationFunction;
+    }
+
+    /**
+     * All command options as a {@link List}.
      *
      * @return The command options.
      */
@@ -55,11 +85,20 @@ public class SlashCommandModel extends CommandModel {
     }
 
     /**
+     * @param nameLocalizations
+     */
+    @NotNull
+    public SlashCommandModel setNameLocalizations(@NotNull Map<DiscordLocale, String> nameLocalizations) {
+        this.nameLocalizations = nameLocalizations;
+
+        return this;
+    }
+
+    /**
      * Sets the command description.
      *
      * @param description The command description.
-     * @return Current {@link com.dwolfnineteen.jdaextra.models.SlashCommandModel SlashCommandModel} instance,
-     * for chaining.
+     * @return Current {@link SlashCommandModel} instance, for chaining.
      */
     @NotNull
     public SlashCommandModel setDescription(@NotNull String description) {
@@ -69,11 +108,31 @@ public class SlashCommandModel extends CommandModel {
     }
 
     /**
-     * Sets the command options as a {@link java.util.List List}.
+     * @param descriptionLocalizations
+     */
+    @NotNull
+    public SlashCommandModel setDescriptionLocalizations(@NotNull Map<DiscordLocale, String> descriptionLocalizations) {
+        this.descriptionLocalizations = descriptionLocalizations;
+
+        return this;
+    }
+
+    /**
+     * @param localizationFunction
+     * @return
+     */
+    @NotNull
+    public SlashCommandModel setLocalizationFunction(@NotNull LocalizationFunction localizationFunction) {
+        this.localizationFunction = localizationFunction;
+
+        return this;
+    }
+
+    /**
+     * Sets the command options as a {@link List}.
      *
      * @param options The command options.
-     * @return Current {@link com.dwolfnineteen.jdaextra.models.SlashCommandModel SlashCommandModel} instance,
-     * for chaining.
+     * @return Current {@link SlashCommandModel} instance, for chaining.
      */
     @NotNull
     public SlashCommandModel setOptions(@NotNull List<SlashOptionData> options) {

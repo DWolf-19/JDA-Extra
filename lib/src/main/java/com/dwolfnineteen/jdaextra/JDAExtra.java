@@ -186,6 +186,9 @@ public class JDAExtra extends ListenerAdapter {
         // TODO: Add SlashCommandData#setDefaultPermissions
         for (HybridCommandModel command : hybridCommandModels.values()) {
             data.add(Commands.slash(command.getName(), command.getDescription())
+                    .setNameLocalizations(command.getNameLocalizations()) // <-----------------╮︎
+                    .setDescriptionLocalizations(command.getDescriptionLocalizations()) // <---┤︎ Slash exclusive
+                    .setLocalizationFunction(command.getLocalizationFunction()) // <-----------╯︎
                     .addOptions(command.getOptions()
                             .stream()
                             .map(HybridOptionData::toGeneralOptionData)
@@ -196,6 +199,9 @@ public class JDAExtra extends ListenerAdapter {
 
         for (SlashCommandModel command : slashCommandModels.values()) {
             data.add(Commands.slash(command.getName(), command.getDescription())
+                    .setNameLocalizations(command.getNameLocalizations())
+                    .setDescriptionLocalizations(command.getDescriptionLocalizations())
+                    .setLocalizationFunction(command.getLocalizationFunction())
                     .addOptions(command.getOptions()
                             .stream()
                             .map(SlashOptionData::toGeneralOptionData)

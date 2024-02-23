@@ -105,6 +105,8 @@ public abstract class CommandModel {
         return nsfw;
     }
 
+    // TODO: Move setters to inherited classes and return (Slash/Prefix/Hybrid)CommandModel
+
     /**
      * Sets the command class inherited from one of the {@link com.dwolfnineteen.jdaextra.commands commands}.
      *

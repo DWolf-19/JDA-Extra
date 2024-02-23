@@ -22,22 +22,31 @@
 package com.dwolfnineteen.jdaextra.builders;
 
 import com.dwolfnineteen.jdaextra.annotations.ExtraSlashCommand;
+import com.dwolfnineteen.jdaextra.annotations.commands.CommandLocalizationFunction;
+import com.dwolfnineteen.jdaextra.annotations.commands.DescriptionLocalizations;
+import com.dwolfnineteen.jdaextra.annotations.commands.Localization;
+import com.dwolfnineteen.jdaextra.annotations.commands.NameLocalizations;
 import com.dwolfnineteen.jdaextra.annotations.options.AutoComplete;
 import com.dwolfnineteen.jdaextra.annotations.options.Required;
 import com.dwolfnineteen.jdaextra.annotations.options.SlashOption;
 import com.dwolfnineteen.jdaextra.commands.BaseCommand;
 import com.dwolfnineteen.jdaextra.commands.SlashCommand;
 import com.dwolfnineteen.jdaextra.exceptions.CommandAnnotationNotFoundException;
+import com.dwolfnineteen.jdaextra.models.CommandModel;
 import com.dwolfnineteen.jdaextra.models.SlashCommandModel;
 import com.dwolfnineteen.jdaextra.options.data.SlashOptionData;
 import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.interactions.DiscordLocale;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
+import net.dv8tion.jda.api.interactions.commands.localization.ResourceBundleLocalizationFunction;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.Parameter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Slash command builder.
@@ -90,7 +99,7 @@ public class SlashCommandBuilder extends CommandBuilder {
 
         model.setOptions(options);
 
-        return (SlashCommandModel) buildSettings(model, cls);
+        return buildSettings(model, cls);
     }
 
     @Override
@@ -99,5 +108,41 @@ public class SlashCommandBuilder extends CommandBuilder {
         return typeFromAnnotation == OptionType.UNKNOWN && parameterType.equals(Message.Attachment.class)
                 ? OptionType.ATTACHMENT
                 : super.buildOptionType(parameterType, typeFromAnnotation);
+    }
+
+    /**
+     * @param model The command model. 
+     * @param cls The command class.
+     * @return
+     */
+    @Override
+    @NotNull
+    protected SlashCommandModel buildSettings(@NotNull CommandModel model, @NotNull Class<? extends BaseCommand> cls) {
+        Map<DiscordLocale, String> nameLocalizations = new HashMap<>();
+        Map<DiscordLocale, String> descriptionLocalizations = new HashMap<>();
+
+        NameLocalizations nameLocalizationsAnnotation = cls.getAnnotation(NameLocalizations.class);
+        DescriptionLocalizations descriptionLocalizationsAnnotation = cls.getAnnotation(DescriptionLocalizations.class);
+        CommandLocalizationFunction localizationFunctionAnnotation = cls.getAnnotation(CommandLocalizationFunction.class);
+
+        if (nameLocalizationsAnnotation != null) {
+            for (Localization localization : nameLocalizationsAnnotation.value()) {
+                nameLocalizations.put(localization.locale(), localization.string());
+            }
+        }
+
+        if (descriptionLocalizationsAnnotation != null) {
+            for (Localization localization : descriptionLocalizationsAnnotation.value()) {
+                descriptionLocalizations.put(localization.locale(), localization.string());
+            }
+        }
+
+        return ((SlashCommandModel) super.buildSettings(model, cls))
+                .setNameLocalizations(nameLocalizations)
+                .setDescriptionLocalizations(descriptionLocalizations)
+                .setLocalizationFunction(localizationFunctionAnnotation == null
+                        ? ResourceBundleLocalizationFunction.empty().build()
+                        : ResourceBundleLocalizationFunction.fromBundles(localizationFunctionAnnotation.baseName(),
+                        localizationFunctionAnnotation.locales()).build());
     }
 }
