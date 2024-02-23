@@ -101,7 +101,6 @@ public class HybridCommandParser extends CommandParser {
         List<Object> arguments = new ArrayList<>();
         List<HybridOptionData> options = model.getOptions();
 
-        // TODO: Remove duplicated code (for (int i = 0; i < options.size(); i++) {}...)
         if (parser instanceof PrefixCommandParser) {
             PrefixCommandParser prefixParser = (PrefixCommandParser) parser;
 

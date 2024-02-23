@@ -33,6 +33,7 @@ import com.dwolfnineteen.jdaextra.models.PrefixCommandModel;
 import com.dwolfnineteen.jdaextra.models.SlashCommandModel;
 import com.dwolfnineteen.jdaextra.options.data.HybridOptionData;
 import com.dwolfnineteen.jdaextra.options.data.SlashOptionData;
+import com.dwolfnineteen.jdaextra.parsers.CommandParser;
 import com.dwolfnineteen.jdaextra.parsers.HybridCommandParser;
 import com.dwolfnineteen.jdaextra.parsers.PrefixCommandParser;
 import com.dwolfnineteen.jdaextra.parsers.SlashCommandParser;
@@ -74,10 +75,9 @@ public class JDAExtra extends ListenerAdapter {
     private final String prefix;
     private final boolean whenMention;
 
-    // TODO: Rename to command models
-    private final Map<String, HybridCommandModel> hybridCommandsModels;
-    private final Map<String, PrefixCommandModel> prefixCommandsModels;
-    private final Map<String, SlashCommandModel> slashCommandsModels;
+    private final Map<String, HybridCommandModel> hybridCommandModels;
+    private final Map<String, PrefixCommandModel> prefixCommandModels;
+    private final Map<String, SlashCommandModel> slashCommandModels;
 
     /**
      * Build new {@link JDAExtra} instance (usually called from {@link JDAExtraBuilder}).
@@ -117,9 +117,9 @@ public class JDAExtra extends ListenerAdapter {
             slashCommandModels.put(slashModel.getName(), slashModel);
         }
 
-        this.hybridCommandsModels = hybridCommandModels;
-        this.prefixCommandsModels = prefixCommandModels;
-        this.slashCommandsModels = slashCommandModels;
+        this.hybridCommandModels = hybridCommandModels;
+        this.prefixCommandModels = prefixCommandModels;
+        this.slashCommandModels = slashCommandModels;
     }
 
     /**
@@ -148,8 +148,8 @@ public class JDAExtra extends ListenerAdapter {
      * @see com.dwolfnineteen.jdaextra.builders builders
      */
     @NotNull
-    public Map<String, HybridCommandModel> getHybridCommandsModels() {
-        return hybridCommandsModels;
+    public Map<String, HybridCommandModel> getHybridCommandModels() {
+        return hybridCommandModels;
     }
 
     /**
@@ -159,8 +159,8 @@ public class JDAExtra extends ListenerAdapter {
      * @see com.dwolfnineteen.jdaextra.builders builders
      */
     @NotNull
-    public Map<String, PrefixCommandModel> getPrefixCommandsModels() {
-        return prefixCommandsModels;
+    public Map<String, PrefixCommandModel> getPrefixCommandModels() {
+        return prefixCommandModels;
     }
 
     /**
@@ -170,23 +170,21 @@ public class JDAExtra extends ListenerAdapter {
      * @see com.dwolfnineteen.jdaextra.builders builders
      */
     @NotNull
-    public Map<String, SlashCommandModel> getSlashCommandsModels() {
-        return slashCommandsModels;
+    public Map<String, SlashCommandModel> getSlashCommandModels() {
+        return slashCommandModels;
     }
 
     /**
-     * {@link net.dv8tion.jda.api.events.session.ReadyEvent ReadyEvent} handler
-     * for adding application commands data to {@link net.dv8tion.jda.api.JDA JDA}.
+     * {@link ReadyEvent} handler for adding application commands data to {@link net.dv8tion.jda.api.JDA JDA}.
      *
-     * @param event The {@link net.dv8tion.jda.api.events.session.ReadyEvent ReadyEvent}.
+     * @param event The {@link ReadyEvent}.
      */
     @Override
     public void onReady(@NotNull ReadyEvent event) {
-        // TODO: Replace with List
-        ArrayList<CommandData> data = new ArrayList<>();
+        List<CommandData> data = new ArrayList<>();
 
         // TODO: Add SlashCommandData#setDefaultPermissions
-        for (HybridCommandModel command : hybridCommandsModels.values()) {
+        for (HybridCommandModel command : hybridCommandModels.values()) {
             data.add(Commands.slash(command.getName(), command.getDescription())
                     .addOptions(command.getOptions()
                             .stream()
@@ -196,7 +194,7 @@ public class JDAExtra extends ListenerAdapter {
                     .setNSFW(command.isNSFW()));
         }
 
-        for (SlashCommandModel command : slashCommandsModels.values()) {
+        for (SlashCommandModel command : slashCommandModels.values()) {
             data.add(Commands.slash(command.getName(), command.getDescription())
                     .addOptions(command.getOptions()
                             .stream()
@@ -209,33 +207,14 @@ public class JDAExtra extends ListenerAdapter {
         event.getJDA().updateCommands().addCommands(data).queue();
     }
 
-    private void onHybridCommand(@NotNull String commandName, @NotNull PrefixCommandParser parser) {
-        HybridCommandModel hybridModel = hybridCommandsModels.get(commandName);
+    private void onHybridCommand(@NotNull String commandName, @NotNull CommandParser parser) {
+        HybridCommandModel hybridModel = hybridCommandModels.get(commandName);
 
         if (hybridModel == null) {
             throw new CommandNotFoundException(commandName);
         }
 
         HybridCommandParser hybridParser = new HybridCommandParser(this, parser).setModel(hybridModel);
-
-        try {
-            // TODO: Fix "Method invocation 'invoke' may produce 'NullPointerException'"
-            //  by adding subcommands(group) support
-            hybridModel.getMain().invoke(hybridModel.getCommand(), hybridParser.buildInvokeArguments()); // Done
-        } catch (IllegalAccessException | InvocationTargetException exception) {
-            throw new RuntimeException(exception);
-        }
-    }
-
-    private void onHybridCommand(@NotNull String commandName, @NotNull SlashCommandParser parser) {
-        HybridCommandModel hybridModel = hybridCommandsModels.get(commandName);
-
-        if (hybridModel == null) {
-            throw new CommandNotFoundException(commandName);
-        }
-
-        HybridCommandParser hybridParser =
-                new HybridCommandParser(this, parser).setModel(hybridModel);
 
         try {
             // TODO: Fix "Method invocation 'invoke' may produce 'NullPointerException'"
@@ -262,7 +241,7 @@ public class JDAExtra extends ListenerAdapter {
 
         String commandName = parser.parseName(parser.parseTrigger());
 
-        PrefixCommandModel prefixModel = prefixCommandsModels.get(commandName);
+        PrefixCommandModel prefixModel = prefixCommandModels.get(commandName);
 
         if (prefixModel == null) {
             onHybridCommand(commandName, parser);
@@ -287,7 +266,7 @@ public class JDAExtra extends ListenerAdapter {
      */
     @Override
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
-        SlashCommandModel slashModel = slashCommandsModels.get(event.getName());
+        SlashCommandModel slashModel = slashCommandModels.get(event.getName());
 
         SlashCommandParser slashParser = new SlashCommandParser(this, event).setModel(slashModel);
 
