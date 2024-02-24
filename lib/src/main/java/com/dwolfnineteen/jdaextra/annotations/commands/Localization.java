@@ -27,17 +27,21 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 /**
- *
+ * Map one {@link DiscordLocale} with string on specific language.
  */
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Localization {
     /**
-     * @return
+     * The {@link DiscordLocale} for this pair.
+     *
+     * @return The {@link DiscordLocale}.
      */
     DiscordLocale locale();
 
     /**
-     * @return
+     * {@link String} value on the specific language.
+     *
+     * @return The {@link String} value.
      */
     String string();
 }

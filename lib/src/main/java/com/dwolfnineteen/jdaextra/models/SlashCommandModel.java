@@ -41,7 +41,9 @@ public class SlashCommandModel extends CommandModel {
     private List<SlashOptionData> options;
 
     /**
-     * @return
+     * Multiple localizations of the command name.
+     *
+     * @return {@link Map} of {@link DiscordLocale} and name on different languages.
      */
     @NotNull
     public Map<DiscordLocale, String> getNameLocalizations() {
@@ -59,7 +61,9 @@ public class SlashCommandModel extends CommandModel {
     }
 
     /**
-     * @return
+     * Multiple localizations of the command description.
+     *
+     * @return {@link Map} of {@link DiscordLocale} and description on different languages.
      */
     @NotNull
     public Map<DiscordLocale, String> getDescriptionLocalizations() {
@@ -67,7 +71,9 @@ public class SlashCommandModel extends CommandModel {
     }
 
     /**
-     * @return
+     * The {@link LocalizationFunction} for this command.
+     *
+     * @return The {@link LocalizationFunction}.
      */
     @NotNull
     public LocalizationFunction getLocalizationFunction() {
@@ -85,7 +91,10 @@ public class SlashCommandModel extends CommandModel {
     }
 
     /**
-     * @param nameLocalizations
+     * Sets multiple localizations of the command name.
+     *
+     * @param nameLocalizations {@link Map} of {@link DiscordLocale} and name on different languages.
+     * @return The {@link SlashCommandModel} instance, for chaining.
      */
     @NotNull
     public SlashCommandModel setNameLocalizations(@NotNull Map<DiscordLocale, String> nameLocalizations) {
@@ -108,7 +117,10 @@ public class SlashCommandModel extends CommandModel {
     }
 
     /**
-     * @param descriptionLocalizations
+     * Sets multiple localizations of the command description.
+     *
+     * @param descriptionLocalizations {@link Map} of {@link DiscordLocale} and description on different languages.
+     * @return The {@link SlashCommandModel} instance, for chaining.
      */
     @NotNull
     public SlashCommandModel setDescriptionLocalizations(@NotNull Map<DiscordLocale, String> descriptionLocalizations) {
@@ -118,8 +130,14 @@ public class SlashCommandModel extends CommandModel {
     }
 
     /**
-     * @param localizationFunction
-     * @return
+     * Sets the {@link LocalizationFunction} for this command.
+     * This allows to localize the entire command.
+     * <br>
+     * Only accepts
+     * {@link net.dv8tion.jda.api.interactions.commands.localization.ResourceBundleLocalizationFunction ResourceBundleLocalizationFunction}.
+     *
+     * @param localizationFunction The {@link LocalizationFunction}.
+     * @return The {@link SlashCommandModel} instance, for chaining.
      */
     @NotNull
     public SlashCommandModel setLocalizationFunction(@NotNull LocalizationFunction localizationFunction) {

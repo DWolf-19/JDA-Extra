@@ -101,9 +101,11 @@ public class HybridCommandBuilder extends CommandBuilder {
     }
 
     /**
+     * Build command settings (such as {@link com.dwolfnineteen.jdaextra.annotations.commands.GuildOnly @GuildOnly}).
+     *
      * @param model The command model.
      * @param cls The command class.
-     * @return
+     * @return Configured {@link HybridCommandModel}.
      */
     @Override
     @NotNull

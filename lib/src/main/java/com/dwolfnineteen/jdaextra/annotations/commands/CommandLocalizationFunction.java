@@ -27,17 +27,26 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 /**
- *
+ * Sets the
+ * {@link net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction LocalizationFunction} for this command.
+ * This allows to localize the entire command.
+ * <br>
+ * It will be converted by command builder to
+ * {@link net.dv8tion.jda.api.interactions.commands.localization.ResourceBundleLocalizationFunction ResourceBundleLocalizationFunction}.
  */
 @Retention(RetentionPolicy.RUNTIME)
 public @interface CommandLocalizationFunction {
      /**
-      * @return
+      * The base name of the resource bundle.
+      *
+      * @return The base name.
       */
      String baseName();
 
      /**
-      * @return
+      * Locales to get from the resource bundle.
+      *
+      * @return Array of {@link DiscordLocale}.
       */
      DiscordLocale[] locales();
 }

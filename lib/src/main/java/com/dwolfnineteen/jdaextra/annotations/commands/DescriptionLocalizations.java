@@ -27,13 +27,15 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- *
+ * Sets multiple localizations of the command description.
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
 public @interface DescriptionLocalizations {
     /**
-     * @return
+     * Sets multiple {@link Localization @Localization} of the command description.
+     *
+     * @return Array of {@link Localization @Localization}.
      */
     Localization[] value();
 }
