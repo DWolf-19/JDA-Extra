@@ -19,9 +19,29 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-
-// TODO: Fix all @Targets in annotations
-/**
- * Command annotations.
- */
 package com.dwolfnineteen.jdaextra.annotations.commands;
+
+import net.dv8tion.jda.api.interactions.DiscordLocale;
+
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+
+/**
+ * Map one {@link DiscordLocale} with string on specific language.
+ */
+@Retention(RetentionPolicy.RUNTIME)
+public @interface Localization {
+    /**
+     * The {@link DiscordLocale} for this pair.
+     *
+     * @return The {@link DiscordLocale}.
+     */
+    DiscordLocale locale();
+
+    /**
+     * {@link String} value on the specific language.
+     *
+     * @return The {@link String} value.
+     */
+    String string();
+}

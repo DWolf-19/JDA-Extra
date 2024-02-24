@@ -19,9 +19,23 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-
-// TODO: Fix all @Targets in annotations
-/**
- * Command annotations.
- */
 package com.dwolfnineteen.jdaextra.annotations.commands;
+
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+
+/**
+ * Sets multiple localizations of the command name.
+ */
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.TYPE)
+public @interface NameLocalizations {
+    /**
+     * Sets multiple {@link Localization @Localization} of the command name.
+     *
+     * @return Array of {@link Localization @Localization}.
+     */
+    Localization[] value();
+}
