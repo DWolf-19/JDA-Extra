@@ -1,3 +1,6 @@
+# TODO: Fix publishing (GPG password leak to logs)
+# Currently disabled
+
 name: Release
 
 on:
@@ -14,8 +17,9 @@ jobs:
       - name: Setup JDK
         uses: actions/setup-java@v4
         with:
-          java-version: "21"
-          distribution: "temurin"
+          java-version: 21
+          distribution: temurin
+          cache: gradle
 
       - name: Install GPG signing key
         run: echo "${{ secrets.GPG_SIGNING_KEY }}" > private.gpg

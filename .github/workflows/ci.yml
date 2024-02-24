@@ -20,11 +20,11 @@ jobs:
     - name: Setup JDK
       uses: actions/setup-java@v4
       with:
-        java-version: "8"
-        distribution: "temurin"
-        
-    - name: Setup Gradle
-      uses: gradle/actions/setup-gradle@v3
+        java-version: 21
+        distribution: temurin
+        cache: gradle
         
     - name: Gradle build
-      run: ./gradlew build
+      uses: gradle/actions/setup-gradle@v3
+      with:
+        arguments: build --no-daemon
