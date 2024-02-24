@@ -1,3 +1,77 @@
+# 1.0.0-alpha.2
+
+### ⭐ Overview
+This release contains major improvements related to events and localization support.
+
+#### Events
+
+Command events no more depends (extends) on the JDA's upstream events. 
+`SlashCommandEvent`, `PrefixCommandEvent` and `HybridCommandEvent` are now proxies/containers for source events 
+(`SlashCommandInteractionEvent`, `MessageReceivedEvent`), which allows us to isolate unnecessary methods.
+Interaction with events has become more native and clean.
+
+**Note:** `HybridCommandEvent` doesn't having at the moment `reply**` methods, 
+because it needs the unified interface between `ReplyCallbackAction` and `MessageCreateAction`. Wait for updates.
+
+#### Localization
+
+4 new annotations for slash/hybrid commands have been added:
+* `@NameLocalizations`
+* `@DescriptionLocalizations`
+* `@Localization` (used inside two above)
+* `@CommandLocalizationFunction`
+
+Example:
+```java
+@ExtraSlashCommand(description = "Standard description")
+// Localizations will be displayed depending on language of the Discord client
+@NameLocalizations({
+        @Localization(locale = DiscordLocale.GERMAN, string = "hallo"), 
+        @Localization(locale = DiscordLocale.RUSSIAN, string = "привет")
+})
+@DescriptionLocalizations({
+        @Localization(locale = DiscordLocale.GERMAN, string = "Beschreibung auf Deutsch"),
+        @Localization(locale = DiscordLocale.RUSSIAN, string = "Описание на русском")
+})
+// This allows you to localize the entire command including name, description and options
+// It uses ResourceBundleLocalizationFunction under the hood
+// See https://github.com/discord-jda/JDA/blob/master/src/examples/java/LocalizationExample.java#L21 for explanation
+@CommandLocalizationFunction(baseName = "localizations", locales = {
+        DiscordLocale.GERMAN, DiscordLocale.RUSSIAN
+})
+public class SlashCommandExample extends SlashCommand {
+    @ExtraMainCommand
+    public void hello(SlashCommandEvent event, @SlashOption(name = "name", description = "Your name") String name) {
+        event.replyFormat("Hello, %s!", name).queue();
+    }
+}
+```
+
+And the same with hybrid commands. 
+Keep in mind that this only works when hybrid command is called as a slash (obviously).
+
+### 🐬 Features
+* Make SlashCommandData proxy for OptionData ([#131](https://github.com/DWolf-19/JDA-Extra/pull/131))
+* Make events proxies for source events ([#132](https://github.com/DWolf-19/JDA-Extra/pull/132))
+* Add localization support ([#134](https://github.com/DWolf-19/JDA-Extra/pull/134))
+
+### 📦 Dependencies
+* Bump gradle/gradle-build-action from 2 to 3 ([#123](https://github.com/DWolf-19/JDA-Extra/pull/123), [#127](https://github.com/DWolf-19/JDA-Extra/pull/127))
+* Bump Gradle from 8.5 to 8.6 ([#125](https://github.com/DWolf-19/JDA-Extra/pull/125))
+
+### 🧪 Quality
+* Cleanup hybrid commands handling from duplicated code ([#133](https://github.com/DWolf-19/JDA-Extra/pull/133))
+
+### 🔑 Docs
+* Fix javadoc title ([#128](https://github.com/DWolf-19/JDA-Extra/pull/128))
+* Fix Java toolchain in samples ([#130](https://github.com/DWolf-19/JDA-Extra/pull/130))
+
+### 📕 Metadata
+* Add getting started section to README ([#126](https://github.com/DWolf-19/JDA-Extra/pull/126))
+* Fix warning display in README ([#129](https://github.com/DWolf-19/JDA-Extra/pull/129))
+* Enable Gradle caching in workflows ([#135](https://github.com/DWolf-19/JDA-Extra/pull/135))
+* Run CI on workflow update ([#136](https://github.com/DWolf-19/JDA-Extra/pull/136))
+
 # 1.0.0-alpha.1
 
 ### ⭐ Overview

@@ -14,7 +14,7 @@ A modern and evolving commands & components framework for JDA. Inspired by [BotC
 # Getting started
 
 > [!WARNING]
-> We don't recommended using this framework in production until the first beta/stable release. In alpha versions and in the main branch, the library interface will break without any warning.
+> We don't recommend using this framework in production until the first beta/stable release. In alpha versions and in the main branch, the library interface will break without any warning.
 
 ### Requirements
 * JDK 8+
@@ -35,7 +35,7 @@ repositories {
 }
 
 dependencies {
-    implementation("com.dwolfnineteen:JDA-Extra:1.0.0-alpha.1")
+    implementation("com.dwolfnineteen:JDA-Extra:1.0.0-alpha.2")
 }
 ```
 
@@ -47,7 +47,7 @@ repositories {
 }
 
 dependencies {
-    implementation "com.dwolfnineteen:JDA-Extra:1.0.0-alpha.1"
+    implementation "com.dwolfnineteen:JDA-Extra:1.0.0-alpha.2"
 }
 ```
 
@@ -63,7 +63,7 @@ dependencies {
     <dependency>
         <groupId>com.dwolfnineteen</groupId>
         <artifactId>JDA-Extra</artifactId>
-        <version>1.0.0-alpha.1</version>
+        <version>1.0.0-alpha.2</version>
     </dependency>
 </dependencies>
 ```
