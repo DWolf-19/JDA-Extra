@@ -31,24 +31,12 @@ import java.util.Map;
 
 /**
  * Hybrid command model.
+ *
  * @see CommandModel
  */
-public class HybridCommandModel extends CommandModel {
-    private Map<DiscordLocale, String> nameLocalizations;
+public class HybridCommandModel extends SlashLikeCommandModel {
     private String description;
-    private Map<DiscordLocale, String> descriptionLocalizations;
-    private LocalizationFunction localizationFunction;
     private List<HybridOptionData> options;
-
-    /**
-     * Multiple localizations of the command name.
-     *
-     * @return {@link Map} of {@link DiscordLocale} and name on different languages.
-     */
-    @NotNull
-    public Map<DiscordLocale, String> getNameLocalizations() {
-        return nameLocalizations;
-    }
 
     /**
      * The command description.
@@ -58,26 +46,6 @@ public class HybridCommandModel extends CommandModel {
     @NotNull
     public String getDescription() {
         return description;
-    }
-
-    /**
-     * Multiple localizations of the command description.
-     *
-     * @return {@link Map} of {@link DiscordLocale} and description on different languages.
-     */
-    @NotNull
-    public Map<DiscordLocale, String> getDescriptionLocalizations() {
-        return descriptionLocalizations;
-    }
-
-    /**
-     * The {@link LocalizationFunction} for this command.
-     *
-     * @return The {@link LocalizationFunction}.
-     */
-    @NotNull
-    public LocalizationFunction getLocalizationFunction() {
-        return localizationFunction;
     }
 
     /**
@@ -96,6 +64,7 @@ public class HybridCommandModel extends CommandModel {
      * @param nameLocalizations {@link Map} of {@link DiscordLocale} and name on different languages.
      * @return The {@link HybridCommandModel} instance, for chaining.
      */
+    @Override
     @NotNull
     public HybridCommandModel setNameLocalizations(@NotNull Map<DiscordLocale, String> nameLocalizations) {
         this.nameLocalizations = nameLocalizations;
@@ -123,6 +92,7 @@ public class HybridCommandModel extends CommandModel {
      * @param descriptionLocalizations {@link Map} of {@link DiscordLocale} and description on different languages.
      * @return The {@link HybridCommandModel} instance, for chaining.
      */
+    @Override
     @NotNull
     public HybridCommandModel setDescriptionLocalizations(@NotNull Map<DiscordLocale, String> descriptionLocalizations) {
         this.descriptionLocalizations = descriptionLocalizations;
@@ -140,6 +110,7 @@ public class HybridCommandModel extends CommandModel {
      * @param localizationFunction The {@link LocalizationFunction}.
      * @return The {@link HybridCommandModel} instance, for chaining.
      */
+    @Override
     @NotNull
     public HybridCommandModel setLocalizationFunction(@NotNull LocalizationFunction localizationFunction) {
         this.localizationFunction = localizationFunction;
@@ -147,6 +118,7 @@ public class HybridCommandModel extends CommandModel {
         return this;
     }
 
+    // TODO: Add addOptions()
     /**
      * Sets the command options as a {@link List}.
      *

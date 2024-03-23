@@ -31,24 +31,12 @@ import java.util.Map;
 
 /**
  * Slash command model.
+ *
  * @see CommandModel
  */
-public class SlashCommandModel extends CommandModel {
-    private Map<DiscordLocale, String> nameLocalizations;
+public class SlashCommandModel extends SlashLikeCommandModel {
     private String description;
-    private Map<DiscordLocale, String> descriptionLocalizations;
-    private LocalizationFunction localizationFunction;
     private List<SlashOptionData> options;
-
-    /**
-     * Multiple localizations of the command name.
-     *
-     * @return {@link Map} of {@link DiscordLocale} and name on different languages.
-     */
-    @NotNull
-    public Map<DiscordLocale, String> getNameLocalizations() {
-        return nameLocalizations;
-    }
 
     /**
      * The command description.
@@ -58,26 +46,6 @@ public class SlashCommandModel extends CommandModel {
     @NotNull
     public String getDescription() {
         return description;
-    }
-
-    /**
-     * Multiple localizations of the command description.
-     *
-     * @return {@link Map} of {@link DiscordLocale} and description on different languages.
-     */
-    @NotNull
-    public Map<DiscordLocale, String> getDescriptionLocalizations() {
-        return descriptionLocalizations;
-    }
-
-    /**
-     * The {@link LocalizationFunction} for this command.
-     *
-     * @return The {@link LocalizationFunction}.
-     */
-    @NotNull
-    public LocalizationFunction getLocalizationFunction() {
-        return localizationFunction;
     }
 
     /**
@@ -96,6 +64,7 @@ public class SlashCommandModel extends CommandModel {
      * @param nameLocalizations {@link Map} of {@link DiscordLocale} and name on different languages.
      * @return The {@link SlashCommandModel} instance, for chaining.
      */
+    @Override
     @NotNull
     public SlashCommandModel setNameLocalizations(@NotNull Map<DiscordLocale, String> nameLocalizations) {
         this.nameLocalizations = nameLocalizations;
@@ -122,6 +91,7 @@ public class SlashCommandModel extends CommandModel {
      * @param descriptionLocalizations {@link Map} of {@link DiscordLocale} and description on different languages.
      * @return The {@link SlashCommandModel} instance, for chaining.
      */
+    @Override
     @NotNull
     public SlashCommandModel setDescriptionLocalizations(@NotNull Map<DiscordLocale, String> descriptionLocalizations) {
         this.descriptionLocalizations = descriptionLocalizations;
@@ -139,6 +109,7 @@ public class SlashCommandModel extends CommandModel {
      * @param localizationFunction The {@link LocalizationFunction}.
      * @return The {@link SlashCommandModel} instance, for chaining.
      */
+    @Override
     @NotNull
     public SlashCommandModel setLocalizationFunction(@NotNull LocalizationFunction localizationFunction) {
         this.localizationFunction = localizationFunction;

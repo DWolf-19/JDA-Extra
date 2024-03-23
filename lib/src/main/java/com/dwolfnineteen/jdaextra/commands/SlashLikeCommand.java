@@ -22,9 +22,9 @@
 package com.dwolfnineteen.jdaextra.commands;
 
 /**
- * Empty abstract class for prefix commands.
+ * Empty abstract class for commands that can be executed as a slash (regular slash/hybrid).
  *
  * @see BaseCommand
  */
-public abstract class PrefixCommand extends BaseCommand {
+public abstract class SlashLikeCommand extends BaseCommand {
 }
