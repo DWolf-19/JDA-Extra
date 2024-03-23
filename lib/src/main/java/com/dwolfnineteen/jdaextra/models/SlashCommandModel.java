@@ -31,10 +31,10 @@ import java.util.Map;
 
 /**
  * Slash command model.
+ *
  * @see CommandModel
  */
-public class SlashCommandModel extends CommandModel {
-    private Map<DiscordLocale, String> nameLocalizations;
+public class SlashCommandModel extends SlashLikeCommandModel {
     private String description;
     private Map<DiscordLocale, String> descriptionLocalizations;
     private LocalizationFunction localizationFunction;
@@ -96,6 +96,7 @@ public class SlashCommandModel extends CommandModel {
      * @param nameLocalizations {@link Map} of {@link DiscordLocale} and name on different languages.
      * @return The {@link SlashCommandModel} instance, for chaining.
      */
+    @Override
     @NotNull
     public SlashCommandModel setNameLocalizations(@NotNull Map<DiscordLocale, String> nameLocalizations) {
         this.nameLocalizations = nameLocalizations;
@@ -122,6 +123,7 @@ public class SlashCommandModel extends CommandModel {
      * @param descriptionLocalizations {@link Map} of {@link DiscordLocale} and description on different languages.
      * @return The {@link SlashCommandModel} instance, for chaining.
      */
+    @Override
     @NotNull
     public SlashCommandModel setDescriptionLocalizations(@NotNull Map<DiscordLocale, String> descriptionLocalizations) {
         this.descriptionLocalizations = descriptionLocalizations;
@@ -139,6 +141,7 @@ public class SlashCommandModel extends CommandModel {
      * @param localizationFunction The {@link LocalizationFunction}.
      * @return The {@link SlashCommandModel} instance, for chaining.
      */
+    @Override
     @NotNull
     public SlashCommandModel setLocalizationFunction(@NotNull LocalizationFunction localizationFunction) {
         this.localizationFunction = localizationFunction;

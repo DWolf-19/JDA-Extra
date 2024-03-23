@@ -21,24 +21,19 @@
  */
 package com.dwolfnineteen.jdaextra.models;
 
-import com.dwolfnineteen.jdaextra.options.data.HybridOptionData;
 import net.dv8tion.jda.api.interactions.DiscordLocale;
 import net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.List;
 import java.util.Map;
 
 /**
- * Hybrid command model.
- *
- * @see CommandModel
+ * Base command model for commands that can be executed as a slash (regular slash/hybrid).
  */
-public class HybridCommandModel extends SlashLikeCommandModel {
-    private String description;
-    private Map<DiscordLocale, String> descriptionLocalizations;
-    private LocalizationFunction localizationFunction;
-    private List<HybridOptionData> options;
+public abstract class SlashLikeCommandModel extends CommandModel {
+    protected Map<DiscordLocale, String> nameLocalizations;
+    protected Map<DiscordLocale, String> descriptionLocalizations;
+    protected LocalizationFunction localizationFunction;
 
     /**
      * Multiple localizations of the command name.
@@ -48,16 +43,6 @@ public class HybridCommandModel extends SlashLikeCommandModel {
     @NotNull
     public Map<DiscordLocale, String> getNameLocalizations() {
         return nameLocalizations;
-    }
-
-    /**
-     * The command description.
-     *
-     * @return The description.
-     */
-    @NotNull
-    public String getDescription() {
-        return description;
     }
 
     /**
@@ -81,56 +66,20 @@ public class HybridCommandModel extends SlashLikeCommandModel {
     }
 
     /**
-     * All command options as a {@link List}.
-     *
-     * @return The command options.
-     */
-    @NotNull
-    public List<HybridOptionData> getOptions() {
-        return options;
-    }
-
-    /**
      * Sets multiple localizations of the command name.
      *
      * @param nameLocalizations {@link Map} of {@link DiscordLocale} and name on different languages.
-     * @return The {@link HybridCommandModel} instance, for chaining.
+     * @return The {@link SlashLikeCommandModel} instance, for chaining.
      */
-    @Override
-    @NotNull
-    public HybridCommandModel setNameLocalizations(@NotNull Map<DiscordLocale, String> nameLocalizations) {
-        this.nameLocalizations = nameLocalizations;
-
-        return this;
-    }
-
-    /**
-     * Sets the command description.
-     *
-     * @param description The command description.
-     * @return Current {@link HybridCommandModel} instance,
-     * for chaining.
-     */
-    @NotNull
-    public HybridCommandModel setDescription(@NotNull String description) {
-        this.description = description;
-
-        return this;
-    }
+    public abstract SlashLikeCommandModel setNameLocalizations(Map<DiscordLocale, String> nameLocalizations);
 
     /**
      * Sets multiple localizations of the command description.
      *
      * @param descriptionLocalizations {@link Map} of {@link DiscordLocale} and description on different languages.
-     * @return The {@link HybridCommandModel} instance, for chaining.
+     * @return The {@link SlashLikeCommandModel} instance, for chaining.
      */
-    @Override
-    @NotNull
-    public HybridCommandModel setDescriptionLocalizations(@NotNull Map<DiscordLocale, String> descriptionLocalizations) {
-        this.descriptionLocalizations = descriptionLocalizations;
-
-        return this;
-    }
+    public abstract SlashLikeCommandModel setDescriptionLocalizations(Map<DiscordLocale, String> descriptionLocalizations);
 
     /**
      * Sets the {@link LocalizationFunction} for this command.
@@ -140,28 +89,7 @@ public class HybridCommandModel extends SlashLikeCommandModel {
      * {@link net.dv8tion.jda.api.interactions.commands.localization.ResourceBundleLocalizationFunction ResourceBundleLocalizationFunction}.
      *
      * @param localizationFunction The {@link LocalizationFunction}.
-     * @return The {@link HybridCommandModel} instance, for chaining.
+     * @return The {@link SlashLikeCommandModel} instance, for chaining.
      */
-    @Override
-    @NotNull
-    public HybridCommandModel setLocalizationFunction(@NotNull LocalizationFunction localizationFunction) {
-        this.localizationFunction = localizationFunction;
-
-        return this;
-    }
-
-    // TODO: Add addOptions()
-    /**
-     * Sets the command options as a {@link List}.
-     *
-     * @param options The command options.
-     * @return Current {@link HybridCommandModel} instance,
-     * for chaining.
-     */
-    @NotNull
-    public HybridCommandModel setOptions(@NotNull List<HybridOptionData> options) {
-        this.options = options;
-
-        return this;
-    }
+    public abstract SlashLikeCommandModel setLocalizationFunction(LocalizationFunction localizationFunction);
 }

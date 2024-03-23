@@ -22,7 +22,10 @@
 package com.dwolfnineteen.jdaextra.commands;
 
 /**
- * Empty abstract class for basic commands (prefix/slash/hybrid).
+ * Empty abstract class for regular commands (prefix/slash/hybrid).
+ * <br>
+ * This is necessary for grouping command classes
+ * and convenient work with them inside the framework.
  */
 public abstract class BaseCommand {
 }
