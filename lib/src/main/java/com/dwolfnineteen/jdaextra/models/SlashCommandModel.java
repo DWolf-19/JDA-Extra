@@ -39,16 +39,6 @@ public class SlashCommandModel extends SlashLikeCommandModel {
     private List<SlashOptionData> options;
 
     /**
-     * Multiple localizations of the command name.
-     *
-     * @return {@link Map} of {@link DiscordLocale} and name on different languages.
-     */
-    @NotNull
-    public Map<DiscordLocale, String> getNameLocalizations() {
-        return nameLocalizations;
-    }
-
-    /**
      * The command description.
      *
      * @return The description.

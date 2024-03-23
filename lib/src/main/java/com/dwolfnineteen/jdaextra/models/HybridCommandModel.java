@@ -39,16 +39,6 @@ public class HybridCommandModel extends SlashLikeCommandModel {
     private List<HybridOptionData> options;
 
     /**
-     * Multiple localizations of the command name.
-     *
-     * @return {@link Map} of {@link DiscordLocale} and name on different languages.
-     */
-    @NotNull
-    public Map<DiscordLocale, String> getNameLocalizations() {
-        return nameLocalizations;
-    }
-
-    /**
      * The command description.
      *
      * @return The description.
