@@ -36,8 +36,6 @@ import java.util.Map;
  */
 public class SlashCommandModel extends SlashLikeCommandModel {
     private String description;
-    private Map<DiscordLocale, String> descriptionLocalizations;
-    private LocalizationFunction localizationFunction;
     private List<SlashOptionData> options;
 
     /**
@@ -58,26 +56,6 @@ public class SlashCommandModel extends SlashLikeCommandModel {
     @NotNull
     public String getDescription() {
         return description;
-    }
-
-    /**
-     * Multiple localizations of the command description.
-     *
-     * @return {@link Map} of {@link DiscordLocale} and description on different languages.
-     */
-    @NotNull
-    public Map<DiscordLocale, String> getDescriptionLocalizations() {
-        return descriptionLocalizations;
-    }
-
-    /**
-     * The {@link LocalizationFunction} for this command.
-     *
-     * @return The {@link LocalizationFunction}.
-     */
-    @NotNull
-    public LocalizationFunction getLocalizationFunction() {
-        return localizationFunction;
     }
 
     /**
