@@ -32,20 +32,33 @@ import java.lang.reflect.Method;
  * and created for better command classes representation.
  */
 public abstract class CommandModel {
-    // TODO: private List<CommandOptionData> options
-    private BaseCommand command;
-    private Method main;
-    private String name;
-    private boolean guildOnly;
-    private boolean nsfw;
+    /**
+     * The command class inherited from one of the {@link com.dwolfnineteen.jdaextra.commands commands}.
+     */
+    protected BaseCommand command;
+    /**
+     * The command <strong>main</strong> entry point.
+     */
+    protected Method main;
+    /**
+     * The command name.
+     */
+    protected String name;
+    /**
+     * Whether this command can be executed only on guilds.
+     */
+    protected boolean guildOnly;
+    /**
+     * Whether this command can be executed only in NSFW channels.
+     */
+    protected boolean nsfw;
 
     /**
      * The command class inherited from one of the {@link com.dwolfnineteen.jdaextra.commands commands}.
      *
      * @return The command class.
      */
-    @NotNull
-    public BaseCommand getCommand() {
+    public @NotNull BaseCommand getCommand() {
         return command;
     }
 
@@ -72,8 +85,7 @@ public abstract class CommandModel {
      * @return The entry point. {@code null} if the command doesn't have a main entry point.
      * @see com.dwolfnineteen.jdaextra.annotations.ExtraMainCommand ExtraMainCommand
      */
-    @Nullable
-    public Method getMain() {
+    public @Nullable Method getMain() {
         return main;
     }
 
@@ -82,8 +94,7 @@ public abstract class CommandModel {
      *
      * @return The name.
      */
-    @NotNull
-    public String getName() {
+    public @NotNull String getName() {
         return name;
     }
 
@@ -105,71 +116,39 @@ public abstract class CommandModel {
         return nsfw;
     }
 
-    // TODO: Move setters to inherited classes and return (Slash/Prefix/Hybrid)CommandModel
-
     /**
      * Sets the command class inherited from one of the {@link com.dwolfnineteen.jdaextra.commands commands}.
      *
      * @param command The command class.
-     * @return The {@link com.dwolfnineteen.jdaextra.models.CommandModel CommandModel} instance, for chaining.
      */
-    @NotNull
-    public CommandModel setCommand(@NotNull BaseCommand command) {
-        this.command = command;
-
-        return this;
-    }
+    public abstract CommandModel setCommand(BaseCommand command);
 
     /**
      * Sets the command <strong>main</strong> entry point.
      *
      * @param main The command entry point.
-     * @return The {@link com.dwolfnineteen.jdaextra.models.CommandModel CommandModel} instance, for chaining.
      * @see #getMain() getMain()
      */
-    @NotNull
-    public CommandModel setMain(@NotNull Method main) {
-        this.main = main;
-
-        return this;
-    }
+    public abstract CommandModel setMain(Method main);
 
     /**
      * Sets the command name.
      *
      * @param name The name.
-     * @return The {@link com.dwolfnineteen.jdaextra.models.CommandModel CommandModel} instance, for chaining.
      */
-    @NotNull
-    public CommandModel setName(@NotNull String name) {
-        this.name = name;
-
-        return this;
-    }
+    public abstract CommandModel setName(String name);
 
     /**
      * Whether this command can be executed only on guilds.
      *
      * @param guildOnly Whether this command is guild only.
-     * @return The {@link com.dwolfnineteen.jdaextra.models.CommandModel CommandModel} instance, for chaining.
      */
-    @NotNull
-    public CommandModel setGuildOnly(boolean guildOnly) {
-        this.guildOnly = guildOnly;
-
-        return this;
-    }
+    public abstract CommandModel setGuildOnly(boolean guildOnly);
 
     /**
      * Whether this command can be executed only in NSFW channels.
      *
      * @param nsfw Whether this command is NSFW only.
-     * @return The {@link com.dwolfnineteen.jdaextra.models.CommandModel CommandModel} instance, for chaining.
      */
-    @NotNull
-    public CommandModel setNSFW(boolean nsfw) {
-        this.nsfw = nsfw;
-
-        return this;
-    }
+    public abstract CommandModel setNSFW(boolean nsfw);
 }

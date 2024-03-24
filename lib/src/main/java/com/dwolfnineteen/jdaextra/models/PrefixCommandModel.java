@@ -21,14 +21,17 @@
  */
 package com.dwolfnineteen.jdaextra.models;
 
+import com.dwolfnineteen.jdaextra.commands.BaseCommand;
 import com.dwolfnineteen.jdaextra.options.data.PrefixOptionData;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.lang.reflect.Method;
 import java.util.List;
 
 /**
  * Prefix command model.
+ *
  * @see com.dwolfnineteen.jdaextra.models.CommandModel CommandModel
  */
 public class PrefixCommandModel extends CommandModel {
@@ -40,8 +43,7 @@ public class PrefixCommandModel extends CommandModel {
      *
      * @return The description. {@code null}, if description not specified.
      */
-    @Nullable
-    public String getDescription() {
+    public @Nullable String getDescription() {
         return description;
     }
 
@@ -50,8 +52,7 @@ public class PrefixCommandModel extends CommandModel {
      *
      * @return The command options.
      */
-    @NotNull
-    public List<PrefixOptionData> getOptions() {
+    public @NotNull List<PrefixOptionData> getOptions() {
         return options;
     }
 
@@ -59,26 +60,88 @@ public class PrefixCommandModel extends CommandModel {
      * Sets the command description.
      *
      * @param description The command description.
-     * @return Current {@link com.dwolfnineteen.jdaextra.models.PrefixCommandModel PrefixCommandModel} instance,
-     * for chaining.
+     * @return The {@link PrefixCommandModel} instance, for chaining.
      */
-    @NotNull
-    public PrefixCommandModel setDescription(@Nullable String description) {
+    public @NotNull PrefixCommandModel setDescription(@Nullable String description) {
         this.description = description;
 
         return this;
     }
 
     /**
-     * Sets the command options as a {@link java.util.List List}.
+     * Sets the command options as a {@link List}.
      *
      * @param options The command options.
-     * @return Current {@link com.dwolfnineteen.jdaextra.models.PrefixCommandModel PrefixCommandModel} instance,
-     * for chaining.
+     * @return The {@link PrefixCommandModel} instance, for chaining.
      */
-    @NotNull
-    public PrefixCommandModel setOptions(@NotNull List<PrefixOptionData> options) {
+    public @NotNull PrefixCommandModel setOptions(@NotNull List<PrefixOptionData> options) {
         this.options = options;
+
+        return this;
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @param command {@inheritDoc}
+     * @return The {@link PrefixCommandModel} instance, for chaining.
+     */
+    @Override
+    public @NotNull PrefixCommandModel setCommand(@NotNull BaseCommand command) {
+        this.command = command;
+
+        return this;
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @param main {@inheritDoc}
+     * @return The {@link PrefixCommandModel} instance, for chaining.
+     * @see #getMain() getMain()
+     */
+    @Override
+    public @NotNull PrefixCommandModel setMain(@Nullable Method main) {
+        this.main = main;
+
+        return this;
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @param name {@inheritDoc}
+     * @return The {@link PrefixCommandModel} instance, for chaining.
+     */
+    @Override
+    public @NotNull PrefixCommandModel setName(@NotNull String name) {
+        this.name = name;
+
+        return this;
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @param guildOnly {@inheritDoc}
+     * @return The {@link PrefixCommandModel} instance, for chaining.
+     */
+    @Override
+    public @NotNull PrefixCommandModel setGuildOnly(boolean guildOnly) {
+        this.guildOnly = guildOnly;
+
+        return this;
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @param nsfw {@inheritDoc}
+     * @return The {@link PrefixCommandModel} instance, for chaining.
+     */
+    @Override
+    public @NotNull PrefixCommandModel setNSFW(boolean nsfw) {
+        this.nsfw = nsfw;
 
         return this;
     }
