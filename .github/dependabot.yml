@@ -6,13 +6,13 @@ updates:
     schedule:
       interval: "daily" 
     labels:
-      - "dependabot: dependencies"
-      - "dependabot: gradle"
+      - "dependabot/dependencies"
+      - "dependabot/gradle"
 
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
       interval: "daily"
     labels:
-      - "dependabot: dependencies"
-      - "dependabot: github-actions"
+      - "dependabot/dependencies"
+      - "dependabot/github-actions"
