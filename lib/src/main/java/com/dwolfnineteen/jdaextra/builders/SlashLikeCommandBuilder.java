@@ -40,15 +40,15 @@ import java.util.Map;
  */
 public abstract class SlashLikeCommandBuilder extends CommandBuilder {
     /**
-     * Build command settings (such as {@link com.dwolfnineteen.jdaextra.annotations.commands.GuildOnly @GuildOnly}).
+     * {@inheritDoc}
      *
-     * @param model The command model.
-     * @param cls The command class.
+     * @param model {@inheritDoc}
+     * @param cls {@inheritDoc}
      * @return Configured {@link SlashLikeCommandModel}.
      */
     @Override
-    @NotNull
-    protected SlashLikeCommandModel buildSettings(@NotNull CommandModel model, @NotNull Class<? extends BaseCommand> cls) {
+    protected @NotNull SlashLikeCommandModel buildSettings(@NotNull CommandModel model,
+                                                           @NotNull Class<? extends BaseCommand> cls) {
         Map<DiscordLocale, String> nameLocalizations = new HashMap<>();
         Map<DiscordLocale, String> descriptionLocalizations = new HashMap<>();
 

@@ -30,6 +30,7 @@ import com.dwolfnineteen.jdaextra.commands.HybridCommand;
 import com.dwolfnineteen.jdaextra.exceptions.CommandAnnotationNotFoundException;
 import com.dwolfnineteen.jdaextra.models.CommandModel;
 import com.dwolfnineteen.jdaextra.models.HybridCommandModel;
+import com.dwolfnineteen.jdaextra.options.data.CommandOptionData;
 import com.dwolfnineteen.jdaextra.options.data.HybridOptionData;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -51,34 +52,51 @@ public class HybridCommandBuilder extends SlashLikeCommandBuilder {
         this.command = command;
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @return {@inheritDoc}
+     */
     @Override
-    @Nullable
-    public HybridCommandModel buildModel() {
+    public @Nullable HybridCommandModel buildModel() {
         HybridCommandModel model = new HybridCommandModel();
         Class<? extends BaseCommand> cls = command.getClass();
-
-        model.setCommand(command);
-        model.setMain(buildMain());
-
         ExtraHybridCommand annotation = cls.getAnnotation(ExtraHybridCommand.class);
 
         if (annotation == null) {
             throw new CommandAnnotationNotFoundException();
         }
 
-        model.setName(annotation.name().isEmpty() ? model.getMain().getName() : annotation.name());
-        model.setDescription(annotation.description());
+        model.setCommand(command)
+                .setMain(buildMain())
+                .setName(annotation.name().isEmpty() ? model.getMain().getName() : annotation.name())
+                .setDescription(annotation.description())
+                .setOptions(buildOptions(model));
 
-        List<HybridOptionData> options = new ArrayList<>();
+        return buildSettings(model, cls);
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @param model {@inheritDoc}
+     * @param <T> {@inheritDoc}
+     * @return {@inheritDoc}
+     */
+    @SuppressWarnings("unchecked")
+    @Override
+    protected <T extends CommandOptionData> @NotNull List<T> buildOptions(CommandModel model) {
+        List<T> options = new ArrayList<>();
 
         for (Parameter parameter : model.getMain().getParameters()) {
             if (parameter.isAnnotationPresent(HybridOption.class)) {
                 HybridOption hybridOption = parameter.getAnnotation(HybridOption.class);
 
-                HybridOptionData data = new HybridOptionData(buildOptionType(parameter.getType(), hybridOption.type()),
+                T data = (T) new HybridOptionData(buildOptionType(parameter.getType(), hybridOption.type()),
                         hybridOption.name(),
                         hybridOption.description(),
                         parameter.isAnnotationPresent(Required.class),
+                        // TODO: Prefix commands doesn't supports autocomplete
                         parameter.isAnnotationPresent(AutoComplete.class));
 
                 data.addChoices(buildChoices(parameter.getAnnotations()));
@@ -87,21 +105,19 @@ public class HybridCommandBuilder extends SlashLikeCommandBuilder {
             }
         }
 
-        model.setOptions(options);
-
-        return buildSettings(model, cls);
+        return options;
     }
 
     /**
-     * Build command settings (such as {@link com.dwolfnineteen.jdaextra.annotations.commands.GuildOnly @GuildOnly}).
+     * {@inheritDoc}
      *
-     * @param model The command model.
-     * @param cls The command class.
+     * @param model {@inheritDoc}
+     * @param cls {@inheritDoc}
      * @return Configured {@link HybridCommandModel}.
      */
     @Override
-    @NotNull
-    protected HybridCommandModel buildSettings(@NotNull CommandModel model, @NotNull Class<? extends BaseCommand> cls) {
+    protected @NotNull HybridCommandModel buildSettings(@NotNull CommandModel model,
+                                                        @NotNull Class<? extends BaseCommand> cls) {
         return (HybridCommandModel) super.buildSettings(model, cls);
     }
 }

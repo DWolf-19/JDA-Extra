@@ -28,6 +28,7 @@ import com.dwolfnineteen.jdaextra.annotations.options.ChoiceLong;
 import com.dwolfnineteen.jdaextra.annotations.options.ChoiceString;
 import com.dwolfnineteen.jdaextra.commands.BaseCommand;
 import com.dwolfnineteen.jdaextra.models.CommandModel;
+import com.dwolfnineteen.jdaextra.options.data.CommandOptionData;
 import net.dv8tion.jda.api.entities.IMentionable;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.User;
@@ -59,12 +60,20 @@ public abstract class CommandBuilder {
     public abstract CommandModel buildModel();
 
     /**
+     * Build the command options.
+     *
+     * @param model The command model.
+     * @param <T> {@link List} of {@link CommandOptionData}.
+     * @return {@link T}
+     */
+    protected abstract <T extends CommandOptionData> List<T> buildOptions(CommandModel model);
+
+    /**
      * Build the command <strong>main</strong> entry point.
      *
      * @return The entry point.
      */
-    @Nullable
-    protected Method buildMain() {
+    protected @Nullable Method buildMain() {
         for (Method method : command.getClass().getDeclaredMethods()) {
             if (method.isAnnotationPresent(ExtraMainCommand.class)) {
                 return method;
@@ -84,8 +93,8 @@ public abstract class CommandBuilder {
      * @return The {@link OptionType}.
      * @see com.dwolfnineteen.jdaextra.annotations.options.HybridOption HybridOption
      */
-    @NotNull
-    protected OptionType buildOptionType(@NotNull Class<?> parameterType, @NotNull OptionType typeFromAnnotation) {
+    protected @NotNull OptionType buildOptionType(@NotNull Class<?> parameterType,
+                                                  @NotNull OptionType typeFromAnnotation) {
         OptionType type;
 
         if (typeFromAnnotation == OptionType.UNKNOWN) {
@@ -117,10 +126,9 @@ public abstract class CommandBuilder {
      * Build command choices from option annotations.
      *
      * @param annotations Option annotations.
-     * @return {@link List} of {@link net.dv8tion.jda.api.interactions.commands.Command.Choice Command.Choice}.
+     * @return {@link List} of {@link Command.Choice}.
      */
-    @NotNull
-    protected List<Command.Choice> buildChoices(@NotNull Annotation[] annotations) {
+    protected @NotNull List<Command.Choice> buildChoices(@NotNull Annotation[] annotations) {
         List<Command.Choice> choices = new ArrayList<>();
 
         for (Annotation annotation : annotations) {
@@ -146,8 +154,8 @@ public abstract class CommandBuilder {
      * @param cls The command class.
      * @return Configured {@link CommandModel}.
      */
-    @NotNull
-    protected CommandModel buildSettings(@NotNull CommandModel model, @NotNull Class<? extends BaseCommand> cls) {
+    protected @NotNull CommandModel buildSettings(@NotNull CommandModel model,
+                                                  @NotNull Class<? extends BaseCommand> cls) {
         model.setGuildOnly(cls.isAnnotationPresent(GuildOnly.class));
 
         return model;
