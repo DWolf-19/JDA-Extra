@@ -30,6 +30,7 @@ import com.dwolfnineteen.jdaextra.commands.SlashCommand;
 import com.dwolfnineteen.jdaextra.exceptions.CommandAnnotationNotFoundException;
 import com.dwolfnineteen.jdaextra.models.CommandModel;
 import com.dwolfnineteen.jdaextra.models.SlashCommandModel;
+import com.dwolfnineteen.jdaextra.options.data.CommandOptionData;
 import com.dwolfnineteen.jdaextra.options.data.SlashOptionData;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
@@ -53,31 +54,47 @@ public class SlashCommandBuilder extends SlashLikeCommandBuilder {
         this.command = command;
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @return {@inheritDoc}
+     */
     @Override
-    @Nullable
-    public SlashCommandModel buildModel() {
+    public @Nullable SlashCommandModel buildModel() {
         SlashCommandModel model = new SlashCommandModel();
         Class<? extends BaseCommand> cls = command.getClass();
-
-        model.setCommand(command);
-        model.setMain(buildMain());
-
         ExtraSlashCommand annotation = cls.getAnnotation(ExtraSlashCommand.class);
 
         if (annotation == null) {
             throw new CommandAnnotationNotFoundException();
         }
 
-        model.setName(annotation.name().isEmpty() ? model.getMain().getName() : annotation.name());
-        model.setDescription(annotation.description());
+        model.setCommand(command)
+                .setMain(buildMain())
+                .setName(annotation.name().isEmpty() ? model.getMain().getName() : annotation.name())
+                .setDescription(annotation.description())
+                .setOptions(buildOptions(model));
 
-        List<SlashOptionData> options = new ArrayList<>();
+        return buildSettings(model, cls);
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @param model {@inheritDoc}
+     * @param <T> {@inheritDoc}
+     * @return {@inheritDoc}
+     */
+    @SuppressWarnings("unchecked")
+    @Override
+    protected <T extends CommandOptionData> @NotNull List<T> buildOptions(@NotNull CommandModel model) {
+        List<T> options = new ArrayList<>();
 
         for (Parameter parameter : model.getMain().getParameters()) {
             if (parameter.isAnnotationPresent(SlashOption.class)) {
                 SlashOption slashOption = parameter.getAnnotation(SlashOption.class);
 
-                SlashOptionData data = new SlashOptionData(buildOptionType(parameter.getType(), slashOption.type()),
+                T data = (T) new SlashOptionData(buildOptionType(parameter.getType(), slashOption.type()),
                         slashOption.name(),
                         slashOption.description(),
                         parameter.isAnnotationPresent(Required.class),
@@ -89,29 +106,34 @@ public class SlashCommandBuilder extends SlashLikeCommandBuilder {
             }
         }
 
-        model.setOptions(options);
-
-        return buildSettings(model, cls);
+        return options;
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @param parameterType {@inheritDoc}
+     * @param typeFromAnnotation {@inheritDoc}
+     * @return {@inheritDoc}
+     */
     @Override
-    @NotNull
-    protected OptionType buildOptionType(@NotNull Class<?> parameterType, @NotNull OptionType typeFromAnnotation) {
+    protected @NotNull OptionType buildOptionType(@NotNull Class<?> parameterType,
+                                                  @NotNull OptionType typeFromAnnotation) {
         return typeFromAnnotation == OptionType.UNKNOWN && parameterType.equals(Message.Attachment.class)
                 ? OptionType.ATTACHMENT
                 : super.buildOptionType(parameterType, typeFromAnnotation);
     }
 
     /**
-     * Build command settings (such as {@link com.dwolfnineteen.jdaextra.annotations.commands.GuildOnly @GuildOnly}).
+     * {@inheritDoc}
      *
-     * @param model The command model.
-     * @param cls The command class.
+     * @param model {@inheritDoc}
+     * @param cls {@inheritDoc}
      * @return Configured {@link SlashCommandModel}.
      */
     @Override
-    @NotNull
-    protected SlashCommandModel buildSettings(@NotNull CommandModel model, @NotNull Class<? extends BaseCommand> cls) {
+    protected @NotNull SlashCommandModel buildSettings(@NotNull CommandModel model,
+                                                       @NotNull Class<? extends BaseCommand> cls) {
         return (SlashCommandModel) super.buildSettings(model, cls);
     }
 }

@@ -28,7 +28,9 @@ import com.dwolfnineteen.jdaextra.annotations.options.Required;
 import com.dwolfnineteen.jdaextra.commands.BaseCommand;
 import com.dwolfnineteen.jdaextra.commands.PrefixCommand;
 import com.dwolfnineteen.jdaextra.exceptions.CommandAnnotationNotFoundException;
+import com.dwolfnineteen.jdaextra.models.CommandModel;
 import com.dwolfnineteen.jdaextra.models.PrefixCommandModel;
+import com.dwolfnineteen.jdaextra.options.data.CommandOptionData;
 import com.dwolfnineteen.jdaextra.options.data.PrefixOptionData;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -50,42 +52,57 @@ public class PrefixCommandBuilder extends CommandBuilder {
         this.command = command;
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @return {@inheritDoc}
+     */
     @Override
-    @Nullable
-    public PrefixCommandModel buildModel() {
+    public @Nullable PrefixCommandModel buildModel() {
         PrefixCommandModel model = new PrefixCommandModel();
         Class<? extends BaseCommand> cls = command.getClass();
-
-        model.setCommand(command);
-        model.setMain(buildMain());
-
         ExtraPrefixCommand annotation = cls.getAnnotation(ExtraPrefixCommand.class);
 
         if (annotation == null) {
             throw new CommandAnnotationNotFoundException();
         }
 
-        model.setName(annotation.name().isEmpty() ? model.getMain().getName() : annotation.name());
-        model.setDescription(annotation.description().isEmpty() ? null : annotation.description());
+        model.setCommand(command)
+                .setMain(buildMain())
+                .setName(annotation.name().isEmpty() ? model.getMain().getName() : annotation.name())
+                .setDescription(annotation.description().isEmpty() ? null : annotation.description())
+                .setOptions(buildOptions(model));
 
-        List<PrefixOptionData> options = new ArrayList<>();
+        return (PrefixCommandModel) buildSettings(model, cls);
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @param model {@inheritDoc}
+     * @param <T> {@inheritDoc}
+     * @return {@inheritDoc}
+     */
+    @SuppressWarnings("unchecked")
+    @Override
+    protected <T extends CommandOptionData> @NotNull List<T> buildOptions(@NotNull CommandModel model) {
+        List<T> options = new ArrayList<>();
 
         for (Parameter parameter : model.getMain().getParameters()) {
             if (parameter.isAnnotationPresent(PrefixOption.class)) {
                 PrefixOption prefixOption = parameter.getAnnotation(PrefixOption.class);
 
-                PrefixOptionData data = new PrefixOptionData(buildOptionType(parameter.getType(), prefixOption.type()),
+                T data = (T) new PrefixOptionData(buildOptionType(parameter.getType(), prefixOption.type()),
                         prefixOption.name(),
                         prefixOption.description().isEmpty() ? null : prefixOption.description(),
                         parameter.isAnnotationPresent(Required.class),
+                        // TODO: Prefix commands doesn't supports autocomplete
                         parameter.isAnnotationPresent(AutoComplete.class));
 
                 options.add(data);
             }
         }
 
-        model.setOptions(options);
-
-        return (PrefixCommandModel) buildSettings(model, cls);
+        return options;
     }
 }
