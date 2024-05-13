@@ -33,7 +33,7 @@ repositories {
 }
 
 dependencies {
-    api("net.dv8tion:JDA:5.0.0-beta.21")
+    api("net.dv8tion:JDA:5.0.0-beta.24")
     compileOnly("org.jetbrains:annotations:24.1.0")
     // TODO: Add JUnit 5 (and some testing...)
 }
