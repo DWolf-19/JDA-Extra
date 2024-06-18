@@ -16,6 +16,7 @@ build:
       - "*.kt"
       - "*.kts"
       - "*gradle*"
+      - ".gitlab-ci.yml"
   cache:
     key:
       files:
