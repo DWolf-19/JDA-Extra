@@ -1,0 +1,29 @@
+image: eclipse-temurin:21
+
+variables:
+  GRADLE_USER_HOME: .gradle
+
+workflow:
+  auto_cancel:
+    on_new_commit: interruptible
+
+build:
+  interruptible: true
+  script: ./gradlew build --build-cache
+  rules:
+    - changes:
+      - "*.java"
+      - "*.kt"
+      - "*.kts"
+      - "*gradle*"
+      - ".gitlab-ci.yml"
+  cache:
+    key:
+      files:
+        - gradle/wrapper/gradle-wrapper.properties
+    paths:
+      - .gradle/caches/
+      - .gradle/wrapper/
+  artifacts:
+    paths:
+      - lib/build/libs/
