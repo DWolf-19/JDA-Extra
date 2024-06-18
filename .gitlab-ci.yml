@@ -1,12 +1,15 @@
 image: gradle:8.8
 
+variables:
+  GRADLE_USER_HOME: .gradle
+
 workflow:
   auto_cancel:
     on_new_commit: interruptible
 
 build:
   interruptible: true
-  script: gradle build --build-cache --gradle-user-home cache/
+  script: ./gradlew build --build-cache
   rules:
     - changes:
       - "*.java"
@@ -18,8 +21,8 @@ build:
       files:
         - gradle/wrapper/gradle-wrapper.properties
     paths:
-      - cache/caches/
-      - cache/wrapper/
+      - .gradle/caches/
+      - .gradle/wrapper/
   artifacts:
     paths:
       - lib/build/libs/
