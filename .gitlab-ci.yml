@@ -1,0 +1,25 @@
+image: gradle:8.8
+
+workflow:
+  auto_cancel:
+    on_new_commit: interruptible
+
+build:
+  interruptible: true
+  script: gradle build --build-cache --gradle-user-home cache/
+  rules:
+    - changes:
+      - "*.java"
+      - "*.kt"
+      - "*.kts"
+      - "*gradle*"
+  cache:
+    key:
+      files:
+        - gradle/wrapper/gradle-wrapper.properties
+    paths:
+      - cache/caches/
+      - cache/wrapper/
+  artifacts:
+    paths:
+      - lib/build/libs/
