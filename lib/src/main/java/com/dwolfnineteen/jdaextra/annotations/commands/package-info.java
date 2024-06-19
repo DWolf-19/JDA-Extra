@@ -20,7 +20,7 @@
  * SOFTWARE.
  */
 
-// TODO: Fix all @Targets in annotations
+// TODO: Fix all @Targets in annotations (upd: maybe it about subcommands?)
 /**
  * Command annotations.
  */

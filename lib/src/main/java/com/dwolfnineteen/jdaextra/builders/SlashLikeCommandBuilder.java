@@ -36,25 +36,27 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Base builder for commands that can be executed as a slash (regular slash/hybrid).
+ * Base builder for commands that can be executed as a slash (regular slash/hybrid commands).
  */
 public abstract class SlashLikeCommandBuilder extends CommandBuilder {
     /**
      * {@inheritDoc}
      *
      * @param model {@inheritDoc}
-     * @param cls {@inheritDoc}
+     * @param clazz {@inheritDoc}
      * @return Configured {@link SlashLikeCommandModel}.
      */
     @Override
     protected @NotNull SlashLikeCommandModel buildSettings(@NotNull CommandModel model,
-                                                           @NotNull Class<? extends BaseCommand> cls) {
+                                                           @NotNull Class<? extends BaseCommand> clazz) {
+        // TODO: Make short names for vars
+        // TODO: buildLocalization() SOLID <3
         Map<DiscordLocale, String> nameLocalizations = new HashMap<>();
         Map<DiscordLocale, String> descriptionLocalizations = new HashMap<>();
 
-        NameLocalizations nameLocalizationsAnnotation = cls.getAnnotation(NameLocalizations.class);
-        DescriptionLocalizations descriptionLocalizationsAnnotation = cls.getAnnotation(DescriptionLocalizations.class);
-        CommandLocalizationFunction localizationFunctionAnnotation = cls.getAnnotation(CommandLocalizationFunction.class);
+        NameLocalizations nameLocalizationsAnnotation = clazz.getAnnotation(NameLocalizations.class);
+        DescriptionLocalizations descriptionLocalizationsAnnotation = clazz.getAnnotation(DescriptionLocalizations.class);
+        CommandLocalizationFunction localizationFunctionAnnotation = clazz.getAnnotation(CommandLocalizationFunction.class);
 
         if (nameLocalizationsAnnotation != null) {
             for (Localization localization : nameLocalizationsAnnotation.value()) {
@@ -68,7 +70,7 @@ public abstract class SlashLikeCommandBuilder extends CommandBuilder {
             }
         }
 
-        return ((SlashLikeCommandModel) super.buildSettings(model, cls))
+        return ((SlashLikeCommandModel) super.buildSettings(model, clazz))
                 .setNameLocalizations(nameLocalizations)
                 .setDescriptionLocalizations(descriptionLocalizations)
                 .setLocalizationFunction(localizationFunctionAnnotation == null

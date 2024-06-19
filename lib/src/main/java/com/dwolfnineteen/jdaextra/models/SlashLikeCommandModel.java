@@ -27,6 +27,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
 
+// TODO: Add SlashCommandData field to save some space
 /**
  * Base command model for commands that can be executed as a slash (regular slash/hybrid).
  */
@@ -40,8 +41,7 @@ public abstract class SlashLikeCommandModel extends CommandModel {
      *
      * @return {@link Map} of {@link DiscordLocale} and name on different languages.
      */
-    @NotNull
-    public Map<DiscordLocale, String> getNameLocalizations() {
+    public @NotNull Map<DiscordLocale, String> getNameLocalizations() {
         return nameLocalizations;
     }
 
@@ -50,8 +50,7 @@ public abstract class SlashLikeCommandModel extends CommandModel {
      *
      * @return {@link Map} of {@link DiscordLocale} and description on different languages.
      */
-    @NotNull
-    public Map<DiscordLocale, String> getDescriptionLocalizations() {
+    public @NotNull Map<DiscordLocale, String> getDescriptionLocalizations() {
         return descriptionLocalizations;
     }
 
@@ -60,8 +59,7 @@ public abstract class SlashLikeCommandModel extends CommandModel {
      *
      * @return The {@link LocalizationFunction}.
      */
-    @NotNull
-    public LocalizationFunction getLocalizationFunction() {
+    public @NotNull LocalizationFunction getLocalizationFunction() {
         return localizationFunction;
     }
 
@@ -69,7 +67,6 @@ public abstract class SlashLikeCommandModel extends CommandModel {
      * Sets multiple localizations of the command name.
      *
      * @param nameLocalizations {@link Map} of {@link DiscordLocale} and name on different languages.
-     * @return The {@link SlashLikeCommandModel} instance, for chaining.
      */
     public abstract SlashLikeCommandModel setNameLocalizations(Map<DiscordLocale, String> nameLocalizations);
 
@@ -77,7 +74,6 @@ public abstract class SlashLikeCommandModel extends CommandModel {
      * Sets multiple localizations of the command description.
      *
      * @param descriptionLocalizations {@link Map} of {@link DiscordLocale} and description on different languages.
-     * @return The {@link SlashLikeCommandModel} instance, for chaining.
      */
     public abstract SlashLikeCommandModel setDescriptionLocalizations(Map<DiscordLocale, String> descriptionLocalizations);
 
@@ -89,7 +85,6 @@ public abstract class SlashLikeCommandModel extends CommandModel {
      * {@link net.dv8tion.jda.api.interactions.commands.localization.ResourceBundleLocalizationFunction ResourceBundleLocalizationFunction}.
      *
      * @param localizationFunction The {@link LocalizationFunction}.
-     * @return The {@link SlashLikeCommandModel} instance, for chaining.
      */
     public abstract SlashLikeCommandModel setLocalizationFunction(LocalizationFunction localizationFunction);
 }

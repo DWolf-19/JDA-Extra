@@ -22,20 +22,26 @@
 package com.dwolfnineteen.jdaextra.models;
 
 import com.dwolfnineteen.jdaextra.commands.BaseCommand;
+import com.dwolfnineteen.jdaextra.models.subcommands.SlashSubcommandProperties;
+import com.dwolfnineteen.jdaextra.models.subcommands.groups.SlashSubcommandGroupProperties;
+import com.dwolfnineteen.jdaextra.options.data.CommandOptionData;
 import com.dwolfnineteen.jdaextra.options.data.SlashOptionData;
 import net.dv8tion.jda.api.interactions.DiscordLocale;
-import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
-import net.dv8tion.jda.api.interactions.commands.build.SubcommandGroupData;
 import net.dv8tion.jda.api.interactions.commands.localization.LocalizationFunction;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
+// TODO: Make fields protected
+// TODO: Add addOption(s)()
 /**
  * Slash command model.
  *
@@ -44,6 +50,16 @@ import java.util.Map;
 public class SlashCommandModel extends SlashLikeCommandModel {
     private String description;
     private List<SlashOptionData> options;
+    private final Map<String, SlashSubcommandProperties> subcommands;
+    private final Map<String, SlashSubcommandGroupProperties> subcommandGroups;
+
+    {
+        options = new ArrayList<>();
+        subcommands = new HashMap<>();
+        subcommandGroups = new HashMap<>();
+    }
+
+    // TODO: Think about constructors
 
     /**
      * The command description.
@@ -61,6 +77,34 @@ public class SlashCommandModel extends SlashLikeCommandModel {
      */
     public @NotNull List<SlashOptionData> getOptions() {
         return options;
+    }
+
+    /**
+     * @return
+     */
+    public @NotNull Map<String, SlashSubcommandProperties> getSubcommandMap() {
+        return subcommands;
+    }
+
+    /**
+     * @return
+     */
+    public @NotNull List<SlashSubcommandProperties> getSubcommandList() {
+        return new ArrayList<>(subcommands.values());
+    }
+
+    /**
+     * @return
+     */
+    public @NotNull Map<String, SlashSubcommandGroupProperties> getSubcommandGroupMap() {
+        return subcommandGroups;
+    }
+
+    /**
+     * @return
+     */
+    public @NotNull List<SlashSubcommandGroupProperties> getSubcommandGroupList() {
+        return new ArrayList<>(subcommandGroups.values());
     }
 
     /**
@@ -114,14 +158,17 @@ public class SlashCommandModel extends SlashLikeCommandModel {
         return this;
     }
 
+    // TODO: Add various addOption() and addOptions() methods instead
     /**
      * Sets the command options as a {@link List}.
      *
      * @param options The command options.
-     * @return Current {@link SlashCommandModel} instance, for chaining.
+     * @return The {@link SlashCommandModel} instance, for chaining.
      */
-    public @NotNull SlashCommandModel setOptions(@NotNull List<SlashOptionData> options) {
-        this.options = options;
+    public @NotNull SlashCommandModel setOptions(@NotNull List<CommandOptionData> options) {
+        this.options = options.stream()
+                .map(o -> (SlashOptionData) o)
+                .collect(Collectors.toList());
 
         return this;
     }
@@ -179,6 +226,7 @@ public class SlashCommandModel extends SlashLikeCommandModel {
         return this;
     }
 
+    // TODO: Rename to setNsfw()
     /**
      * {@inheritDoc}
      *
@@ -188,6 +236,42 @@ public class SlashCommandModel extends SlashLikeCommandModel {
     @Override
     public @NotNull SlashCommandModel setNSFW(boolean nsfw) {
         this.nsfw = nsfw;
+
+        return this;
+    }
+
+    /**
+     * @param subcommands
+     */
+    public @NotNull SlashCommandModel addSubcommands(@NotNull Collection<? extends SlashSubcommandProperties> subcommands) {
+        this.subcommands.putAll(subcommands.stream().collect(Collectors.toMap(SlashSubcommandProperties::getName, s -> s)));
+
+        return this;
+    }
+
+    /**
+     * @param subcommands
+     */
+    public @NotNull SlashCommandModel addSubcommands(@NotNull SlashSubcommandProperties... subcommands) {
+        this.subcommands.putAll(Arrays.stream(subcommands).collect(Collectors.toMap(SlashSubcommandProperties::getName, s -> s)));
+
+        return this;
+    }
+
+    /**
+     * @param subcommandGroups
+     */
+    public @NotNull SlashCommandModel addSubcommandGroups(@NotNull Collection<SlashSubcommandGroupProperties> subcommandGroups) {
+        this.subcommandGroups.putAll(subcommandGroups.stream().collect(Collectors.toMap(SlashSubcommandGroupProperties::getName, s -> s)));
+
+        return this;
+    }
+
+    /**
+     * @param subcommandGroups
+     */
+    public @NotNull SlashCommandModel addSubcommandGroups(@NotNull SlashSubcommandGroupProperties... subcommandGroups) {
+        this.subcommandGroups.putAll(Arrays.stream(subcommandGroups).collect(Collectors.toMap(SlashSubcommandGroupProperties::getName, s -> s)));
 
         return this;
     }

@@ -27,6 +27,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.Method;
 
+// TODO: Rename to CommandProperties
 /**
  * Command models is a {@link com.dwolfnineteen.jdaextra.builders builders} output
  * and created for better command classes representation.
@@ -62,6 +63,7 @@ public abstract class CommandModel {
         return command;
     }
 
+    // TODO: Rename to getEntryPoint()
     /**
      * The command <strong>main</strong> entry point.
      * <br>
@@ -75,8 +77,8 @@ public abstract class CommandModel {
      * public void myCommand(CommandEvent event) {
      * }
      *
-     * @ExtraSubCommand
-     * public void mySubCommand(SubCommandEvent event) {
+     * @ExtraSubсommand
+     * public void mySubCommand(CommandEvent event) {
      *      event.reply("This is incredible!").queue();
      * }
      * }
