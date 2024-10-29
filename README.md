@@ -1,3 +1,8 @@
+> [!CAUTION]
+> This repository is no longer maintained and will never receive any updates.
+>
+> The project was forked and moved: https://gitlab.com/revager/rextra.
+
 # JDA-Extra
 
 ![JDA-Extra](banner.png)
